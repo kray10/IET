@@ -62,7 +62,7 @@ const loginCSS2 = {
                 <td>User:</td>
                 <td>
                   <label>
-                    <input type="text" value={this.state.user} onChange={this.handleChangeUser} />
+                    <input type="text" placeholder="abc@example.com" value={this.state.user} onChange={this.handleChangeUser} />
                   </label>
                 </td>
               </tr>

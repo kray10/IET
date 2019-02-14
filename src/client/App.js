@@ -4,6 +4,7 @@ import Sidebar from "react-sidebar";
 import Settings from "./Settings.js";
 import Login from "./Login.js";
 import MenuIcon from '@material-ui/icons/MenuTwoTone';
+import HomePage from './Home.js';
 import {MenuSideBar} from "./MenuSideBar.js";
 import {UseForm} from "./UseForm.js";
 const showAlerts = false;
@@ -91,7 +92,7 @@ class App extends Component {
           this.state.page == "createForm" ? <UseForm /> :
           this.state.page == "profile" ? <p>Profile Page Goes Here</p> :
           this.state.page == "manageAccess" ? <p>Manage Access Page Goes Here</p> :
-          this.state.page == "home" ? <p>Home Page Goes Here</p> : null}
+          this.state.page == "home" ? <HomePage /> : null}
           </div>
         </Sidebar>
 
