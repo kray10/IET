@@ -1,37 +1,19 @@
 import React, { Component } from 'react';
 import './App.css';
-import Sidebar from "react-sidebar";
-import MenuIcon from '@material-ui/icons/MenuTwoTone';
-import Settings from "./Settings.js"
-import {MenuSideBar} from "./MenuSideBar.js";
-import {UseForm} from "./UseForm.js";
-
-import { withStyles } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
-import InboxIcon from '@material-ui/icons/Inbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
-import ForumIcon from '@material-ui/icons/Forum';
 
 import SettingsIcon from '@material-ui/icons/Settings';
 import FormCreationIcon from '@material-ui/icons/Note';
-import ViewFormIcon from '@material-ui/icons/Search';
 import ManageAccessIcon from '@material-ui/icons/People';
 import ProfileIcon from '@material-ui/icons/Portrait';
 import HomeIcon from '@material-ui/icons/Home';
 ///////
 import MagicButtonIcon from '@material-ui/icons/ThumbUp';
 ///////
-
-
-const sideBarButtonStyle = {
-  height: 'auto',
-  width:  'auto',
-  float:  'left',
-};
 
 class ListItemLink extends Component {
   constructor(props){
