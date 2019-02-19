@@ -95,8 +95,8 @@ class App extends Component {
           shadow={true}
           transitions={true}
           sidebar={<MenuSideBar showing={this.state.page} onNavItemClicked={this.onNavItemClicked}/>}
-          open={this.state.sidebarOpen}
-          docked={this.state.sidebarDocked}
+          open={this.state.loggedIn}
+          docked={this.state.loggedIn}
           onSetOpen={this.onSetSidebarOpen}
           styles={{ sidebar: { background: "white", width: '20%' } }}
         >
