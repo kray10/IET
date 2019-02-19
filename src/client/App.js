@@ -13,31 +13,51 @@ const sideBarButtonStyle = {
   height: 'auto',
   width:  'auto',
   float:  'left',
+  zIndex: '1',
+  position: 'relative'
 };
 const sideMenuStyle = {
-  height: 'auto',
-  width:  'auto',
-  float:  'left'
+  height: '100vh',
+  width:  '100vw',
 };
-const mainAreaStyle = {
-  height: 'auto',
-  width:  'auto',
-  float:  'left'
-}
+
+const mql = window.matchMedia(`(min-width: 800px)`);
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      sidebarDocked: mql.matches,
       sidebarOpen: false,
       page: "home",
       sidebarDisplay: "home",
       loggedIn: false
     };
     this.onSetSidebarOpen = this.onSetSidebarOpen.bind(this);
+    this.mediaQueryChanged = this.mediaQueryChanged.bind(this);
     this.onCallApi = this.onCallApi.bind(this);
     this.onNavItemClicked = this.onNavItemClicked.bind(this);
     this.onLoginAuthentication = this.onLoginAuthentication.bind(this);
+    this.resize = this.resize.bind(this);
+  }
+
+  resize = () => this.forceUpdate()
+
+  componentDidMount() {
+    window.addEventListener('resize', this.resize);
+  }
+
+  componentWillMount() {
+    mql.addListener(this.mediaQueryChanged);
+    window.removeEventListener('resize', this.resize);
+  }
+
+  componentWillUnmount() {
+    this.state.mql.removeListener(this.mediaQueryChanged);
+  }
+
+  mediaQueryChanged() {
+    this.setState({ sidebarDocked: mql.matches, sidebarOpen: false });
   }
 
   onLoginAuthentication(loggedIn){
@@ -76,16 +96,19 @@ class App extends Component {
           transitions={true}
           sidebar={<MenuSideBar showing={this.state.page} onNavItemClicked={this.onNavItemClicked}/>}
           open={this.state.sidebarOpen}
+          docked={this.state.sidebarDocked}
           onSetOpen={this.onSetSidebarOpen}
           styles={{ sidebar: { background: "white", width: '20%' } }}
         >
           <div style={{backgroundColor: 'grey'}}>
-          <button
-            onClick={() => this.onSetSidebarOpen(true)}
-            style={sideBarButtonStyle}
-          >
-            <MenuIcon />
-          </button>
+          {this.state.sidebarDocked == false && this.state.loggedIn == true ?
+            <button
+              onClick={() => this.onSetSidebarOpen(true)}
+              style={sideBarButtonStyle}
+            >
+              <MenuIcon />
+            </button>
+          : null}
 
           {this.state.loggedIn == false ? <Login onLoginAuth={this.onLoginAuthentication}/> :
           this.state.page == "settings" ? <Settings /> :
