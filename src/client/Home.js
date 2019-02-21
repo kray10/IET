@@ -79,7 +79,9 @@ const right = {
   }
 
   onStudentClicked(name){
-    //get goals for that student
+    //"get goals" API call here...
+
+    //random goals used below but method of adding can still be used like this
     //alert("Pressed student " + name);
     let goals = [];
     for(let i = 0; i < chance.integer({ min: 1, max: 17 }); i++) {
@@ -92,8 +94,6 @@ const right = {
 
   render() {
     return (
-      //use loop to populate the list with ListItems. Its tricky but can be done.
-      //need a member function to do it, can't loop in render()
       <div>
       <div style={listContainer}>
         <div style={left}>
