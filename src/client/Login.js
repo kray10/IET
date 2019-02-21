@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import './Login.css'
+import logo from './iet_logo.png';
 //import './App.css';
 //import Sidebar from "react-sidebar";
 //import MenuIcon from '@material-ui/icons/MenuTwoTone';
@@ -56,6 +57,7 @@ const loginCSS2 = {
         <div class = "middle">
           <div class = "inner">
             <div>
+            <img src={logo} style={{width: '10vw'}} />
             <form style={{color: 'black', textAlign: 'left'}} onSubmit={this.handleSubmit}>
             <table>
               <tr>
