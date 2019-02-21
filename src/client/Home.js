@@ -4,6 +4,14 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
+// Load Chance
+var Chance = require('chance');
+
+// Instantiate Chance so it can be used
+var chance = new Chance();
+
+// Use Chance here.
+var my_random_string = chance.string();
 
 var cssHSL = "hsl(" + 360 * Math.random() + ',' +
                  (25 + 70 * Math.random()) + '%,' +
@@ -56,126 +64,57 @@ const right = {
  class Home extends React.Component {
   constructor(props) {
     super(props);
+    const students = [];
+    const goals = [];
+    for(let i = 0; i < 21; i++) {
+      students.push({
+      name: chance.name(),
+      });
+    }
     this.state = {
-
+      students,
+      goals
     };
-
+    this.onStudentClicked = this.onStudentClicked.bind(this);
   }
 
-
+  onStudentClicked(name){
+    //get goals for that student
+    //alert("Pressed student " + name);
+    let goals = [];
+    for(let i = 0; i < chance.integer({ min: 1, max: 17 }); i++) {
+      goals.push({
+      name: ("Goal " + (i+1))
+      });
+    }
+    this.setState({goals: goals});
+  }
 
   render() {
     return (
       //use loop to populate the list with ListItems. Its tricky but can be done.
       //need a member function to do it, can't loop in render()
+      <div>
       <div style={listContainer}>
         <div style={left}>
           <List component="studentList">
-            <ListItem button>
-              <ListItemText primary="Student 1" />
+          {this.state.students.map((student, index) => (
+            <ListItem button onClick={()=>this.onStudentClicked(student.name)}>
+              <ListItemText primary={student.name} />
             </ListItem>
-            <ListItem button>
-              <ListItemText primary="Student 2" />
-            </ListItem>
-            <ListItem button>
-              <ListItemText primary="Student 3" />
-            </ListItem>
-            <ListItem button>
-              <ListItemText primary="Student 4" />
-            </ListItem>
-            <ListItem button>
-              <ListItemText primary="Student 5" />
-            </ListItem>
-            <ListItem button>
-              <ListItemText primary="Student 6" />
-            </ListItem>
-            <ListItem button>
-              <ListItemText primary="Student 7" />
-            </ListItem>
-            <ListItem button>
-              <ListItemText primary="Student 8" />
-            </ListItem>
-            <ListItem button>
-              <ListItemText primary="Student 9" />
-            </ListItem>
-            <ListItem button>
-              <ListItemText primary="Student 10" />
-            </ListItem>
-            <ListItem button>
-              <ListItemText primary="Student 11" />
-            </ListItem>
-            <ListItem button>
-              <ListItemText primary="Student 12" />
-            </ListItem>
-            <ListItem button>
-              <ListItemText primary="Student 13" />
-            </ListItem>
-            <ListItem button>
-              <ListItemText primary="Student 14" />
-            </ListItem>
-            <ListItem button>
-              <ListItemText primary="Student 15" />
-            </ListItem>
-            <ListItem button>
-              <ListItemText primary="Student 16" />
-            </ListItem>
-            <ListItem button>
-              <ListItemText primary="Student 17" />
-            </ListItem>
-            <ListItem button>
-              <ListItemText primary="Student 18" />
-            </ListItem>
-            <ListItem button>
-              <ListItemText primary="Student 19" />
-            </ListItem>
-            <ListItem button>
-              <ListItemText primary="Student 20" />
-            </ListItem>
-            <ListItem button>
-              <ListItemText primary="Student 21" />
-            </ListItem>
+            ))}
           </List>
         </div>
         <div style={middle}>
           <List component="goalsList">
-            <ListItem button>
-              <ListItemText primary="Goal 1" />
-            </ListItem>
-            <ListItem button>
-              <ListItemText primary="Goal 2" />
-            </ListItem>
-            <ListItem button>
-              <ListItemText primary="Goal 3" />
-            </ListItem>
-            <ListItem button>
-              <ListItemText primary="Goal 4" />
-            </ListItem>
-            <ListItem button>
-              <ListItemText primary="Goal 5" />
-            </ListItem>
-            <ListItem button>
-              <ListItemText primary="Goal 6" />
-            </ListItem>
-            <ListItem button>
-              <ListItemText primary="Goal 7" />
-            </ListItem>
-            <ListItem button>
-              <ListItemText primary="Goal 8" />
-            </ListItem>
-            <ListItem button>
-              <ListItemText primary="Goal 9" />
-            </ListItem>
-            <ListItem button>
-              <ListItemText primary="Goal 10" />
-            </ListItem>
-            <ListItem button>
-              <ListItemText primary="Goal 11" />
-            </ListItem>
-            <ListItem button>
-              <ListItemText primary="Goal 12" />
-            </ListItem>
+            {this.state.goals.map((goal, index) => (
+              <ListItem button >
+                <ListItemText primary={goal.name} />
+              </ListItem>
+              ))}
           </List>
         </div>
+      </div>
       </div>
     );
   }
