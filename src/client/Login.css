@@ -1,0 +1,21 @@
+div.outer {
+  display: table;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+div.middle {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+div.inner {
+  margin-left: auto;
+  margin-right: auto;
+  width: 250px;
+  outline: 1px solid black;
+  /*whatever width you want*/
+}

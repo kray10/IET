@@ -18,10 +18,11 @@ export class SubmitReset extends Component {
     render() {
         return(
             <div>
+                <br/>
                 <button onClick={this.handleSubmit}>Submit</button>
                 <button onClick={this.handleReset}>Reset</button>
             </div>
-            
+
         );
     }
 }
@@ -200,8 +201,7 @@ export class Dropdown extends Component {
 
 export class ErrorField extends Component {
     render() {
-        
+
         return (<b>Error: {this.props.name} is not recognized</b>);
     }
 }
-
