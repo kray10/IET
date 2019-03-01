@@ -42,7 +42,7 @@ app.get('/api/goal/:studentid', (req, res) => {
 app.post('/api/createGoal', (req, res) => {
   console.log('creategoal: ' + req.body)
   // TODO store the goal in the databse with a new goalID
-  // TODO add goal to the student
+  // TODO add goalID and goalName to the student's goals
   res.send(JSON.stringify({goalID: 123456}))
 });
 

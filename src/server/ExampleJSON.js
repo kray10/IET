@@ -45,7 +45,20 @@ module.exports = {
 
     goalsByStudent: {
         studentID: 987654,
-        goals: [77777, 88888, 99999, 66666, 44444]
+        goals: [
+            {
+                goalName: 'goal1',
+                goalID: 77777
+            }, 
+            {
+                goalName: 'goal2',
+                goalID: 88888
+            }, 
+            {
+                goalName: 'goal3',
+                goalID: 99999
+            }
+        ]
     },
 
     goalData: {
