@@ -34,7 +34,7 @@ export class MenuSideBar extends Component {
     }
 
     componentWillReceiveProps(nextProps){
-        if(nextProps.sidebarDisplay != this.props.showing){
+        if(nextProps.sidebarDisplay !== this.props.showing){
             this.setState({goBackTo: this.state.showing, showing: nextProps.showing});
         }
     }
@@ -69,18 +69,18 @@ export class MenuSideBar extends Component {
         return(
             <div>
               <div style={{display: 'inlineBlock'}}>
-                <button class='menuButton' style={{width: '50%'}} onClick={this.onBackButtonPressed}><BackArrowIcon /></button>
-                <button class='menuButton' style={{width: '50%'}} onClick={()=>this.props.onNavItemClicked("home")}><HomeIcon /></button>
+                <button className='menuButton' style={{width: '50%'}} onClick={this.onBackButtonPressed}><BackArrowIcon /></button>
+                <button className='menuButton' style={{width: '50%'}} onClick={()=>this.props.onNavItemClicked("home")}><HomeIcon /></button>
               </div>
 
-              {this.state.showing == "" ? <NavList onNavItemClicked={this.props.onNavItemClicked}/> :
-              this.state.showing == "nav" ? <NavList onNavItemClicked={this.props.onNavItemClicked}/> :
-              this.state.showing == "home" ? <NavList onNavItemClicked={this.props.onNavItemClicked}/> :
-              this.state.showing == "createForm" ? <ToolList/> :
-              this.state.page == "viewForm" ? <p>View Form Page Goes Here</p> :
-              this.state.page == "profile" ? <p>Profile Page Goes Here</p> :
-              this.state.page == "manageAccess" ? <p>Manage Access Page Goes Here</p> :
-              this.state.page == "" ? <p>Welcome Page Goes Here</p> : null}
+              {this.state.showing === "" ? <NavList onNavItemClicked={this.props.onNavItemClicked}/> :
+              this.state.showing === "nav" ? <NavList onNavItemClicked={this.props.onNavItemClicked}/> :
+              this.state.showing === "home" ? <NavList onNavItemClicked={this.props.onNavItemClicked}/> :
+              this.state.showing === "createForm" ? <ToolList/> :
+              this.state.page === "viewForm" ? <p>View Form Page Goes Here</p> :
+              this.state.page === "profile" ? <p>Profile Page Goes Here</p> :
+              this.state.page === "manageAccess" ? <p>Manage Access Page Goes Here</p> :
+              this.state.page === "" ? <p>Welcome Page Goes Here</p> : null}
             </div>
         );
     }

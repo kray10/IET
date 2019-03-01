@@ -101,7 +101,7 @@ class App extends Component {
           styles={{ sidebar: { background: "white", width: '20%' } }}
         >
           <div style={{backgroundColor: 'grey'}}>
-          {this.state.sidebarDocked == false && this.state.loggedIn == true ?
+          {this.state.sidebarDocked === false && this.state.loggedIn === true ?
             <button
               onClick={() => this.onSetSidebarOpen(true)}
               style={sideBarButtonStyle}
@@ -110,12 +110,12 @@ class App extends Component {
             </button>
           : null}
 
-          {this.state.loggedIn == false ? <Login onLoginAuth={this.onLoginAuthentication}/> :
-          this.state.page == "settings" ? <Settings /> :
-          this.state.page == "createForm" ? <UseForm /> :
-          this.state.page == "profile" ? <p>Profile Page Goes Here</p> :
-          this.state.page == "manageAccess" ? <p>Manage Access Page Goes Here</p> :
-          this.state.page == "home" ? <HomePage /> : null}
+          {this.state.loggedIn === false ? <Login onLoginAuth={this.onLoginAuthentication}/> :
+          this.state.page === "settings" ? <Settings /> :
+          this.state.page === "createForm" ? <UseForm /> :
+          this.state.page === "profile" ? <p>Profile Page Goes Here</p> :
+          this.state.page === "manageAccess" ? <p>Manage Access Page Goes Here</p> :
+          this.state.page === "home" ? <HomePage /> : null}
           </div>
         </Sidebar>
 
