@@ -1,27 +1,13 @@
-import React, { Component } from 'react';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
+import React from 'react';
 import './Login.css'
 import logo from './iet_logo.png';
-//import './App.css';
-//import Sidebar from "react-sidebar";
-//import MenuIcon from '@material-ui/icons/MenuTwoTone';
-//import {MenuSideBar} from "./MenuSideBar.js";
-//import {UseForm} from "./UseForm.js";
-
 
 var cssHSL = "hsl(" + 360 * Math.random() + ',' +
                  (25 + 70 * Math.random()) + '%,' +
                  (85 + 10 * Math.random()) + '%)';
-var cssHSL2 = "hsl(" + 360 * Math.random() + ',' +
-                  (25 + 70 * Math.random()) + '%,' +
-                  (85 + 10 * Math.random()) + '%)';
 
 const loginCSS = {
   backgroundColor: cssHSL,
-};
-const loginCSS2 = {
-  backgroundColor: cssHSL2,
 };
 
  class Login extends React.Component {
@@ -57,7 +43,7 @@ const loginCSS2 = {
         <div className = "middle">
           <div className = "inner">
             <div>
-            <img src={logo} style={{width: '10vw'}} />
+            <img src={logo} style={{width: '10vw'}} alt='' />
             <form style={{color: 'black', textAlign: 'left'}} onSubmit={this.handleSubmit}>
             <table>
               <tbody>

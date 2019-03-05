@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
 // Load Chance
@@ -9,9 +8,6 @@ var Chance = require('chance');
 
 // Instantiate Chance so it can be used
 var chance = new Chance();
-
-// Use Chance here.
-var my_random_string = chance.string();
 
 var cssHSL = "hsl(" + 360 * Math.random() + ',' +
                  (25 + 70 * Math.random()) + '%,' +
@@ -59,7 +55,7 @@ const middle = {
   borderRight: '1px solid black'
 };
 
-const right = {
+const right = { //unused for now, don't remove
   display: 'flex',
   flexDirection: 'column',
   zoom: '1',

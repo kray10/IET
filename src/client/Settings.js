@@ -1,10 +1,5 @@
 import React, { Component } from 'react';
-//import './App.css';
-//import Sidebar from "react-sidebar";
-//import MenuIcon from '@material-ui/icons/MenuTwoTone';
-//import {MenuSideBar} from "./MenuSideBar.js";
-//import {UseForm} from "./UseForm.js";
-const showAlerts = true;
+
 const settingsStyle = {
   backgroundColor: 'purple',
   width: "100%",

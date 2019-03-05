@@ -15,17 +15,6 @@ import HomeIcon from '@material-ui/icons/Home';
 import MagicButtonIcon from '@material-ui/icons/ThumbUp';
 ///////
 
-class ListItemLink extends Component {
-  constructor(props){
-    super(props);
-
-  }
-  render(props){
-    return <ListItem button component="a" {...props} />;
-  }
-
-};
-
 class NavList extends Component {
   constructor(props) {
     super(props);

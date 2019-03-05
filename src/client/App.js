@@ -9,7 +9,7 @@ import ManageAccess from './ManageAccess.js';
 import {MenuSideBar} from "./MenuSideBar.js";
 import {UseForm} from "./UseForm.js";
 const showAlerts = false;
-const system_loggedIn = true;
+const system_loggedIn_override = false;
 const sideBarButtonStyle = {
   height: 'auto',
   width:  'auto',
@@ -33,7 +33,7 @@ class App extends Component {
       page: "home",
       sidebarDisplay: "home",
       manageAccessOptionChosen: "",
-      loggedIn: false
+      loggedIn: system_loggedIn_override
     };
     this.onSetSidebarOpen = this.onSetSidebarOpen.bind(this);
     this.mediaQueryChanged = this.mediaQueryChanged.bind(this);
@@ -122,12 +122,12 @@ class App extends Component {
             </button>
           : null}
 
-          {this.state.loggedIn == false ? <Login onLoginAuth={this.onLoginAuthentication}/> :
-          this.state.page == "settings" ? <Settings /> :
-          this.state.page == "createForm" ? <UseForm /> :
-          this.state.page == "profile" ? <p>Profile Page Goes Here</p> :
-          this.state.page == "manageAccess" ? <ManageAccess choice={this.state.manageAccessOptionChosen}/> :
-          this.state.page == "home" ? <HomePage /> : null}
+          {this.state.loggedIn === false ? <Login onLoginAuth={this.onLoginAuthentication}/> :
+          this.state.page === "settings" ? <Settings /> :
+          this.state.page === "createForm" ? <UseForm /> :
+          this.state.page === "profile" ? <p>Profile Page Goes Here</p> :
+          this.state.page === "manageAccess" ? <ManageAccess choice={this.state.manageAccessOptionChosen}/> :
+          this.state.page === "home" ? <HomePage /> : null}
           </div>
         </Sidebar>
 
