@@ -3,6 +3,7 @@ import {Goal} from "./Goal.js";
 import {NavItem} from "./NavComponents.js";
 import ToolList from "./ToolList.js";
 import NavList from "./NavList.js";
+import ManageAccessList from "./ManageAccessList.js";
 import BackArrowIcon from '@material-ui/icons/ArrowBack';
 import Divider from '@material-ui/core/Divider';
 import HomeIcon from '@material-ui/icons/Home';
@@ -33,18 +34,21 @@ export class MenuSideBar extends Component {
         this.onHomebuttonPressed = this.onHomeButtonPressed.bind(this);
     }
 
-    componentWillReceiveProps(nextProps){
-        if(nextProps.sidebarDisplay != this.props.showing){
-            this.setState({goBackTo: this.state.showing, showing: nextProps.showing});
-        }
-    }
-
-    setShowing(show){
+  componentDidUpdate(prevProps){
+    if(this.props != prevProps){
       this.setState({
-        goBackTo: this.showing,
-        showing: show
+        goBackTo: this.state.showing, showing: this.props.showing
       });
     }
+  }
+
+
+  setShowing(show){
+    this.setState({
+      goBackTo: this.showing,
+      showing: show
+    });
+  }
 
     onBackButtonPressed(){
       //alert("Back Button");
@@ -77,9 +81,9 @@ export class MenuSideBar extends Component {
               this.state.showing == "nav" ? <NavList onNavItemClicked={this.props.onNavItemClicked}/> :
               this.state.showing == "home" ? <NavList onNavItemClicked={this.props.onNavItemClicked}/> :
               this.state.showing == "createForm" ? <ToolList/> :
+              this.state.showing == "manageAccess" ? <ManageAccessList onManageAccessListClick={this.props.onManageAccessListClick} /> :
               this.state.page == "viewForm" ? <p>View Form Page Goes Here</p> :
               this.state.page == "profile" ? <p>Profile Page Goes Here</p> :
-              this.state.page == "manageAccess" ? <p>Manage Access Page Goes Here</p> :
               this.state.page == "" ? <p>Welcome Page Goes Here</p> : null}
             </div>
         );

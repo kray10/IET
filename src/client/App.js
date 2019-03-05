@@ -5,6 +5,7 @@ import Settings from "./Settings.js";
 import Login from "./Login.js";
 import MenuIcon from '@material-ui/icons/MenuTwoTone';
 import HomePage from './Home.js';
+import ManageAccess from './ManageAccess.js';
 import {MenuSideBar} from "./MenuSideBar.js";
 import {UseForm} from "./UseForm.js";
 const showAlerts = false;
@@ -31,6 +32,7 @@ class App extends Component {
       sidebarOpen: false,
       page: "home",
       sidebarDisplay: "home",
+      manageAccessOptionChosen: "",
       loggedIn: false
     };
     this.onSetSidebarOpen = this.onSetSidebarOpen.bind(this);
@@ -39,6 +41,7 @@ class App extends Component {
     this.onNavItemClicked = this.onNavItemClicked.bind(this);
     this.onLoginAuthentication = this.onLoginAuthentication.bind(this);
     this.resize = this.resize.bind(this);
+    this.onManageAccessListClick = this.onManageAccessListClick.bind(this);
   }
 
   resize = () => this.forceUpdate()
@@ -76,6 +79,13 @@ class App extends Component {
     });
   }
 
+  onManageAccessListClick(chosen){
+    console.log(chosen);
+    this.setState({
+      manageAccessOptionChosen: chosen
+    });
+  }
+
   onSetSidebarOpen(open) {
     this.setState({sidebarOpen: open});
     //TODO  Might want to disabled the hamburger button here
@@ -94,7 +104,9 @@ class App extends Component {
         <Sidebar
           shadow={true}
           transitions={true}
-          sidebar={<MenuSideBar showing={this.state.page} onNavItemClicked={this.onNavItemClicked}/>}
+          sidebar={<MenuSideBar showing={this.state.page}
+                                onNavItemClicked={this.onNavItemClicked}
+                                onManageAccessListClick={this.onManageAccessListClick}/>}
           open={this.state.sidebarOpen && this.state.loggedIn}
           docked={this.state.sidebarDocked && this.state.loggedIn}
           onSetOpen={this.onSetSidebarOpen}
@@ -114,7 +126,7 @@ class App extends Component {
           this.state.page == "settings" ? <Settings /> :
           this.state.page == "createForm" ? <UseForm /> :
           this.state.page == "profile" ? <p>Profile Page Goes Here</p> :
-          this.state.page == "manageAccess" ? <p>Manage Access Page Goes Here</p> :
+          this.state.page == "manageAccess" ? <ManageAccess choice={this.state.manageAccessOptionChosen}/> :
           this.state.page == "home" ? <HomePage /> : null}
           </div>
         </Sidebar>
