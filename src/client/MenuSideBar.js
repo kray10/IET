@@ -73,8 +73,8 @@ export class MenuSideBar extends Component {
         return(
             <div>
               <div style={{display: 'inlineBlock'}}>
-                <button class='menuButton' style={{width: '50%'}} onClick={this.onBackButtonPressed}><BackArrowIcon /></button>
-                <button class='menuButton' style={{width: '50%'}} onClick={()=>this.props.onNavItemClicked("home")}><HomeIcon /></button>
+                <button className='menuButton' style={{width: '50%'}} onClick={this.onBackButtonPressed}><BackArrowIcon /></button>
+                <button className='menuButton' style={{width: '50%'}} onClick={()=>this.props.onNavItemClicked("home")}><HomeIcon /></button>
               </div>
 
               {this.state.showing == "" ? <NavList onNavItemClicked={this.props.onNavItemClicked}/> :

@@ -113,7 +113,7 @@ class App extends Component {
           styles={{ sidebar: { background: "white", width: '20%' } }}
         >
           <div style={{backgroundColor: 'grey'}}>
-          {this.state.sidebarDocked == false && this.state.loggedIn == true ?
+          {this.state.sidebarDocked === false && this.state.loggedIn === true ?
             <button
               onClick={() => this.onSetSidebarOpen(true)}
               style={sideBarButtonStyle}

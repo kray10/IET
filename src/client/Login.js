@@ -53,33 +53,35 @@ const loginCSS2 = {
 
   render() {
     return (
-      <div class="outer" style={loginCSS}>
-        <div class = "middle">
-          <div class = "inner">
+      <div className="outer" style={loginCSS}>
+        <div className = "middle">
+          <div className = "inner">
             <div>
             <img src={logo} style={{width: '10vw'}} />
             <form style={{color: 'black', textAlign: 'left'}} onSubmit={this.handleSubmit}>
             <table>
-              <tr>
-                <td>User:</td>
-                <td>
-                  <label>
-                    <input type="text" placeholder="abc@example.com" value={this.state.user} onChange={this.handleChangeUser} />
-                  </label>
-                </td>
-              </tr>
-              <tr>
-                <td>Password:</td>
-                <td>
-                  <label>
-                    <input type="password" value={this.state.pass} onChange={this.handleChangePass} />
-                  </label>
-                </td>
-              </tr>
-              <tr>
-                <td></td>
-                <td><input type="submit" value="Submit" /></td>
-              </tr>
+              <tbody>
+                <tr>
+                  <td>User:</td>
+                  <td>
+                    <label>
+                      <input type="text" placeholder="abc@example.com" value={this.state.user} onChange={this.handleChangeUser} />
+                    </label>
+                  </td>
+                </tr>
+                <tr>
+                  <td>Password:</td>
+                  <td>
+                    <label>
+                      <input type="password" value={this.state.pass} onChange={this.handleChangePass} />
+                    </label>
+                  </td>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td><input type="submit" value="Submit" /></td>
+                </tr>
+              </tbody>
             </table>
             </form>
             </div>

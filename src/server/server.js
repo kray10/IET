@@ -3,7 +3,7 @@ const bodyParser = require('body-parser');
 const app = express();
 const port = process.env.PORT || 5000;
 
-var testJson = require('./ExampleJSON');
+var testJSONS = require('./ExampleJSON');
 
 
 var admin = require("firebase-admin");
@@ -17,23 +17,45 @@ admin.initializeApp({
 
 var db = admin.database();
 var apitest = db.ref("testAPI");
-apitest.set(testJson.testJSON);
+apitest.set(testJSONS.goalJSON);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get('/api/form/:id', (req, res) => {
-  console.log('Received: ' + req.params.id);
-  // hard coded response for now
-  res.send(testJson.testJSON);
+app.get('/api/goal/:id', (req, res) => {
+  console.log('/api/goal/' + req.params.id);
+  // TODO Get actual goal from database
+  res.send(testJSONS.goalJSON);
 });
 
-app.get('/', (req, res) => {
+app.get('/api/students/:userid', (req, res) => {
+  console.log('/api/students/' + req.params.userid);
+  // TODO Get actual data from database
+  res.send(testJSONS.userAccessJSON);
+});
 
-  console.log("whats up");
-})
+app.get('/api/goal/:studentid', (req, res) => {
+  console.log('/api/goal/' + req.params.studentid);
+  // TODO Get actual data from database
+  res.send(testJSONS.goalsByStudent);
+});
 
-app.get('/test', (req, res) => {
-  console.log("whats up");
-})
+app.post('/api/createGoal', (req, res) => {
+  console.log('creategoal: ' + req.body)
+  // TODO store the goal in the databse with a new goalID
+  // TODO add goalID and goalName to the student's goals
+  res.send(JSON.stringify({goalID: 123456}))
+});
+
+app.post('/api/updateAccess', (req, res) => {
+  console.log('updateAcces: ' + req.body)
+  // TODO add the userid to the students editStudents array
+  res.send()
+});
+app.post('/api/addGoalData', (req, res) => {
+  console.log('addGoalData: ' + req.body)
+  // TODO append the req.body.goalData object to the goal data array for the
+  // associated req.body.goalID
+  res.send()
+});
 
 app.listen(port, () => console.log(`Listening on port ${port}`));
