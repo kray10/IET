@@ -39,23 +39,24 @@ module.exports = {
 
     userAccessJSON: {
         userID: 123456,
-        editStudents: [1111, 22222, 333333, 444444],
-        adminStudents: [9999, 8888, 444444, 77777]
+        editStudents: [111111, 222222, 333333, 444444],
+        adminStudents: [987654, 876543, 765432, 654321]
     },
 
     goalsByStudent: {
         studentID: 987654,
+        studentName: 'Mittens', //May not want to store this, but for now...
         goals: [
             {
-                goalName: 'goal1',
+                goalName: 'Identify Letter L',
                 goalID: 77777
-            }, 
+            },
             {
-                goalName: 'goal2',
+                goalName: 'Respond To Commands',
                 goalID: 88888
-            }, 
+            },
             {
-                goalName: 'goal3',
+                goalName: 'Learn Muliplication Tables',
                 goalID: 99999
             }
         ]

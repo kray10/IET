@@ -3,6 +3,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
+import api from './api.js';
 // Load Chance
 var Chance = require('chance');
 
@@ -74,6 +75,8 @@ const right = { //unused for now, don't remove
     super(props);
     const students = [];
     const goals = [];
+    const userStudents = [];
+
     for(let i = 0; i < 21; i++) {
       students.push({
       name: chance.name(),
@@ -81,30 +84,70 @@ const right = { //unused for now, don't remove
     }
     this.state = {
       students,
-      goals
+      goals,
+      userStudents
     };
     this.onStudentClicked = this.onStudentClicked.bind(this);
+    this.receivedStudents = this.receivedStudents.bind(this);
+    this.receivedGoals = this.receivedGoals.bind(this);
   }
 
-  onStudentClicked(name){
-    //"get goals" API call here...
+  receivedStudents(results){
+    //console.log(results.adminStudents);
+    var tempList = [];
+    for(var student in results.adminStudents) {
+      tempList.push({
+      name: results.adminStudents[student],
+      });
+    }
+    for(var student in results.editStudents) {
+      tempList.push({
+      name: results.editStudents[student],
+      });
+    }
+    //Sort. Apparently there is no good way to sort list of numerals
+    tempList = tempList.sort((a, b) => a.name - b.name);
+    this.setState({
+      userStudents: tempList
+    });
+    //console.log(this.state.userStudents);
+  }
 
+  componentDidMount(){
+    api.gets(12345).getStudentsByUser(123456).then(result => this.receivedStudents(result));
+  }
+
+  receivedGoals(results){
+    //console.log(results);
     //random goals used below but method of adding can still be used like this
 
     //To check that a student button was pressed uncomment this alert
     //alert("Pressed student " + name);
     let goals = [];
-    let goalNum = chance.integer({ min: 15, max: 30 });
+    //let goalNum = chance.integer({ min: 15, max: 30 });
 
     //To Check that all goals are showing, compare to this alert number.
     //alert(goalNum);
 
-    for(let i = 0; i < goalNum; i++) {
+    /*for(let i = 0; i < goalNum; i++) {
       goals.push({
       name: ("Goal " + (i+1))
       });
-    }
-    this.setState({goals: goals});
+    }*/
+
+    /*
+       Right now we only have one goal, but after we have many, we will need
+       to change this logic to iterate through all goals and push all goals
+    */
+
+    //goals.push(results.goals);
+    console.log(results.goals);
+    this.setState({goals: results.goals});
+  }
+
+  onStudentClicked(student){
+    //"get goals" API call here...
+    api.gets(1).getGoalsByStudent(student.name).then(result => this.receivedGoals(result));
   }
 
 
@@ -118,7 +161,7 @@ const right = { //unused for now, don't remove
           <Divider />
           <div style={{overflowY: 'scroll'}}>
             <List component="studentList">
-              {this.state.students.map((student, index) => (
+              {this.state.userStudents.map((student) => (
                 <ListItem button onClick={()=>this.onStudentClicked(student.name)}>
                   <ListItemText primary={student.name} />
                 </ListItem>
@@ -133,9 +176,9 @@ const right = { //unused for now, don't remove
           <Divider />
           <div style={{overflowY: 'scroll'}}>
             <List component="goalsList">
-              {this.state.goals.map((goal, index) => (
+              {this.state.goals.map((goal) => (
                 <ListItem button >
-                  <ListItemText primary={goal.name} />
+                  <ListItemText primary={goal.goalName} />
                 </ListItem>
                 ))}
             </List>

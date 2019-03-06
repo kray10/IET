@@ -21,6 +21,12 @@ apitest.set(testJSONS.goalJSON);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.get('/api/goal/:studentid', (req, res) => {
+  console.log('/api/goal/' + req.params.studentid);
+  // TODO Get actual data from database
+  res.send(testJSONS.goalsByStudent);
+});
+
 app.get('/api/goal/:id', (req, res) => {
   console.log('/api/goal/' + req.params.id);
   // TODO Get actual goal from database
@@ -31,12 +37,6 @@ app.get('/api/students/:userid', (req, res) => {
   console.log('/api/students/' + req.params.userid);
   // TODO Get actual data from database
   res.send(testJSONS.userAccessJSON);
-});
-
-app.get('/api/goal/:studentid', (req, res) => {
-  console.log('/api/goal/' + req.params.studentid);
-  // TODO Get actual data from database
-  res.send(testJSONS.goalsByStudent);
 });
 
 app.post('/api/createGoal', (req, res) => {
