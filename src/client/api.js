@@ -10,14 +10,14 @@ export default {
       },
 
       getStudentsByUser: async (userid) => {
-        const response = await fetch(`/api/students/${userid}`);
+        const response = await fetch(`/api/user/students/${userid}`);
         const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
         return body;
       },
 
       getGoalsByStudent: async (studentid) => {
-        const response = await fetch(`/api/goal/${studentid}`);
+        const response = await fetch(`/api/student/goals/${studentid}`);
         const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
         return body;
@@ -40,7 +40,7 @@ export default {
         if (response.status !== 200) throw Error(body.message);
         return body;
       },
-      addUserAccess: async (studentid, userid) => {
+      addUserAccess: async (studentid, email) => {
         const response = await fetch(`/api/updateAccess`, {
           method: 'POST',
           headers: {
@@ -49,7 +49,7 @@ export default {
           },
           body: JSON.stringify({
             studentID: studentid,
-            userID: userid
+            userEmail: email
           })
         });
         const body = await response.json();
@@ -68,6 +68,18 @@ export default {
         const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
         return body;
+      },
+      addNewUser: async (email) => {
+        const response = await fetch(`/api/user/new/${email}`);
+        const body = await response.json();
+        if (response.status !== 200) throw Error(body.message);
+        return body;
+      },
+      addNewStudent: async (userid) => {
+        const response = await fetch(`/api/student/new/${userid}`);
+        const body = await response.json();
+        if (response.status !== 200) throw Error(body.message);
+        return body
       }
     }
   }
