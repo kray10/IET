@@ -1,6 +1,7 @@
 module.exports = {
     goalJSON: {
         GoalName: 'Test Form',
+        StudentID: 132456789,
         Tasks: [
             {
                 TaskName: 'Task 1',

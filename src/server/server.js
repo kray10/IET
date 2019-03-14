@@ -3,8 +3,6 @@ const bodyParser = require('body-parser');
 const app = express();
 const port = process.env.PORT || 5000;
 
-var testJSONS = require('./ExampleJSON');
-
 
 var admin = require("firebase-admin");
 
@@ -16,11 +14,12 @@ admin.initializeApp({
 });
 
 var db = admin.database();
-var apitest = db.ref("testAPI");
-apitest.set(testJSONS.goalJSON);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+/*
+* Get all of the Goal IDs associated with a student
+*/
 app.get('/api/student/goals/:studentid', (req, res) => {
   // find student by id
   db.ref("/students/" + req.params.studentid).once("value", snap => {
@@ -36,6 +35,9 @@ app.get('/api/student/goals/:studentid', (req, res) => {
   });
 });
 
+/*
+* Get the goal by the Goal ID
+*/
 app.get('/api/goal/:id', (req, res) => {
   // find the goal by id
   db.ref("/goals/" + req.params.id).once("value", snap=> {
@@ -49,6 +51,9 @@ app.get('/api/goal/:id', (req, res) => {
   });
 });
 
+/*
+* Get all of the students that a user has access to
+*/
 app.get('/api/user/students/:userid', (req, res) => {
   // find user JSON
   db.ref("/users/" + req.params.userid).once("value", snap => {
@@ -65,6 +70,27 @@ app.get('/api/user/students/:userid', (req, res) => {
   });
 });
 
+/*
+* Get all of the data for a goal.
+*/
+app.get('/api/goal/data/:goalid', (req, res) => {
+  // find all data for the goal
+  db.ref("/data/" + req.params.goalid).once("value", snap => {
+    // check if goal was found
+    if (snap.exists()){
+      // create an array from the values (drops the auto ids)
+      var datapoints = Object.values(snap.val());
+      // send the data
+      res.send(datapoints);
+    } else {
+      res.status(500).send({error: "Could not find data for goal"});
+    }
+  });
+});
+
+/*
+* Create a new student. Returns the new student's ID
+*/
 app.post('/api/student/new/:userid', (req, res) => {
   // get reference to student section
   var ref = db.ref("/students");
@@ -80,6 +106,9 @@ app.post('/api/student/new/:userid', (req, res) => {
   res.send(newKey);
 });
 
+/*
+* Create a new user by passing an email. Returns the new user ID
+*/
 app.post('/api/user/new/:email', (req, res) => {
   // get reference to user section
   var ref = db.ref("/users")
@@ -89,16 +118,18 @@ app.post('/api/user/new/:email', (req, res) => {
   res.send(key)
 });
 
+/*
+* Create a Goal. Returns the new Goal ID
+*/
 app.post('/api/createGoal', (req, res) => {
-  db.ref("/students/" + req.body.goal.StudentID).once("value", snap => {
+  db.ref("/students/" + req.body.studentID).once("value", snap => {
     if (snap.exists()) {
-      console.log(req.body.goal.studentID)
       // push new form to db
       var ref = db.ref("/goals");
-      var newKey = ref.push(req.body.goal).key;
+      var newKey = ref.push(req.body).key;
       // add new key to the goals list
-      ref = db.ref("/students/" + req.body.goal.StudentID + "/goalList");
-      ref.push({goalKey: newKey, goalName: req.body.goal.GoalName});
+      ref = db.ref("/students/" + req.body.studentID + "/goalList");
+      ref.push({goalKey: newKey, goalName: req.body.goalName});
       // return the new key
       res.send({goalID: newKey});
 
@@ -108,6 +139,9 @@ app.post('/api/createGoal', (req, res) => {
   });
 });
 
+/*
+* Give a user edit access to a student
+*/
 app.post('/api/updateAccess', (req, res) => {
   var userID = null
   // query for the user id by email
@@ -126,21 +160,24 @@ app.post('/api/updateAccess', (req, res) => {
           res.status(500).send({error: "User already as edit access"});
         } else {
           // else add the student to the edit list
-          var ref = db.ref("/users/" + userID + "/editStudents")
-          ref.push(req.body.studentID)
-          res.send()
+          var ref = db.ref("/users/" + userID + "/editStudents");
+          ref.push(req.body.studentID);
+          res.send();
         }
       } else {
-        res.status(500).send({error: "Email not assocated with user"})
+        res.status(500).send({error: "Email not assocated with user"});
       }
     });
   
 });
+
+/*
+* Add a datapoint to a goal
+*/
 app.post('/api/addGoalData', (req, res) => {
-  console.log('addGoalData: ' + req.body)
-  // TODO append the req.body.goalData object to the goal data array for the
-  // associated req.body.goalID
-  res.send()
+  var ref = db.ref("/data/" + req.body.goalID);
+  ref.push(req.body);
+  res.send();
 });
 
 
