@@ -4,8 +4,8 @@ import NavList from "./NavList.js";
 import ManageAccessList from "./ManageAccessList.js";
 import BackArrowIcon from '@material-ui/icons/ArrowBack';
 import HomeIcon from '@material-ui/icons/Home';
-import api from "./api.js";
-import './App.css';
+import api from "../API/api.js";
+import '../App.css';
 
 
 export class MenuSideBar extends Component {

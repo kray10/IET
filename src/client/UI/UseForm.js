@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import {Goal} from './Goal.js';
-import api from './api.js'
+import {Goal} from '../GoalModules/Goal.js';
+import api from '../API/api.js'
 
 export class UseForm extends Component {
   constructor(props) {
