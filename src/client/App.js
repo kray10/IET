@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import './App.css';
 import Sidebar from "react-sidebar";
-import Settings from "./Settings.js";
-import Login from "./Login.js";
+import Settings from "./UI/Settings.js";
+import Login from "./UI/Login.js";
 import MenuIcon from '@material-ui/icons/MenuTwoTone';
-import HomePage from './Home.js';
-import ManageAccess from './ManageAccess.js';
-import {MenuSideBar} from "./MenuSideBar.js";
-import {UseForm} from "./UseForm.js";
+import HomePage from './UI/Home.js';
+import ManageAccess from './UI/ManageAccess.js';
+import {MenuSideBar} from "./UI/MenuSideBar.js";
+import {UseForm} from "./UI/UseForm.js";
 const showAlerts = false;
 const system_loggedIn_override = false;
 const sideBarButtonStyle = {

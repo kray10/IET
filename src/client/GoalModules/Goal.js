@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import * as form from "./FormComponents.js"
+import * as task from "./GoalComponents.js"
 
 const keymap = {
-    yesNo: form.YesNo,
-    submitReset: form.SubmitReset,
-    textBox: form.TextBox,
-    increment: form.Increment,
-    timer: form.Timer,
-    dropdown: form.Dropdown,
-    default: form.ErrorField
+    yesNo: task.YesNo,
+    submitReset: task.SubmitReset,
+    textBox: task.TextBox,
+    increment: task.Increment,
+    timer: task.Timer,
+    dropdown: task.Dropdown,
+    default: task.ErrorField
 };
 
 export class Goal extends Component {
