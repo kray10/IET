@@ -76,6 +76,7 @@ const right = { //unused for now, don't remove
     const students = [];
     const goals = [];
     const userStudents = [];
+    const data = [];
 
     for(let i = 0; i < 21; i++) {
       students.push({
@@ -85,7 +86,8 @@ const right = { //unused for now, don't remove
     this.state = {
       students,
       goals,
-      userStudents
+      userStudents,
+      data
     };
     this.onStudentClicked = this.onStudentClicked.bind(this);
     this.receivedStudents = this.receivedStudents.bind(this);
@@ -159,7 +161,7 @@ const right = { //unused for now, don't remove
             <h2>Students</h2>
           </div>
           <Divider />
-          <div style={{overflowY: 'scroll'}}>
+          <div style={{overflowY: 'auto'}}>
             <List component="studentList">
               {this.state.userStudents.map((student) => (
                 <ListItem button onClick={()=>this.onStudentClicked(student.name)}>
@@ -174,11 +176,26 @@ const right = { //unused for now, don't remove
             <h2>Goals</h2>
           </div>
           <Divider />
-          <div style={{overflowY: 'scroll'}}>
+          <div style={{overflowY: 'auto'}}>
             <List component="goalsList">
               {this.state.goals.map((goal) => (
                 <ListItem button >
                   <ListItemText primary={goal.goalName} />
+                </ListItem>
+                ))}
+            </List>
+          </div>
+        </div>
+        <div style={right}>
+          <div style={headers}>
+            <h2>Copies</h2>
+          </div>
+          <Divider />
+          <div style={{overflowY: 'auto'}}>
+            <List component="dataList">
+              {this.state.data.map((data) => (
+                <ListItem button >
+                  <ListItemText primary={data.date} />
                 </ListItem>
                 ))}
             </List>
