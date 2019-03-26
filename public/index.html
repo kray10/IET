@@ -38,4 +38,19 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
   </body>
+  
+<script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.9.1/firebase-auth.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyBrR96oPuOFBuZY2N-WeuzlDxPl8cw5RT0",
+    authDomain: "ietracker.firebaseapp.com",
+    databaseURL: "https://ietracker.firebaseio.com",
+    projectId: "ietracker",
+    storageBucket: "ietracker.appspot.com",
+    messagingSenderId: "196119604026"
+  };
+  firebase.initializeApp(config);
+</script>
 </html>

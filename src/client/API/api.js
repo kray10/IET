@@ -93,5 +93,9 @@ export default {
         return body
       }
     }
+  },
+
+  auth(email, password) {
+
   }
 }

@@ -10,7 +10,7 @@ const loginCSS = {
   backgroundColor: cssHSL,
 };
 
- class Login extends React.Component {
+class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -78,4 +78,4 @@ const loginCSS = {
   }
 }
 
- export default Login;
+export default Login;
