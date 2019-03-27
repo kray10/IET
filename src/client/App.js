@@ -8,6 +8,7 @@ import HomePage from './UI/Home.js';
 import ManageAccess from './UI/ManageAccess.js';
 import {MenuSideBar} from "./UI/MenuSideBar.js";
 import {UseForm} from "./UI/UseForm.js";
+import Signup from "./UI/Signup.js";
 
 const showAlerts = false;
 const system_loggedIn_override = false;
@@ -84,7 +85,7 @@ class App extends Component {
 
   onNavItemClicked(page){
     if(showAlerts){
-    alert("Nav Item Clicked");
+    alert(page);
     }
     this.setState({
       page: page,
@@ -135,12 +136,14 @@ class App extends Component {
             </button>
           : null}
 
-          {this.state.loggedIn === false ? <Login onLoginAuth={this.onLoginAuthentication}/> :
+          {this.state.page === "signup" ? <Signup firebase={this.props.firebase} /> :
+          this.state.loggedIn === false ? <Login onLoginAuth={this.onLoginAuthentication} onNavItemClicked={this.onNavItemClicked}/> :
           this.state.page === "settings" ? <Settings /> :
           this.state.page === "createForm" ? <UseForm /> :
           this.state.page === "profile" ? <p>Profile Page Goes Here</p> :
           this.state.page === "manageAccess" ? <ManageAccess choice={this.state.manageAccessOptionChosen}/> :
-          this.state.page === "home" ? <HomePage userID={this.state.userID}/> : null}
+          this.state.page === "home" ? <HomePage userID={this.state.userID}/> :
+          null}
           </div>
         </Sidebar>
 

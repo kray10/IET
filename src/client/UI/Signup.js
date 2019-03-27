@@ -2,6 +2,8 @@ import React from 'react';
 import './Login.css'
 import logo from './iet_logo.png';
 
+const showAlerts = false;
+
 var cssHSL = "hsl(" + 360 * Math.random() + ',' +
                  (25 + 70 * Math.random()) + '%,' +
                  (85 + 10 * Math.random()) + '%)';
@@ -10,16 +12,19 @@ const loginCSS = {
   backgroundColor: cssHSL,
 };
 
-class Login extends React.Component {
+class Signup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       user: '',
-      pass: ''
+      pass: '',
+      confirmPass: '',
+      showPassError: false
     };
 
     this.handleChangeUser = this.handleChangeUser.bind(this);
     this.handleChangePass = this.handleChangePass.bind(this);
+    this.handleConfirmPass = this. handleConfirmPass.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -31,10 +36,27 @@ class Login extends React.Component {
     this.setState({pass: event.target.value});
   }
 
+  handleConfirmPass(event) {
+    if(event.target.value !== '' && event.target.value !== this.state.pass){
+      this.setState({showPassError: true});
+    }
+    else{
+      this.setState({showPassError: false});
+    }
+  }
+
   handleSubmit(event) {
     //alert('A name was submitted: ' + this.state.user);
     event.preventDefault();
-    this.props.onLoginAuth(this.state.user, this.state.pass);
+    this.props.firebase.doCreateUserWithEmailAndPassword(this.state.user, this.state.pass).catch(function(error) {
+      // Handle Errors here.
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      if(showAlerts){
+        alert(errorMessage);
+      }
+      // ...
+    });
   }
 
   render() {
@@ -64,8 +86,19 @@ class Login extends React.Component {
                   </td>
                 </tr>
                 <tr>
+                  <td>Confirm Password:</td>
+                  <td>
+                    <label>
+                      <input type="password" onChange={this.handleConfirmPass} />
+                    </label>
+                  </td>
+                </tr>
+                {this.state.showPassError ?
+                  <tr>
+                    <p>Passwords do not match</p>
+                  </tr> : null}
+                <tr>
                   <td></td>
-                  <td><button type="button" onClick={()=>this.props.onNavItemClicked("signup")}>Sign Up </button></td>
                   <td><input type="submit" value="Submit" /></td>
                 </tr>
               </tbody>
@@ -79,4 +112,4 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+export default Signup;
