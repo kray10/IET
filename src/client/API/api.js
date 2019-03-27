@@ -79,8 +79,8 @@ export default {
         return body;
       },
 
-      addNewUser: async (email) => {
-        const response = await fetch(`/api/user/new/${email}`);
+      addNewUser: async (uid) => {
+        const response = await fetch(`/api/user/new/${uid}`);
         const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
         return body;

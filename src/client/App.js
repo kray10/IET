@@ -34,7 +34,8 @@ class App extends Component {
       page: "home",
       sidebarDisplay: "home",
       manageAccessOptionChosen: "",
-      loggedIn: system_loggedIn_override
+      loggedIn: system_loggedIn_override,
+      userID: ""
     };
     this.onSetSidebarOpen = this.onSetSidebarOpen.bind(this);
     this.mediaQueryChanged = this.mediaQueryChanged.bind(this);
@@ -64,10 +65,21 @@ class App extends Component {
     this.setState({ sidebarDocked: mql.matches, sidebarOpen: false });
   }
 
-  onLoginAuthentication(loggedIn){
-    if(loggedIn){
-      this.setState({loggedIn: true, sidebarOpen: true});
-    }
+  onLoginAuthentication(user, pass){
+    this.props.firebase
+      .doSignInWithEmailAndPassword(user, pass)
+      .then(authUser => {
+        // user succesfully logged in
+        // set state to logged in
+        // save user id from authUser
+        this.setState({userID: authUser.user.uid, loggedIn: true});
+      })
+      .catch(error => {
+        // auth failed
+        // parse error to tell user what the problem was
+        console.log(error)
+      });
+
   }
 
   onNavItemClicked(page){
@@ -128,7 +140,7 @@ class App extends Component {
           this.state.page === "createForm" ? <UseForm /> :
           this.state.page === "profile" ? <p>Profile Page Goes Here</p> :
           this.state.page === "manageAccess" ? <ManageAccess choice={this.state.manageAccessOptionChosen}/> :
-          this.state.page === "home" ? <HomePage /> : null}
+          this.state.page === "home" ? <HomePage userID={this.state.userID}/> : null}
           </div>
         </Sidebar>
 

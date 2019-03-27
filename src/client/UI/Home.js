@@ -97,26 +97,27 @@ const right = { //unused for now, don't remove
   receivedStudents(results){
     //console.log(results.adminStudents);
     var tempList = [];
-    for(var student in results.adminStudents) {
+    for(var student in results.admin) {
       tempList.push({
-      name: results.adminStudents[student],
+      name: results.admin[student]
       });
     }
-    for(var student in results.editStudents) {
+    
+    for(var student in results.edit) {
       tempList.push({
-      name: results.editStudents[student],
+      name: results.edit[student]
       });
     }
     //Sort. Apparently there is no good way to sort list of numerals
-    tempList = tempList.sort((a, b) => a.name - b.name);
+    //tempList = tempList.sort((a, b) => a.name - b.name);
     this.setState({
       userStudents: tempList
     });
-    //console.log(this.state.userStudents);
+    
   }
 
   componentDidMount(){
-    api.gets(12345).getStudentsByUser(123456).then(result => this.receivedStudents(result));
+    api.gets().getStudentsByUser(this.props.userID).then(result => this.receivedStudents(result));
   }
 
   receivedGoals(results){
@@ -143,13 +144,13 @@ const right = { //unused for now, don't remove
     */
 
     //goals.push(results.goals);
-    console.log(results.goals);
     this.setState({goals: results.goals});
   }
 
   onStudentClicked(student){
     //"get goals" API call here...
-    api.gets(1).getGoalsByStudent(student.name).then(result => this.receivedGoals(result));
+    console.log(student);
+    api.gets().getGoalsByStudent(student).then(result => this.receivedGoals(result));
   }
 
 

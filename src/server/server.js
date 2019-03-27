@@ -26,7 +26,10 @@ app.get('/api/student/goals/:studentid', (req, res) => {
     // check if student is in database
     if (snap.exists()) {
       // get goal list and convert to an array
-      var goals = Object.values(snap.child("goalList").val());
+      var goals = []
+      if (snap.child("goalList").val() !== null) {
+        goals = Object.values(snap.child("goalList").val());
+      }
       // send the goals in an object
       res.send({goals})
     } else {
@@ -60,8 +63,14 @@ app.get('/api/user/students/:userid', (req, res) => {
     // check if user was found
     if (snap.exists()) {
       // turn admin and edit into arrays
-      var admin = Object.values(snap.child("adminStudents").val());
-      var edit = Object.values(snap.child("editStudents").val());
+      var admin = [];
+      if (snap.child("adminStudents").val() !== null) {
+        admin = Object.values(snap.child("adminStudents").val());
+      }
+      var edit = [];
+      if (snap.child("editStudents").val() !== null) {
+        edit = Object.values(snap.child("editStudents").val());
+      }
       // send result
       res.send({admin: admin, edit: edit});
     } else {
@@ -79,7 +88,10 @@ app.get('/api/goal/data/:goalid', (req, res) => {
     // check if goal was found
     if (snap.exists()){
       // create an array from the values (drops the auto ids)
-      var datapoints = Object.values(snap.val());
+      var datapoints = []
+      if (snap.val() !== null) {
+        datapoints = Object.values(snap.val());
+      }
       // send the data
       res.send(datapoints);
     } else {
@@ -109,13 +121,11 @@ app.post('/api/student/new/:userid', (req, res) => {
 /*
 * Create a new user by passing an email. Returns the new user ID
 */
-app.post('/api/user/new/:email', (req, res) => {
+app.post('/api/user/new/:uid', (req, res) => {
   // get reference to user section
-  var ref = db.ref("/users")
-  // push new user storing email address
-  var key = ref.push({email: req.params.email}).key;
-  // return new key
-  res.send(key)
+  var ref = db.ref("/users/" + req.params.uid);
+  ref.set({created: true});
+  res.send()
 });
 
 /*

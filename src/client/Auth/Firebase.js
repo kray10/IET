@@ -25,8 +25,14 @@ class Firebase {
     
     doSignOut = () => this.auth.signOut();
 
+    // send the user an email with a code to reset password
     doPasswordReset = email => this.auth.sendPasswordResetEmail(email);
 
+    // once user gets password reset code in email, always resetting password
+    doConfirmPasswordReset = (code, password) =>
+        this.auth.confirmPasswordReset(code, password);
+
+    // allows currently logged in user to reset their password
     doPasswordUpdate = password =>
         this.auth.currentUser.updatePassword(password);
 };
