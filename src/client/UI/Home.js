@@ -102,7 +102,7 @@ const right = { //unused for now, don't remove
       name: results.admin[student]
       });
     }
-    
+
     for(var student in results.edit) {
       tempList.push({
       name: results.edit[student]
@@ -113,11 +113,11 @@ const right = { //unused for now, don't remove
     this.setState({
       userStudents: tempList
     });
-    
+
   }
 
   componentDidMount(){
-    api.gets().getStudentsByUser(this.props.userID).then(result => this.receivedStudents(result));
+    api.gets().getStudentsByUser(this.props.userID).then(result => this.receivedStudents(result)).catch(function(error){alert("No results")});
   }
 
   receivedGoals(results){

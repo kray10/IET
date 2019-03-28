@@ -64,8 +64,11 @@ class Signup extends React.Component {
       <div className="outer" style={loginCSS}>
         <div className = "middle">
           <div className = "inner">
-            <div>
+            <div style={{color: 'black'}}>
             <img src={logo} style={{width: '10vw'}} alt='' />
+            <h1>Welcome</h1>
+            <p>Please enter an email address and password</p>
+            <p>Your email will be used as your unique ID</p>
             <form style={{color: 'black', textAlign: 'left'}} onSubmit={this.handleSubmit}>
             <table>
               <tbody>
@@ -99,7 +102,7 @@ class Signup extends React.Component {
                   </tr> : null}
                 <tr>
                   <td></td>
-                  <td><input type="submit" value="Submit" /></td>
+                  <td><input type="submit" value="Sign Up" /></td>
                 </tr>
               </tbody>
             </table>

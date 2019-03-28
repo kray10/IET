@@ -25,7 +25,7 @@ class Firebase {
           // Handle Errors here.
           var errorCode = error.code;
           var errorMessage = error.message;
-          alert(errorMessage);
+          alert("Incorrect email/password combination");
           // ...
         });
 
