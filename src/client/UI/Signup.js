@@ -2,7 +2,7 @@ import React from 'react';
 import './Login.css'
 import logo from './iet_logo.png';
 
-const showAlerts = false;
+const showAlerts = true;
 
 var cssHSL = "hsl(" + 360 * Math.random() + ',' +
                  (25 + 70 * Math.random()) + '%,' +
@@ -48,7 +48,10 @@ class Signup extends React.Component {
   handleSubmit(event) {
     //alert('A name was submitted: ' + this.state.user);
     event.preventDefault();
-    this.props.firebase.doCreateUserWithEmailAndPassword(this.state.user, this.state.pass).catch(function(error) {
+    this.props.firebase.doCreateUserWithEmailAndPassword(this.state.user, this.state.pass).then((response) =>{
+        alert("success");
+        this.props.onNavItemClicked("login");})
+      .catch(function(error) {
       // Handle Errors here.
       var errorCode = error.code;
       var errorMessage = error.message;

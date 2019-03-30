@@ -136,8 +136,8 @@ class App extends Component {
             </button>
           : null}
 
-          {this.state.page === "signup" ? <Signup firebase={this.props.firebase} /> :
-          this.state.loggedIn === false ? <Login firevbase={this.props.firebase} onLoginAuth={this.onLoginAuthentication} onNavItemClicked={this.onNavItemClicked}/> :
+          {this.state.page === "signup" ? <Signup firebase={this.props.firebase} onNavItemClicked={this.onNavItemClicked} /> :
+          this.state.loggedIn === false ? <Login firebase={this.props.firebase} onLoginAuth={this.onLoginAuthentication} onNavItemClicked={this.onNavItemClicked}/> :
           this.state.page === "settings" ? <Settings /> :
           this.state.page === "createForm" ? <UseForm /> :
           this.state.page === "profile" ? <p>Profile Page Goes Here</p> :
