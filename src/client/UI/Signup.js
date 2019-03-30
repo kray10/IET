@@ -68,10 +68,10 @@ class Signup extends React.Component {
         <div className = "middle">
           <div className = "inner">
             <div style={{color: 'black'}}>
-            <img src={logo} style={{width: '10vw'}} alt='' />
-            <h1>Welcome</h1>
-            <p>Please enter an email address and password</p>
-            <p>Your email will be used as your unique ID</p>
+              <img src={logo} style={{width: '10vw', textAlign: "center"}} alt='' />
+              <h3 style={{textAlign: "center"}}>Welcome</h3>
+              <p style={{textAlign: "left"}}>Please enter an email address and password</p>
+              <p style={{textAlign: "left"}}>Your email will be used as your unique ID</p>
             <form style={{color: 'black', textAlign: 'left'}} onSubmit={this.handleSubmit}>
             <table>
               <tbody>
