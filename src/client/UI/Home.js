@@ -102,7 +102,7 @@ const right = { //unused for now, don't remove
       name: results.admin[student]
       });
     }
-    
+
     for(var student in results.edit) {
       tempList.push({
       name: results.edit[student]
@@ -113,11 +113,11 @@ const right = { //unused for now, don't remove
     this.setState({
       userStudents: tempList
     });
-    
+
   }
 
   componentDidMount(){
-    api.gets().getStudentsByUser(this.props.userID).then(result => this.receivedStudents(result));
+    api.gets().getStudentsByUser(this.props.userID).then(result => this.receivedStudents(result)).catch(function(error){console.log("No Results")});
   }
 
   receivedGoals(results){
@@ -169,9 +169,15 @@ const right = { //unused for now, don't remove
                   <ListItemText primary={student.name} />
                 </ListItem>
                 ))}
+                {this.state.userStudents.length === 0 ?
+                  <ListItem>
+                    <ListItemText primary="No Students" />
+                  </ListItem> : null
+                }
             </List>
           </div>
         </div>
+        {this.state.goals.length > 0 ?
         <div style={middle}>
           <div style={headers}>
             <h2>Goals</h2>
@@ -186,7 +192,9 @@ const right = { //unused for now, don't remove
                 ))}
             </List>
           </div>
-        </div>
+        </div> : null
+        }
+        {this.state.data.length > 0 ?
         <div style={right}>
           <div style={headers}>
             <h2>Copies</h2>
@@ -201,7 +209,8 @@ const right = { //unused for now, don't remove
                 ))}
             </List>
           </div>
-        </div>
+        </div> : null
+      }
       </div>
     );
   }

@@ -15,7 +15,9 @@ class Login extends React.Component {
     super(props);
     this.state = {
       user: '',
-      pass: ''
+      pass: '',
+      userDNE: false,
+      passDNE: false
     };
 
     this.handleChangeUser = this.handleChangeUser.bind(this);
@@ -33,6 +35,8 @@ class Login extends React.Component {
 
   handleSubmit(event) {
     //alert('A name was submitted: ' + this.state.user);
+
+
     event.preventDefault();
     this.props.onLoginAuth(this.state.user, this.state.pass);
   }
@@ -64,7 +68,6 @@ class Login extends React.Component {
                   </td>
                 </tr>
                 <tr>
-                  <td></td>
                   <td><button type="button" onClick={()=>this.props.onNavItemClicked("signup")}>Sign Up </button></td>
                   <td><input type="submit" value="Submit" /></td>
                 </tr>

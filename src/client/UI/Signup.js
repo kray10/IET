@@ -2,7 +2,7 @@ import React from 'react';
 import './Login.css'
 import logo from './iet_logo.png';
 
-const showAlerts = false;
+const showAlerts = true;
 
 var cssHSL = "hsl(" + 360 * Math.random() + ',' +
                  (25 + 70 * Math.random()) + '%,' +
@@ -48,7 +48,10 @@ class Signup extends React.Component {
   handleSubmit(event) {
     //alert('A name was submitted: ' + this.state.user);
     event.preventDefault();
-    this.props.firebase.doCreateUserWithEmailAndPassword(this.state.user, this.state.pass).catch(function(error) {
+    this.props.firebase.doCreateUserWithEmailAndPassword(this.state.user, this.state.pass).then((response) =>{
+        alert("success");
+        this.props.onNavItemClicked("login");})
+      .catch(function(error) {
       // Handle Errors here.
       var errorCode = error.code;
       var errorMessage = error.message;
@@ -64,8 +67,11 @@ class Signup extends React.Component {
       <div className="outer" style={loginCSS}>
         <div className = "middle">
           <div className = "inner">
-            <div>
-            <img src={logo} style={{width: '10vw'}} alt='' />
+            <div style={{color: 'black'}}>
+              <img src={logo} style={{width: '10vw', textAlign: "center"}} alt='' />
+              <h3 style={{textAlign: "center"}}>Welcome</h3>
+              <p style={{textAlign: "left"}}>Please enter an email address and password</p>
+              <p style={{textAlign: "left"}}>Your email will be used as your unique ID</p>
             <form style={{color: 'black', textAlign: 'left'}} onSubmit={this.handleSubmit}>
             <table>
               <tbody>
@@ -99,7 +105,7 @@ class Signup extends React.Component {
                   </tr> : null}
                 <tr>
                   <td></td>
-                  <td><input type="submit" value="Submit" /></td>
+                  <td><input type="submit" value="Sign Up" /></td>
                 </tr>
               </tbody>
             </table>
