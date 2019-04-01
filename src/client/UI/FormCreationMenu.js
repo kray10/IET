@@ -28,12 +28,14 @@ export class FormCreationMenu extends Component {
             components: [],
             TaskOptions: [1, 2, 3],
             receivedStudents: [],
-            userStudents: []
+            userStudents: [],
+            student: ''
           };
         this.onListItemClicked = this.onListItemClicked.bind(this);
         this.onApplyButtonClicked = this.onApplyButtonClicked.bind(this);
         this.onCloseButtonClicked = this.onCloseButtonClicked.bind(this);
         this.receivedStudents = this.receivedStudents.bind(this);
+        this.handleStudentSelect = this.handleStudentSelect.bind(this);
     }
 
     // onComponentClick = () => {
@@ -125,18 +127,33 @@ export class FormCreationMenu extends Component {
         api.gets().getStudentsByUser(this.props.userID).then(result => this.receivedStudents(result));
     }
 
+    handleStudentSelect(event) {
+        this.setState({student: event.target.value})
+        // alert(this.state.student)
+    }
+
     render() {
         const{components, TaskType} = this.state;
         return(
             <div>
                 <div style={{overflowY: 'auto'}}>
-                    <List component="studentList">
+                    {/* <List component="studentList">
                     {this.state.userStudents.map((student) => (
                         <ListItem>
                         <ListItemText primary={student.name} />
                         </ListItem>
                         ))}
-                    </List>
+                    </List> */}
+                    <div>
+                        <select value={this.state.selectValue} onChange={this.handleStudentSelect}>
+                            <option>--Please Select a Student--</option>
+                            {this.state.userStudents.map((student) => (
+                                <option value = {student.name}>
+                                    {student.name}
+                                </option>
+                                ))}
+                        </select>
+                    </div>
                 </div>                
                 <Popup trigger={<button className="button"> Add Goal Component </button>} modal lockScroll = {true}>
                 {close => (
@@ -174,6 +191,7 @@ export class FormCreationMenu extends Component {
                                 onClick={()=> {
                                     this.onListItemClicked("chooseMenu");
                                     this.onApplyButtonClicked();
+                                    // alert(this.state.student);
                                 }}
                             >
                                 Apply
@@ -196,6 +214,7 @@ export class FormCreationMenu extends Component {
                 </Popup>
                 <div className="createContent">
                     <header>Component content will go here</header>
+                    <div>Student: {this.state.student}</div>
                     <Goal dataFields={this.state.components}/>
                 </div>
             </div>
