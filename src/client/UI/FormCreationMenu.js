@@ -6,18 +6,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import * as form from "./../GoalModules/GoalComponents.js";
 import {Goal} from './../GoalModules/Goal.js'
 import api from '../API/api.js';
-
-// const ComponentListItem = ({value, onComponentClick}) =>(
-//   <li onClick={onComponentClick}>{value}</li>  
-// );
-
-// const ComponentList = ({items}) => (
-//     <ul>
-//         {
-//             items.map((item, i) => <ComponentListItem key={i} value={item} text={item} />)
-//         }
-//     </ul>
-// )
+import { Sortable } from './Sortable.js';
 
 export class FormCreationMenu extends Component {
     constructor(props) {
@@ -26,10 +15,11 @@ export class FormCreationMenu extends Component {
             popupContent: "chooseMenu",
             TaskType: '',
             components: [],
-            TaskOptions: [1, 2, 3],
+            TaskOptions: [1,2,3],
             receivedStudents: [],
             userStudents: [],
-            student: ''
+            student: '',
+            studentSelectLock: false
           };
         this.onListItemClicked = this.onListItemClicked.bind(this);
         this.onApplyButtonClicked = this.onApplyButtonClicked.bind(this);
@@ -37,24 +27,6 @@ export class FormCreationMenu extends Component {
         this.receivedStudents = this.receivedStudents.bind(this);
         this.handleStudentSelect = this.handleStudentSelect.bind(this);
     }
-
-    // onComponentClick = () => {
-    //     // alert("In: onComponentClick");
-    //     var {TaskType, components} = this.state;
-    //     TaskType = "This";
-    //     if (this.state.popupContent == "yesNoComponent") {
-    //         TaskType = "yes no component placeholder";
-    //     }
-    //     if (TaskType) {
-    //         const nextState = [...components, TaskType];
-    //         this.setState({components: nextState, TaskType:''});
-    //     }
-    // };
-
-    // onChange = (e) => {
-    //     this.setState({TaskType: e.target.value});
-    //     alert("In: onChange()")
-    // }
 
     onListItemClicked(popupContent){
         this.setState({
@@ -70,23 +42,27 @@ export class FormCreationMenu extends Component {
     };
 
     onApplyButtonClicked(){
-        // alert("In: onApplyButtonClicked");
         var {TaskType, components, TaskOptions} = this.state;
         switch (this.state.popupContent) {
             case "yesNoComponent":
                 TaskType = "yesNo";
+                TaskOptions = "yn";
                 break;
             case "timerComponent":
                 TaskType = "timer";
+                TaskOptions = "time";
                 break;
             case "incrementalComponent":
                 TaskType = "increment";
+                TaskOptions = "inc";
                 break;
             case "textBoxComponent":
                 TaskType = "textBox";
+                TaskOptions = "tb";
                 break;
             case "dropdownComponent":
                 TaskType = "dropdown";
+                TaskOptions = "dd";
                 break;
             default:
                 TaskType = '';
@@ -97,12 +73,7 @@ export class FormCreationMenu extends Component {
         }
     };
 
-    setTaskOptions(taskOptions){
-
-    }
-
     receivedStudents(results){
-        //console.log(results.adminStudents);
         var tempList = [];
         for(var student in results.admin) {
           tempList.push({
@@ -133,27 +104,21 @@ export class FormCreationMenu extends Component {
     }
 
     render() {
-        const{components, TaskType} = this.state;
+        // var taskList = this.props.components.map((entry, index) => {
+        //     return <ListItem>{entry.TaskType}</ListItem>
+        // });
+        // const{components, TaskType} = this.state;
         return(
             <div>
                 <div style={{overflowY: 'auto'}}>
-                    {/* <List component="studentList">
-                    {this.state.userStudents.map((student) => (
-                        <ListItem>
-                        <ListItemText primary={student.name} />
-                        </ListItem>
-                        ))}
-                    </List> */}
-                    <div>
-                        <select value={this.state.selectValue} onChange={this.handleStudentSelect}>
-                            <option>--Please Select a Student--</option>
-                            {this.state.userStudents.map((student) => (
-                                <option value = {student.name}>
-                                    {student.name}
-                                </option>
-                                ))}
-                        </select>
-                    </div>
+                    <select value={this.state.selectValue} onChange={this.handleStudentSelect}>
+                        <option>--Please Select a Student--</option>
+                        {this.state.userStudents.map((student) => (
+                            <option value = {student.name}>
+                                {student.name}
+                            </option>
+                            ))}
+                    </select>
                 </div>                
                 <Popup trigger={<button className="button"> Add Goal Component </button>} modal lockScroll = {true}>
                 {close => (
@@ -215,7 +180,14 @@ export class FormCreationMenu extends Component {
                 <div className="createContent">
                     <header>Component content will go here</header>
                     <div>Student: {this.state.student}</div>
-                    <Goal dataFields={this.state.components}/>
+                    <List>
+                        {this.state.components.map((entry,index) =>{
+                            return <ListItem>{entry.TaskType}  {entry.TaskOptions}</ListItem>
+                        })}
+                    </List>
+
+                    {/* <Sortable items={this.state.components} /> */}
+                    {/* <Goal dataFields={this.state.components}/> */}
                 </div>
             </div>
 
