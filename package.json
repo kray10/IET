@@ -5,6 +5,7 @@
   "dependencies": {
     "@material-ui/core": "^3.9.2",
     "@material-ui/icons": "^3.0.2",
+    "array-move": "^2.1.0",
     "bootstrap": "^4.3.0",
     "chance": "^1.0.18",
     "concurrently": "^4.1.0",

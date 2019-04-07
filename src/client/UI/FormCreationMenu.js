@@ -182,11 +182,15 @@ export class FormCreationMenu extends Component {
                     <div>Student: {this.state.student}</div>
                     <List>
                         {this.state.components.map((entry,index) =>{
-                            return <ListItem>{entry.TaskType}  {entry.TaskOptions}</ListItem>
+                            return <ListItem><div style={{width: '320px',
+                                padding: '10px',
+                                border: '5px solid gray',
+                                margin: '0'
+                            }}>{entry.TaskType}<br></br>{entry.TaskOptions}<br></br><button name={`item-${index}`}>Click Me</button></div></ListItem>
                         })}
                     </List>
 
-                    {/* <Sortable items={this.state.components} /> */}
+                    {/* <Sortable  items={this.state.components} /> */}
                     {/* <Goal dataFields={this.state.components}/> */}
                 </div>
             </div>
