@@ -52,20 +52,3 @@
   box-shadow: 0 1px #666;
   transform: translateY(4px);
 }
-
-.goalsBackButton {
-  cursor: pointer;
-  outline: none;
-  color: #fff;
-  background-color: #4CAF50;
-  border: none;
-  box-shadow: 0 2px #999;
-}
-
-.goalsBackButton:hover {background-color: #3e8e41}
-
-.goalsBackButton:active {
-  background-color: #3e8e41;
-  box-shadow: 0 1px #666;
-  transform: translateY(4px);
-}

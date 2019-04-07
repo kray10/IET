@@ -22,23 +22,14 @@ const headers = {
 const buttonStyle={
   borderRadius: "10px",
   textAlign: "center",
-  padding: "20px 20px 20px 20px",
+  padding: "5px 5px 5px 5px",
   margin: "0px 0px 7px 0px",
+
+  fontSize: "50px",
+  width: "100%",
 
   color: "#fff",
   backgroundColor: "#A5D7A7",
-  border: "none",
-  boxShadow: "0 2px #999"
-}
-
-const buttonAddStudentStyle = {
-  borderRadius: "10px",
-  textAlign: "center",
-  padding: "20px 20px 20px 20px",
-  margin: "0px 0px 7px 0px",
-
-  color: "#fff",
-  backgroundColor: "#e7436c",
   border: "none",
   boxShadow: "0 2px #999"
 }
@@ -55,19 +46,45 @@ var ctop = -38;
 var ctrans = 'translate('+cleft+'%, '+ctop+'%)';
 
 var dleft = -50;
-var dtop = -1;
+var dtop = -2;
 var dtrans = 'translate('+dleft+'%, '+dtop+'%)';
 
-const backButton = {
-  padding: "5px",
-  margin: "5px",
+var calc = 'calc(70% - 7px)';
+
+const goalsBackButton = {
+  cursor: "pointer",
+  outline: "none",
+  color: "#fff",
+  backgroundColor: "#4CAF50",
+  border: "none",
+  boxShadow: "0 2px #999",
+  borderRadius: "10px",
+  width: "30%",
+  height: "100%"
+}
+
+const goalsAddGoalButton = {
+  cursor: "pointer",
+  outline: "none",
+  color: "#fff",
+  backgroundColor: "#e7436c",
+  border: "none",
+  boxShadow: "0 2px #999",
+  borderRadius: "10px",
+  width: calc,
+  margin: "0px 0px 0px 7px",
+  height: "100%",
+  fontSize: "50px"
+}
+
+const topButtons = {
   position: "absolute",
-  top: "1%", left: "50%",
+  top: "2%",
+  left: "50%",
   transform: dtrans,
   width: "70vw",
-  height: "auto",
-
-  borderRadius: "10px",
+  height: "8vh",
+  display: "flex"
 }
 
 const content = {
@@ -196,24 +213,17 @@ const right = { //unused for now, don't remove
   render() {
     return (
       <div style={listContainer}>
-        <div style={backButton}>
-          <button className='goalsBackButton' style={{width: "9vw", height: "8vh",borderRadius: "10px", float: "left"}} onClick={this.props.goBack}><BackArrowIcon style={{width:"100%", height:"100%"}} /></button>
+        <div style={topButtons}>
+          <button style={goalsBackButton} onClick={this.props.goBack}><BackArrowIcon style={{wdith: "80%", height: "80%"}} /></button>
+          <button style={goalsAddGoalButton} onClick={this.handleAddGoalClicked}>Add Goal</button>
         </div>
         <div style={content}>
           <div>
             <List disablePadding="false" style={{padding: "5px"}}>
-              <ListItem
-                style={buttonAddStudentStyle}
-                button
-                selected={this.state.selectedIndex === 1}
-                onClick={this.handleAddGoalClicked}
-              >
-                <ListItemText primary="Add Goal" />
-              </ListItem>
               {this.state.goals.map((goal) => (
-                <ListItem button style={buttonStyle} onClick={()=>this.onGoalClicked(goal)}>
-                  <ListItemText primary={goal.goalName} />
-                </ListItem>
+                <button style={buttonStyle} onClick={()=>this.onGoalClicked(goal)}>
+                {goal.goalName}
+                </button>
                 ))}
             </List>
           </div>
