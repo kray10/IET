@@ -214,7 +214,7 @@ const right = { //unused for now, don't remove
     return (
       <div style={listContainer}>
         <div style={topButtons}>
-          <button style={goalsBackButton} onClick={this.props.goBack}><BackArrowIcon style={{wdith: "80%", height: "80%"}} /></button>
+          <button style={goalsBackButton} onClick={this.props.goBack}><BackArrowIcon style={{width: "100%", height: "100%"}} /></button>
           <button style={goalsAddGoalButton} onClick={this.handleAddGoalClicked}>Add Goal</button>
         </div>
         <div style={content}>
