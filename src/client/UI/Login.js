@@ -47,7 +47,8 @@ class Login extends React.Component {
         <div className = "middle">
           <div className = "inner">
             <div>
-            <img src={logo} style={{width: '10vw'}} alt='' />
+            <img src={logo} style={{width: '80%'}} alt='' />
+            <p style={{textAlign: "center", color: "black"}}>Individualized Education Tracker</p>
             <form style={{color: 'black', textAlign: 'left'}} onSubmit={this.handleSubmit}>
             <table>
               <tbody>
@@ -55,7 +56,7 @@ class Login extends React.Component {
                   <td>User:</td>
                   <td>
                     <label>
-                      <input type="text" placeholder="abc@example.com" value={this.state.user} onChange={this.handleChangeUser} />
+                      <input type="text" style={{width: "100%"}} placeholder="abc@example.com" value={this.state.user} onChange={this.handleChangeUser} />
                     </label>
                   </td>
                 </tr>
@@ -63,7 +64,7 @@ class Login extends React.Component {
                   <td>Password:</td>
                   <td>
                     <label>
-                      <input type="password" value={this.state.pass} onChange={this.handleChangePass} />
+                      <input type="password" style={{width: "100%"}} value={this.state.pass} onChange={this.handleChangePass} />
                     </label>
                   </td>
                 </tr>

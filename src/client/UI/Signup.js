@@ -1,4 +1,5 @@
 import React from 'react';
+import api from '../API/api.js';
 import './Login.css'
 import logo from './iet_logo.png';
 
@@ -50,6 +51,8 @@ class Signup extends React.Component {
     event.preventDefault();
     this.props.firebase.doCreateUserWithEmailAndPassword(this.state.user, this.state.pass).then((response) =>{
         alert("success");
+        //console.log(response.user.uid);
+        console.log(api.posts().addNewUser(response.user.uid));
         this.props.onNavItemClicked("login");})
       .catch(function(error) {
       // Handle Errors here.
