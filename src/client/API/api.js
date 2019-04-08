@@ -1,6 +1,6 @@
 export default {
 
-  gets(url) {
+  gets() {
     return {
       getGoalById: async (id) =>{
         const response = await fetch(`/api/goal/${id}`);
@@ -32,7 +32,7 @@ export default {
     }
   },
 
-  posts(url) {
+  posts() {
     return {
       createGoal: async (goal) => {
         const response = await fetch('/api/createGoal', {
@@ -80,22 +80,32 @@ export default {
       },
 
       addNewUser: async (uid) => {
-        const response = await fetch(`/api/user/new/${uid}`);
+        const response = await fetch(`/api/user/new`, {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({uid: userid})
+        });
         const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
         return body;
       },
       
       addNewStudent: async (userid) => {
-        const response = await fetch(`/api/student/new/${userid}`);
-        const body = await response.json();
+        const response = await fetch(`/api/student/new`, {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({uid: userid})
+        });
+        const body = await response;
         if (response.status !== 200) throw Error(body.message);
         return body
       }
     }
-  },
-
-  auth(email, password) {
-
   }
 }

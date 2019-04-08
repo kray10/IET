@@ -134,12 +134,12 @@ const right = { //unused for now, don't remove
   }
 
   handleAddStudentClicked(){
-    alert("Implement handleAddStudentClicked in Students.js");
+    //alert("Implement handleAddStudentClicked in Students.js");
     /* Post api currently not working. Uncomment when working */
 
-
-    //var temp = api.posts(123).addNewStudent(this.props.userID);
-    //console.log(temp);
+    //console.log(this.props.userID);
+    var temp = api.posts().addNewStudent(this.props.userID);
+    // console.log(temp);
   }
 
   handleListItemClick = (event, index) => {

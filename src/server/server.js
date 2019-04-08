@@ -101,9 +101,9 @@ app.get('/api/goal/data/:goalid', (req, res) => {
 });
 
 /*
-* Create a new student. Returns the new student's ID
+* Create a new student passing in the users uid. Returns the new student's ID
 */
-app.post('/api/student/new/:userid', (req, res) => {
+app.post('/api/student/new', (req, res) => {
   // get reference to student section
   var ref = db.ref("/students");
   // push new value to students and save key
@@ -112,18 +112,18 @@ app.post('/api/student/new/:userid', (req, res) => {
   // otherwise push is only local action
   ref.child(newKey).set(0)
   // get refernce to user admin section
-  var adminRef = db.ref("/users").child(req.params.userid).child("adminStudents");
+  var adminRef = db.ref("/users").child(req.body.uid).child("adminStudents");
   // add student id to users admin
   adminRef.push(newKey);
   res.send(newKey);
 });
 
 /*
-* Create a new user by passing an email. Returns the new user ID
+* Create a new user by passing a uid. This is different than creating the login account.
 */
-app.post('/api/user/new/:uid', (req, res) => {
+app.post('/api/user/new/', (req, res) => {
   // get reference to user section
-  var ref = db.ref("/users/" + req.params.uid);
+  var ref = db.ref("/users/" + req.body.uid);
   ref.set({created: true});
   res.send()
 });
