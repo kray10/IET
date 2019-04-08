@@ -98,48 +98,6 @@ const content = {
   borderRadius: "10px",
 };
 
-const left = {
-  display: 'flex',
-  flexDirection: 'column',
-  zoom: '1',
-  verticalAlign: 'top',
-  fontSize: '12px',
-  width: '20%',
-  height: "100%",
-  overflow: 'hidden',
-  color: 'black',
-  textAlight: 'left',
-  borderRight: '1px solid black'
-};
-
-const middle = {
-  display: 'flex',
-  flexDirection: 'column',
-  zoom: '1',
-  verticalAlign: 'top',
-  fontSize: '12px',
-  width: '20%',
-  height: "100%",
-  overflow: 'hidden',
-  color: 'black',
-  textAlight: 'left',
-  borderRight: '1px solid black'
-};
-
-const right = { //unused for now, don't remove
-  display: 'flex',
-  flexDirection: 'column',
-  zoom: '1',
-  verticalAlign: 'top',
-  fontSize: '12px',
-  width: '20%',
-  height: "100%",
-  overflow: 'hidden',
-  color: 'black',
-  textAlight: 'left',
-  borderRight: '1px solid black'
-};
-
  class Goals extends React.Component {
   constructor(props) {
     super(props);

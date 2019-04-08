@@ -86,13 +86,13 @@ export default {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({uid: userid})
+          body: JSON.stringify({uid: uid})
         });
         const body = await response.json();
         if (response.status !== 200) throw Error(body.message);
         return body;
       },
-      
+
       addNewStudent: async (userid) => {
         const response = await fetch(`/api/student/new`, {
           method: 'POST',

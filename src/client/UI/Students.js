@@ -20,23 +20,14 @@ const headers = {
 const buttonStyle={
   borderRadius: "10px",
   textAlign: "center",
-  padding: "20px 20px 20px 20px",
+  padding: "5px 5px 5px 5px",
   margin: "0px 0px 7px 0px",
+
+  fontSize: "50px",
+  width: "100%",
 
   color: "#fff",
   backgroundColor: "#A5D7A7",
-  border: "none",
-  boxShadow: "0 2px #999"
-}
-
-const buttonAddStudentStyle = {
-  borderRadius: "10px",
-  textAlign: "center",
-  padding: "20px 20px 20px 20px",
-  margin: "0px 0px 7px 0px",
-
-  color: "#fff",
-  backgroundColor: "#e7436c",
   border: "none",
   boxShadow: "0 2px #999"
 }
@@ -49,60 +40,61 @@ const listContainer = {
 };
 
 var cleft = -50;
-var ctop = -20;
+var ctop = -38;
 var ctrans = 'translate('+cleft+'%, '+ctop+'%)';
+
+var dleft = -50;
+var dtop = -2;
+var dtrans = 'translate('+dleft+'%, '+dtop+'%)';
+
+var calc = 'calc(70% - 7px)';
+
+const goalsBackButton = {
+  cursor: "pointer",
+  outline: "none",
+  color: "#fff",
+  backgroundColor: "#4CAF50",
+  border: "none",
+  boxShadow: "0 2px #999",
+  borderRadius: "10px",
+  width: "30%",
+  height: "100%"
+}
+
+const addStudentButton = {
+  cursor: "pointer",
+  outline: "none",
+  color: "#fff",
+  backgroundColor: "#e7436c",
+  border: "none",
+  boxShadow: "0 2px #999",
+  borderRadius: "10px",
+  width: calc,
+  margin: "0px 0px 0px 0px",
+  height: "100%",
+  fontSize: "50px"
+}
+
+const topButtons = {
+  position: "absolute",
+  top: "2%",
+  left: "50%",
+  transform: dtrans,
+  width: "70vw",
+  height: "8vh",
+  display: "flex"
+}
 
 const content = {
   position: "absolute",
-  top: "20%", left: "50%",
+  top: "38%", left: "50%",
   transform: ctrans,
   width: "70vw",
   height: "70vh",
 
   backgroundColor: "#FDFDFD",
   borderRadius: "10px",
-};
-
-const left = {
-  display: 'flex',
-  flexDirection: 'column',
-  zoom: '1',
-  verticalAlign: 'top',
-  fontSize: '12px',
-  width: '20%',
-  height: "100%",
-  overflow: 'hidden',
-  color: 'black',
-  textAlight: 'left',
-  borderRight: '1px solid black'
-};
-
-const middle = {
-  display: 'flex',
-  flexDirection: 'column',
-  zoom: '1',
-  verticalAlign: 'top',
-  fontSize: '12px',
-  width: '20%',
-  height: "100%",
-  overflow: 'hidden',
-  color: 'black',
-  textAlight: 'left',
-  borderRight: '1px solid black'
-};
-
-const right = { //unused for now, don't remove
-  display: 'flex',
-  flexDirection: 'column',
-  zoom: '1',
-  verticalAlign: 'top',
-  fontSize: '12px',
-  width: '20%',
-  height: "100%",
-  overflow: 'hidden',
-  color: 'black',
-  textAlight: 'left',
-  borderRight: '1px solid black'
+  overflow: "scroll"
 };
 
  class Students extends React.Component {
@@ -139,6 +131,9 @@ const right = { //unused for now, don't remove
 
     //console.log(this.props.userID);
     var temp = api.posts().addNewStudent(this.props.userID);
+    if(temp){
+      api.gets().getStudentsByUser(this.props.userID).then(result => this.receivedStudents(result)).catch(function(error){console.log("No Results")});
+    }
     // console.log(temp);
   }
 
@@ -180,20 +175,13 @@ const right = { //unused for now, don't remove
   render() {
     return (
       <div style={listContainer}>
+        <div style={topButtons}>
+          <button style={addStudentButton} onClick={this.handleAddStudentClicked}>Add Student</button>
+        </div>
         <div style={content}>
           <List disablePadding="false" style={{padding: "5px"}}>
-            <ListItem
-              style={buttonAddStudentStyle}
-              button
-              selected={this.state.selectedIndex === 1}
-              onClick={this.handleAddStudentClicked}
-            >
-              <ListItemText primary="Add Student" />
-            </ListItem>
             {this.state.userStudents.map((student) => (
-              <ListItem button style={buttonStyle} onClick={()=>this.onStudentClicked(student)}>
-                <ListItemText primary={student.name} />
-              </ListItem>
+              <button style={buttonStyle} onClick={()=>this.onStudentClicked(student)}>{student.name}</button>
               ))}
           </List>
         </div>
