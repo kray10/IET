@@ -88,9 +88,9 @@ app.get('/api/goal/data/:goalid', (req, res) => {
     // check if goal was found
     if (snap.exists()){
       // create an array from the values (drops the auto ids)
-      var datapoints = []
+      var datapoints = {}
       if (snap.val() !== null) {
-        datapoints = Object.values(snap.val());
+        datapoints = snap.val();
       }
       // send the data
       res.send(datapoints);
@@ -101,9 +101,9 @@ app.get('/api/goal/data/:goalid', (req, res) => {
 });
 
 /*
-* Create a new student. Returns the new student's ID
+* Create a new student passing in the users uid. Returns the new student's ID
 */
-app.post('/api/student/new/:userid', (req, res) => {
+app.post('/api/student/new', (req, res) => {
   // get reference to student section
   var ref = db.ref("/students");
   // push new value to students and save key
@@ -112,18 +112,18 @@ app.post('/api/student/new/:userid', (req, res) => {
   // otherwise push is only local action
   ref.child(newKey).set(0)
   // get refernce to user admin section
-  var adminRef = db.ref("/users").child(req.params.userid).child("adminStudents");
+  var adminRef = db.ref("/users").child(req.body.uid).child("adminStudents");
   // add student id to users admin
   adminRef.push(newKey);
   res.send(newKey);
 });
 
 /*
-* Create a new user by passing an email. Returns the new user ID
+* Create a new user by passing a uid. This is different than creating the login account.
 */
-app.post('/api/user/new/:uid', (req, res) => {
+app.post('/api/user/new/', (req, res) => {
   // get reference to user section
-  var ref = db.ref("/users/" + req.params.uid);
+  var ref = db.ref("/users/" + req.body.uid);
   ref.set({created: true});
   res.send()
 });
@@ -153,29 +153,31 @@ app.post('/api/createGoal', (req, res) => {
 * Give a user edit access to a student
 */
 app.post('/api/updateAccess', (req, res) => {
-  var userID = null
   // query for the user id by email
-  db.ref("/users").orderByChild("email").equalTo(req.body.userEmail)
-    .once("value").then(function(snap) {
+  db.ref("/users/" + req.body.userID).once("value", (snap) => {
       // check is user was returned
       if (snap.exists()) {
-        // get user id from the object
-        userID = Object.keys(snap.val())[0];
         // get the list of students the user can already edit
-        editStudents = snap.child(userID).child("editStudents").val();
+        var editStudents = snap.child("editStudents").val();
+        // get list of students with admin
+        var adminStudents = snap.child("adminStudents").val();
         // check if the student to be added already exists in the array
-        if (Object.values(editStudents).indexOf(req.body.studentID) > -1) {
+        if (adminStudents !== null && Object.values(adminStudents).indexOf(req.body.studentID) > -1) {
+           // if it does, send back a 500
+           console.log("User already as admin access");
+           res.status(500).send({error: "User already as admin access"});
+        } else if (editStudents !== null && Object.values(editStudents).indexOf(req.body.studentID) > -1) {
           // if it does, send back a 500
           console.log("User already as edit access");
           res.status(500).send({error: "User already as edit access"});
         } else {
           // else add the student to the edit list
-          var ref = db.ref("/users/" + userID + "/editStudents");
+          var ref = db.ref("/users/" + req.body.userID + "/editStudents");
           ref.push(req.body.studentID);
           res.send();
         }
       } else {
-        res.status(500).send({error: "Email not assocated with user"});
+        res.status(500).send({error: "Could not find user"});
       }
     });
   
@@ -185,9 +187,9 @@ app.post('/api/updateAccess', (req, res) => {
 * Add a datapoint to a goal
 */
 app.post('/api/addGoalData', (req, res) => {
-  var ref = db.ref("/data/" + req.body.goalID);
-  ref.push(req.body);
-  res.send();
+  var ref = db.ref("/data/" + req.body.goalID + "/" + req.body.timeStamp);
+  ref.set(req.body.tasks);
+  res.send({});
 });
 
 

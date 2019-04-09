@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import * as task from "./GoalComponents.js"
 
-const keymap = {
+const formMap = {
     yesNo: task.YesNo,
-    submitReset: task.SubmitReset,
     textBox: task.TextBox,
     increment: task.Increment,
     timer: task.Timer,
@@ -19,14 +18,21 @@ export class Goal extends Component {
 
     render() {
         var fieldList = this.props.dataFields.map((entry, index) => {
-            const FormComponent = keymap[entry.TaskType] || keymap.default;
-            return <div key={index}><FormComponent name={entry.TaskName}
-                title={entry.TaskName}
-                options={entry.TaskOptions}/><br/>
-            </div>
+            const FormComponent = formMap[entry.taskType] || formMap.default;
+            return <div key={index}><FormComponent name={entry.taskName}
+                index={index}
+                title={entry.taskName}
+                options={entry.options}
+                onValueChange={(index, value)=>this.props.onValueChange(index, value)}
+                value={this.props.values[index]}/><br/></div>
         });
         return(
-            <ul>{fieldList}</ul>
+            <ul>
+                {fieldList}
+                <div><task.SubmitReset
+                onSubmit={()=>this.props.onSubmit()}
+                onReset={()=>this.props.onReset()}/><br/></div>
+            </ul>
         );
     }
 }

@@ -4,12 +4,16 @@ import Sidebar from "react-sidebar";
 import Settings from "./UI/Settings.js";
 import Login from "./UI/Login.js";
 import MenuIcon from '@material-ui/icons/MenuTwoTone';
-import HomePage from './UI/Home.js';
+import Students from './UI/Students.js';
 import ManageAccess from './UI/ManageAccess.js';
 import {MenuSideBar} from "./UI/MenuSideBar.js";
 import {UseForm} from "./UI/UseForm.js";
 import Signup from "./UI/Signup.js";
 import {FormCreationMenu} from "./UI/FormCreationMenu.js"
+import Goals from "./UI/Goals.js";
+import { GoalSubscriber } from './UI/CollectData.js'
+import {GoalModel} from './Models/GoalModel.js'
+import api from './API/api';
 
 const showAlerts = false;
 const system_loggedIn_override = false;
@@ -37,7 +41,8 @@ class App extends Component {
       sidebarDisplay: "home",
       manageAccessOptionChosen: "",
       loggedIn: system_loggedIn_override,
-      userID: ""
+      userID: "",
+      studentID: ""
     };
     this.onSetSidebarOpen = this.onSetSidebarOpen.bind(this);
     this.mediaQueryChanged = this.mediaQueryChanged.bind(this);
@@ -46,6 +51,7 @@ class App extends Component {
     this.onLoginAuthentication = this.onLoginAuthentication.bind(this);
     this.resize = this.resize.bind(this);
     this.onManageAccessListClick = this.onManageAccessListClick.bind(this);
+    this.showStudentGoals = this.showStudentGoals.bind(this);
   }
 
   resize = () => this.forceUpdate()
@@ -84,13 +90,18 @@ class App extends Component {
 
   }
 
+  showStudentGoals(student){
+    //console.log(student);
+    this.setState({page: "goals", studentID: student});
+  }
+
   onNavItemClicked(page){
     if(showAlerts){
     alert(page);
     }
     this.setState({
       page: page,
-      sidebarDisplay: page
+      sidebarDisplay: "nav" /*Hardcode nav to disable sub tool bars*/
     });
   }
 
@@ -107,9 +118,22 @@ class App extends Component {
   }
 
   onCallApi() {
-    this.callApi()
-      .then(res => this.setState({ response: res.express }))
-      .catch(err => console.log(err));
+    // this.callApi()
+    //   .then(res => this.setState({ response: res.express }))
+    //   .catch(err => console.log(err));
+  }
+
+  goalSelected(goal, goalID) {
+    var newGoal = new GoalModel({
+      goalName: goal.goalName,
+      goalID: goalID,
+      studentID: goal.studentID,
+      timeStamp: ''
+    });
+    for (var i = 0; i < goal.tasks.length; i++) {
+      newGoal.addTask(goal.tasks[i].taskName, goal.tasks[i].taskType, goal.tasks[i].options);
+    }
+    this.setState({goal: newGoal, page: "collect"});
   }
 
   render() {
@@ -119,7 +143,7 @@ class App extends Component {
         <Sidebar
           shadow={true}
           transitions={true}
-          sidebar={<MenuSideBar showing={this.state.page}
+          sidebar={<MenuSideBar showing={"nav"} /*Hardcode nav for single menu*/
                                 onNavItemClicked={this.onNavItemClicked}
                                 onManageAccessListClick={this.onManageAccessListClick}/>}
           open={this.state.sidebarOpen && this.state.loggedIn}
@@ -143,7 +167,9 @@ class App extends Component {
           this.state.page === "createForm" ? <FormCreationMenu userID={this.state.userID}/> :
           this.state.page === "profile" ? <p>Profile Page Goes Here</p> :
           this.state.page === "manageAccess" ? <ManageAccess choice={this.state.manageAccessOptionChosen}/> :
-          this.state.page === "home" ? <HomePage userID={this.state.userID}/> :
+          this.state.page === "home" ? <Students showStudentGoals={this.showStudentGoals} userID={this.state.userID}/> :
+          this.state.page === "goals" ? <Goals userID={this.state.userID} studentID ={this.state.studentID} goBack={()=>this.onNavItemClicked("home")} selectGoal={(goal, goalID)=>this.goalSelected(goal, goalID)} /> :
+          this.state.page === "collect" ? <GoalSubscriber goal={this.state.goal} goBack={()=>this.onNavItemClicked("home")} /> :
           null}
           </div>
         </Sidebar>
