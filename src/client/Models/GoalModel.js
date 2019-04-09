@@ -127,6 +127,10 @@ export class GoalModel extends Model {
         return JSON.stringify(json);
     }
 
+    /*
+    *   Function used to create the array of tasks for rendering 
+    *       in the Goal Component
+    */
     getTaskList() {
         var list = [];
         var tasks = this.state.tasks;
@@ -134,5 +138,47 @@ export class GoalModel extends Model {
             list.push(tasks[i].toCreateJSON());
         }
         return list;
+    }
+
+    /*
+    *   Pass in the old index and new index. Tasks are reorded in the state.
+    */
+    reorderTask(oldIndex, newIndex) {
+        var newTasks = [];
+        var oldTasks = this.state.tasks;
+
+        // error checking
+        if (oldIndex < 0 || oldIndex >= oldTasks.length
+            || newIndex < 0 || newIndex >= oldTasks.length) 
+        {
+            return false;
+        }
+
+        // check for simplest case
+        if (oldIndex === newIndex) {
+            return true;
+        }
+
+        for (var i = 0; i < oldTasks.length; i++) {
+            if (i !== oldIndex) {
+                if (i === newIndex) {
+                    newTasks.push(oldTasks[oldIndex]);
+                }
+                newTasks.push(oldTasks[i]);
+            }
+        }
+
+        this.setState({tasks: newTasks});
+        return true;
+    }
+
+    /*
+    *   Delete a task from the Task array.
+    *   Should only be used from the create screen.
+    */
+    deleteTask(index) {
+        var tasks = this.state.tasks;
+        tasks.splice(index, 1);
+        this.setState({tasks: tasks});
     }
 }
