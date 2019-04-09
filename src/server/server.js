@@ -88,9 +88,9 @@ app.get('/api/goal/data/:goalid', (req, res) => {
     // check if goal was found
     if (snap.exists()){
       // create an array from the values (drops the auto ids)
-      var datapoints = []
+      var datapoints = {}
       if (snap.val() !== null) {
-        datapoints = Object.values(snap.val());
+        datapoints = snap.val();
       }
       // send the data
       res.send(datapoints);
@@ -185,9 +185,9 @@ app.post('/api/updateAccess', (req, res) => {
 * Add a datapoint to a goal
 */
 app.post('/api/addGoalData', (req, res) => {
-  var ref = db.ref("/data/" + req.body.goalID);
-  ref.push(req.body);
-  res.send();
+  var ref = db.ref("/data/" + req.body.goalID + "/" + req.body.timeStamp);
+  ref.set(req.body.tasks);
+  res.send({});
 });
 
 
