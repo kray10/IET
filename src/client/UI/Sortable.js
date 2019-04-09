@@ -20,14 +20,14 @@ export class Sortable extends Component {
   }
 
   onSortEnd = ({oldIndex, newIndex}) => {
-    // this.setState(({items}) => ({
-    //   items: arrayMove(items, oldIndex, newIndex),
-    // }));
+    this.setState(({items}) => ({
+      items: arrayMove(items, oldIndex, newIndex),
+    }));
     // const tempItems = arrayMove(this.state.items, oldIndex, newIndex);
     // this.setState({items: tempItems})
-    var removed = this.state.items.splice(oldIndex, -1);
-    var newList = this.state.items.splice(newIndex, 0, removed);
-    this.setState({items: newList})
+    // var removed = this.state.items.splice(oldIndex, -1);
+    // var newList = this.state.items.splice(newIndex, 0, removed);
+    // this.setState({items: newList})
   };
 
   render() {

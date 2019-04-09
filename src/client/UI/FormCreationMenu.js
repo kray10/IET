@@ -104,10 +104,6 @@ export class FormCreationMenu extends Component {
     }
 
     render() {
-        // var taskList = this.props.components.map((entry, index) => {
-        //     return <ListItem>{entry.TaskType}</ListItem>
-        // });
-        // const{components, TaskType} = this.state;
         return(
             <div>
                 <div style={{overflowY: 'auto'}}>
@@ -135,8 +131,8 @@ export class FormCreationMenu extends Component {
                                 A place to put options for dropdown (and labeling?)
                                 <input type="text" />
                         </div>
-                            <Popup
-                                trigger={<button className="button"> Component Types </button>}
+                            <Popup 
+                                trigger={<button className="button" style={{margin:'3px'}}> Component Types </button>}
                                 position="top center"
                                 closeOnDocumentClick
                             >
@@ -150,19 +146,17 @@ export class FormCreationMenu extends Component {
                             </List>
                             )}
                             </Popup>
-                            <button
+                            <button style={{margin:'3px'}}
                                 title="apply_button"
                                 className="button"
                                 onClick={()=> {
                                     this.onListItemClicked("chooseMenu");
                                     this.onApplyButtonClicked();
-                                    // alert(this.state.student);
                                 }}
                             >
                                 Apply
                             </button>
-
-                            <button
+                            <button style={{margin:'3px'}}
                                 title="cancel_button"
                                 className="button"
                                 onClick={() => {
@@ -180,18 +174,7 @@ export class FormCreationMenu extends Component {
                 <div className="createContent">
                     <header>Component content will go here</header>
                     <div>Student: {this.state.student}</div>
-                    <List>
-                        {this.state.components.map((entry,index) =>{
-                            return <ListItem><div style={{width: '320px',
-                                padding: '10px',
-                                border: '5px solid gray',
-                                margin: '0'
-                            }}>{entry.TaskType}<br></br>{entry.TaskOptions}<br></br><button name={`item-${index}`}>Click Me</button></div></ListItem>
-                        })}
-                    </List>
-
-                    {/* <Sortable  items={this.state.components} /> */}
-                    {/* <Goal dataFields={this.state.components}/> */}
+                    <Goal dataFields={this.state.components}/>
                 </div>
             </div>
 

@@ -22,7 +22,8 @@ export class Goal extends Component {
             const FormComponent = keymap[entry.TaskType] || keymap.default;
             return <div key={index}><FormComponent name={entry.TaskName}
                 title={entry.TaskName}
-                options={entry.TaskOptions}/><br/></div>
+                options={entry.TaskOptions}/><br/>
+            </div>
         });
         return(
             <ul>{fieldList}</ul>
