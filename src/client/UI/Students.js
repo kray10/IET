@@ -168,16 +168,24 @@ const content = {
   }
 
   onStudentClicked(student){
-    this.props.showStudentGoals(student.name);
+    if(!this.props.manageAccess){
+      this.props.showStudentGoals(student.name);
+    }
+    else{
+      this.setState({selectedStudent:student.name});
+    }
   }
 
 
   render() {
     return (
       <div style={listContainer}>
-        <div style={topButtons}>
-          <button style={addStudentButton} onClick={this.handleAddStudentClicked}>Add Student</button>
-        </div>
+        {!this.props.manageAccess ?
+          <div style={topButtons}>
+            <button style={addStudentButton} onClick={this.handleAddStudentClicked}>Add Student</button>
+          </div> :
+          <div>Selected Student: {this.state.selectedStudent}</div>
+        }
         <div style={content}>
           <List disablePadding="false" style={{padding: "5px"}}>
             {this.state.userStudents.map((student) => (
