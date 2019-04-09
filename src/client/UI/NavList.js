@@ -25,27 +25,15 @@ class NavList extends Component {
     return (
       <div className="NavList">
         <List component="nav">
-        <ListItem button onClick={()=>this.props.onNavItemClicked("home")}>
-          <ListItemIcon>
-            <HomeIcon />
-          </ListItemIcon>
-          <ListItemText primary="Home" />
-        </ListItem>
           <ListItem button onClick={()=>this.props.onNavItemClicked("createForm")}>
             <ListItemIcon>
               <FormCreationIcon />
             </ListItemIcon>
-            <ListItemText primary="Create Form" />
+            <ListItemText primary="Create Form(Soon to be removed)" />
           </ListItem>
         </List>
         <Divider />
         <List component="nav">
-          <ListItem button onClick={()=>this.props.onNavItemClicked("settings")}>
-            <ListItemIcon>
-              <SettingsIcon />
-            </ListItemIcon>
-            <ListItemText primary="Settings" />
-          </ListItem>
           <ListItem button onClick={()=>this.props.onNavItemClicked("profile")}>
             <ListItemIcon>
               <ProfileIcon />
@@ -66,6 +54,9 @@ class NavList extends Component {
               <MagicButtonIcon />
               </ListItemIcon>
             <ListItemText primary="Magic Button" />
+          </ListItem>
+          <ListItem button onClick={()=>this.props.logOut()}>
+            <ListItemText primary="Logout" />
           </ListItem>
         </List>
       </div>

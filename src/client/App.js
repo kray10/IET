@@ -48,6 +48,7 @@ class App extends Component {
     this.resize = this.resize.bind(this);
     this.onManageAccessListClick = this.onManageAccessListClick.bind(this);
     this.showStudentGoals = this.showStudentGoals.bind(this);
+    this.logOut = this.logOut.bind(this);
   }
 
   resize = () => this.forceUpdate()
@@ -67,6 +68,11 @@ class App extends Component {
 
   mediaQueryChanged() {
     this.setState({ sidebarDocked: mql.matches, sidebarOpen: false });
+  }
+
+  logOut(){
+    var signOut = this.props.firebase.doSignOut();
+    this.setState({loggedIn: system_loggedIn_override, page: "home"});
   }
 
   onLoginAuthentication(user, pass){
@@ -128,7 +134,8 @@ class App extends Component {
           transitions={true}
           sidebar={<MenuSideBar showing={"nav"} /*Hardcode nav for single menu*/
                                 onNavItemClicked={this.onNavItemClicked}
-                                onManageAccessListClick={this.onManageAccessListClick}/>}
+                                onManageAccessListClick={this.onManageAccessListClick}
+                                logOut={this.logOut}/>}
           open={this.state.sidebarOpen && this.state.loggedIn}
           docked={this.state.sidebarDocked && this.state.loggedIn}
           onSetOpen={this.onSetSidebarOpen}
