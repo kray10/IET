@@ -153,24 +153,27 @@ app.post('/api/createGoal', (req, res) => {
 * Give a user edit access to a student
 */
 app.post('/api/updateAccess', (req, res) => {
-  var userID = null
   // query for the user id by email
-  db.ref("/users").orderByChild("email").equalTo(req.body.userEmail)
-    .once("value").then(function(snap) {
+  db.ref("/users/" + req.body.userID).once("value", (snap) => {
       // check is user was returned
       if (snap.exists()) {
-        // get user id from the object
-        userID = Object.keys(snap.val())[0];
         // get the list of students the user can already edit
-        editStudents = snap.child(userID).child("editStudents").val();
+        var editStudents = snap.child("editStudents").val();
+        // get list of students with admin
+        var adminStudents = snap.child("adminStudents").val();
         // check if the student to be added already exists in the array
-        if (Object.values(editStudents).indexOf(req.body.studentID) > -1) {
+        console.log(adminStudents);
+        if (adminStudents !== null && Object.values(adminStudents).indexOf(req.body.studentID) > -1) {
+           // if it does, send back a 500
+           console.log("User already as admin access");
+           res.status(500).send({error: "User already as admin access"});
+        } else if (editStudents !== null && Object.values(editStudents).indexOf(req.body.studentID) > -1) {
           // if it does, send back a 500
           console.log("User already as edit access");
           res.status(500).send({error: "User already as edit access"});
         } else {
           // else add the student to the edit list
-          var ref = db.ref("/users/" + userID + "/editStudents");
+          var ref = db.ref("/users/" + req.body.userID + "/editStudents");
           ref.push(req.body.studentID);
           res.send();
         }
