@@ -134,7 +134,8 @@ const content = {
   handleAddGoalClicked(){
     //Call John's API here
     //Can use this.props.userID and this.props.studentID if desired
-    alert("Implement handleAddGoalClicked in Goals.js");
+    // alert("Implement handleAddGoalClicked in Goals.js");
+
   }
 
   componentDidMount(){
@@ -167,7 +168,7 @@ const content = {
     */
 
     //goals.push(results.goals);
-    this.setState({goals: results.goals});
+    this.setState({goals: results.goals, selectedStudent: this.props.studentID});
   }
 
   render() {
@@ -175,7 +176,7 @@ const content = {
       <div style={listContainer}>
         <div style={topButtons}>
           <button style={goalsBackButton} onClick={this.props.goBack}><BackArrowIcon style={{width: "100%", height: "100%"}} /></button>
-          <button style={goalsAddGoalButton} onClick={this.handleAddGoalClicked}>Add Goal</button>
+          <button style={goalsAddGoalButton} onClick={()=>this.props.createGoal(this.state.selectedStudent)}>Add Goal</button>
         </div>
         <div style={content}>
           <div>

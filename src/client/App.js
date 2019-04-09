@@ -136,6 +136,10 @@ class App extends Component {
     this.setState({goal: newGoal, page: "collect"});
   }
 
+  createGoal(studentToCreateGoal) {
+    this.setState({studentID: studentToCreateGoal, page: "createForm"})
+  }
+
   render() {
     return (
       <div className="App">
@@ -164,11 +168,11 @@ class App extends Component {
           {this.state.page === "signup" ? <Signup firebase={this.props.firebase} onNavItemClicked={this.onNavItemClicked} /> :
           this.state.loggedIn === false ? <Login firebase={this.props.firebase} onLoginAuth={this.onLoginAuthentication} onNavItemClicked={this.onNavItemClicked}/> :
           this.state.page === "settings" ? <Settings /> :
-          this.state.page === "createForm" ? <FormCreationMenu userID={this.state.userID}/> :
+          this.state.page === "createForm" ? <FormCreationMenu userID={this.state.userID} studentID={this.state.studentID}/> :
           this.state.page === "profile" ? <p>Profile Page Goes Here</p> :
           this.state.page === "manageAccess" ? <ManageAccess choice={this.state.manageAccessOptionChosen}/> :
           this.state.page === "home" ? <Students showStudentGoals={this.showStudentGoals} userID={this.state.userID}/> :
-          this.state.page === "goals" ? <Goals userID={this.state.userID} studentID ={this.state.studentID} goBack={()=>this.onNavItemClicked("home")} selectGoal={(goal, goalID)=>this.goalSelected(goal, goalID)} /> :
+          this.state.page === "goals" ? <Goals userID={this.state.userID} studentID ={this.state.studentID} goBack={()=>this.onNavItemClicked("home")} selectGoal={(goal, goalID)=>this.goalSelected(goal, goalID)} createGoal={(studentToCreateGoal)=>this.createGoal(studentToCreateGoal)} /> :
           this.state.page === "collect" ? <GoalSubscriber goal={this.state.goal} goBack={()=>this.onNavItemClicked("home")} /> :
           null}
           </div>

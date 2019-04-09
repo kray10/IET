@@ -34,7 +34,7 @@ export class GoalModel extends Model {
     }
 
     /*
-    *   Returns true if object meets all requirements for creating a new goal.
+    *   Returns any errors with the tasks, if there are any
     */
     isValidCreate() {
         var err = [];

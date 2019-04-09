@@ -7,6 +7,9 @@ import * as form from "./../GoalModules/GoalComponents.js";
 import {Goal} from './../GoalModules/Goal.js'
 import api from '../API/api.js';
 import { Sortable } from './Sortable.js';
+import {GoalModel} from './../Models/GoalModel.js'
+
+// var myGoal = new GoalModel();
 
 export class FormCreationMenu extends Component {
     constructor(props) {
@@ -18,8 +21,7 @@ export class FormCreationMenu extends Component {
             TaskOptions: [1,2,3],
             receivedStudents: [],
             userStudents: [],
-            student: '',
-            studentSelectLock: false
+            // student: '',
           };
         this.onListItemClicked = this.onListItemClicked.bind(this);
         this.onApplyButtonClicked = this.onApplyButtonClicked.bind(this);
@@ -67,35 +69,24 @@ export class FormCreationMenu extends Component {
             default:
                 TaskType = '';
         }
+        // if (TaskType) {
+        //     const nextState = [...components, {TaskType: TaskType, TaskOptions: TaskOptions}];
+        //     this.setState({components: nextState, TaskType:'', TaskOptions:[]});
+        // }
         if (TaskType) {
-            const nextState = [...components, {TaskType: TaskType, TaskOptions: TaskOptions}];
-            this.setState({components: nextState, TaskType:'', TaskOptions:[]});
+            myGoal.addTask("namegoeshere", TaskType, TaskOptions);
+            var validCheck = myGoal.isValidCreate();
+            if (validCheck.length == 0) {
+                components = myGoal.getTaskList();
+            }
+            else {
+                alert(validCheck)
+            }
         }
     };
 
-    receivedStudents(results){
-        var tempList = [];
-        for(var student in results.admin) {
-          tempList.push({
-          name: results.admin[student]
-          });
-        }
-        
-        for(var student in results.edit) {
-          tempList.push({
-          name: results.edit[student]
-          });
-        }
-        //Sort. Apparently there is no good way to sort list of numerals
-        //tempList = tempList.sort((a, b) => a.name - b.name);
-        this.setState({
-          userStudents: tempList
-        });
-        
-    }
-
     componentDidMount(){
-        api.gets().getStudentsByUser(this.props.userID).then(result => this.receivedStudents(result));
+        
     }
 
     handleStudentSelect(event) {
@@ -106,7 +97,7 @@ export class FormCreationMenu extends Component {
     render() {
         return(
             <div>
-                <div style={{overflowY: 'auto'}}>
+                {/* <div style={{overflowY: 'auto'}}>
                     <select value={this.state.selectValue} onChange={this.handleStudentSelect}>
                         <option>--Please Select a Student--</option>
                         {this.state.userStudents.map((student) => (
@@ -115,7 +106,7 @@ export class FormCreationMenu extends Component {
                             </option>
                             ))}
                     </select>
-                </div>                
+                </div>                 */}
                 <Popup trigger={<button className="button"> Add Goal Component </button>} modal lockScroll = {true}>
                 {close => (
                     <div style={{color: 'black'}} className="modal">
@@ -173,7 +164,7 @@ export class FormCreationMenu extends Component {
                 </Popup>
                 <div className="createContent">
                     <header>Component content will go here</header>
-                    <div>Student: {this.state.student}</div>
+                    <div>Student: {this.props.studentID}</div>
                     <Goal dataFields={this.state.components}/>
                 </div>
             </div>
