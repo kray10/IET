@@ -162,7 +162,6 @@ app.post('/api/updateAccess', (req, res) => {
         // get list of students with admin
         var adminStudents = snap.child("adminStudents").val();
         // check if the student to be added already exists in the array
-        console.log(adminStudents);
         if (adminStudents !== null && Object.values(adminStudents).indexOf(req.body.studentID) > -1) {
            // if it does, send back a 500
            console.log("User already as admin access");
@@ -178,7 +177,7 @@ app.post('/api/updateAccess', (req, res) => {
           res.send();
         }
       } else {
-        res.status(500).send({error: "Email not assocated with user"});
+        res.status(500).send({error: "Could not find user"});
       }
     });
   
