@@ -8,11 +8,20 @@ module.exports = {
     ],
 
     taskValues: {
-        yesNo: Boolean,
-        textBox: String,
-        increment: Number,
+        yesNo: "string",
+        textBox: "string",
+        increment: "number",
+        timer: "object",
+        dropdown: "string",
+        default: "object"
+    },
+
+    defaultValues: {
+        yesNo: '',
+        textBox: '',
+        increment: 0,
         timer: null,
-        dropdown: String,
-        default: undefined
+        dropdown: '',
+        default: null
     }
 }

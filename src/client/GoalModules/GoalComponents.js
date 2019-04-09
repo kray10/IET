@@ -1,6 +1,21 @@
 import React, { Component } from 'react';
 
-export class SubmitReset extends Component {
+
+export class FormComponent extends Component {
+    constructor(props) {
+        super(props);
+        this.onValueChange = this.onValueChange.bind(this);
+        this.state = {
+            value: this.props.value
+        }
+    }
+
+    onValueChange(value) {
+        this.props.onValueChange(this.props.index, value);
+    }
+}
+
+export class SubmitReset extends FormComponent {
     constructor(props) {
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -8,11 +23,11 @@ export class SubmitReset extends Component {
     }
 
     handleSubmit() {
-        console.log('Submit Clicked');
+        this.props.onSubmit();
     }
 
     handleReset() {
-        console.log('Reset Clicked');
+        this.props.onReset();
     }
 
     render() {
@@ -27,14 +42,10 @@ export class SubmitReset extends Component {
     }
 }
 
-export class YesNo extends Component {
-    constructor(props) {
-        super(props);
-        this.state= {value: ''}
-    }
+export class YesNo extends FormComponent {
 
     handleOnChange(event) {
-        this.setState({ value: event.target.value});
+        this.onValueChange(event.target.value);
     }
 
     render() {
@@ -62,14 +73,10 @@ export class YesNo extends Component {
     }
 }
 
-export class TextBox extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {value: ''}
-    }
+export class TextBox extends FormComponent {
 
     handleOnChange(event) {
-        this.setState({value: event.target.value});
+        this.onValueChange(event.target.value);
     }
 
     render() {
@@ -77,7 +84,7 @@ export class TextBox extends Component {
             <div className="textBox">
                 <b>{this.props.title}</b><br/>
                 <input type="text"
-                    value={this.state.value}
+                    value={this.props.value}
                     onChange={(event) => this.handleOnChange(event)}
                 />
             </div>
@@ -85,27 +92,26 @@ export class TextBox extends Component {
     }
 }
 
-export class Increment extends Component {
+export class Increment extends FormComponent {
     constructor(props) {
         super(props);
-        this.state = {count: 0}
         this.handleIncrement = this.handleIncrement.bind(this);
         this.handleReset = this.handleReset.bind(this);
     }
 
     handleIncrement() {
-        this.setState({count: this.state.count + 1});
+        this.onValueChange(this.props.value + 1);
     }
 
     handleReset() {
-        this.setState({count: 0});
+        this.onValueChange(0);
     }
 
     render() {
         return(
             <div className="incrment">
                 <b>{this.props.title}</b><br/>
-                <b>{this.state.count}</b><br/>
+                <b>{this.props.value}</b><br/>
                 <button onClick={this.handleIncrement}>Increment</button>
                 <button onClick={this.handleReset}>Reset</button>
             </div>
@@ -113,7 +119,7 @@ export class Increment extends Component {
     }
 }
 
-export class Timer extends Component {
+export class Timer extends FormComponent {
     constructor(props) {
         super(props);
         this.state = {time: 0, isOn: false, start: 0}
@@ -173,15 +179,14 @@ export class Timer extends Component {
     }
 }
 
-export class Dropdown extends Component {
+export class Dropdown extends FormComponent {
     constructor(props) {
         super(props);
-        this.state = {value: ''};
         this.handleOnChange = this.handleOnChange.bind(this);
     }
 
     handleOnChange(event) {
-        this.setState({value: event.target.value});
+        this.onValueChange(event.target.value);
     }
 
     render() {
@@ -191,7 +196,7 @@ export class Dropdown extends Component {
 
         return(
             <b>{this.props.title}<br/>
-                <select value={this.state.value} onChange={this.handleOnChange}>
+                <select value={this.props.value} onChange={this.handleOnChange}>
                     {optionList}
                 </select>
             </b>
@@ -199,7 +204,7 @@ export class Dropdown extends Component {
     }
 }
 
-export class ErrorField extends Component {
+export class ErrorField extends FormComponent {
     render() {
 
         return (<b>Error: {this.props.name} is not recognized</b>);

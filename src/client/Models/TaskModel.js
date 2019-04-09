@@ -2,7 +2,7 @@ import { Model } from 'react-axiom';
 
 var constants = require('../GoalModules/Constants.js')
 
-class TaskModel extends Model {
+export class TaskModel extends Model {
     static defaultState() {
         return {
             taskName: '',
@@ -15,39 +15,43 @@ class TaskModel extends Model {
     /*
     *   Returns true if object meets all requirements for creating a new goal.
     */
-    isValidCreate() {
-        var valid = true;
-        var name = this.state.getTaskName();
-        if (name === undefined || name === null || name === '') valid = false;
-        var type = this.state.getTaskType();
-        valid = valid && !constants.taskTypesi.includes(type);
-        var options = this.state.getTaskOptions();
+    isValidCreate(err, i) {
+        var name = this.state.taskName;
+        if (name === undefined || name === null || name === '') 
+            err.push(i + ": Task name is not valid");
+        var type = this.state.taskType;
+        if (!constants.taskTypes.includes(type)) {
+            err.push(i + ": Task type not valid");
+        }
+        var options = this.state.taskOptions;
         if (type === 'dropdown' && (options === undefined || options === null 
             || options.constructor !== Array || options.length === 0)) {
-                valid = false;
-            }
-        return valid;        
+                err.push(i + ": Task requires options");
+        }      
     }
 
     /*
     *   Returns true if object meets all requirements for submitting data
     *       for a new goal.
     */
-    isValidSubmit() {
-        var valid = true;
-        var name = this.state.getTaskName();
-        if (name === undefined || name === null || name === '') valid = false;
-        var type = this.state.getTaskType();
-        valid = valid && !constants.taskTypesi.includes(type);
-        var options = this.state.getTaskOptions();
+    isValidSubmit(err, i) {
+        var name = this.state.taskName;
+        if (name === undefined || name === null || name === '') 
+            err.push(i + ": Task name is not valid");
+        var type = this.state.taskType;
+       if (!constants.taskTypes.includes(type)) {
+            err.push(i + ": Task type not valid");
+       }
+        var options = this.state.taskOptions;
         if (type === 'dropdown' && (options === undefined || options === null 
             || options.constructor !== Array || options.length === 0)) {
-                valid = false;
+                err.push(i + ": Task requires options");
             }
-        var value = this.state.getTaskValue();
+        var value = this.state.taskValue;
         var expectedValue = constants.taskValues[type] || constants.taskValues.default;
-        valid = valid && (value instanceof expectedValue);
-        return valid;  
+        if (!(typeof value === expectedValue)) {
+            err.push(i + ": Value is of wrong type");
+        } 
     }
 
     /*
@@ -55,9 +59,9 @@ class TaskModel extends Model {
     */
     toCreateJSON() {
         var json = {};
-        json.taskName = this.state.getTaskName();
-        json.taskType = this.state.getTaskType();
-        json.options = this.state.getTaskOptions();
+        json.taskName = this.state.taskName;
+        json.taskType = this.state.taskType;
+        json.options = this.state.taskOptions;
         return json;
     }
 
@@ -66,10 +70,10 @@ class TaskModel extends Model {
     */
     toSubmitJSON() {
         var json = {};
-        json.taskName = this.state.getTaskName();
-        json.taskType = this.state.getTaskType();
-        json.options = this.state.getTaskOptions();
-        json.value = this.state.getTaskValue();
+        json.taskName = this.state.taskName;
+        json.taskType = this.state.taskType;
+        json.options = this.state.taskOptions;
+        json.value = this.state.taskValue;
         return json;
     }
 }

@@ -126,7 +126,9 @@ const content = {
   }
 
   onGoalClicked(goal){
-    alert("Implement onGoalClicked in Goals.js");
+    api.gets().getGoalById(goal.goalKey)
+      .then(res => this.props.selectGoal(res, goal.goalKey))
+      .catch(err => console.log(err));
   }
 
   handleAddGoalClicked(){

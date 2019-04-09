@@ -10,6 +10,9 @@ import {MenuSideBar} from "./UI/MenuSideBar.js";
 import {UseForm} from "./UI/UseForm.js";
 import Signup from "./UI/Signup.js";
 import Goals from "./UI/Goals.js";
+import { GoalSubscriber } from './UI/CollectData.js'
+import {GoalModel} from './Models/GoalModel.js'
+import api from './API/api';
 
 const showAlerts = false;
 const system_loggedIn_override = false;
@@ -120,9 +123,22 @@ class App extends Component {
   }
 
   onCallApi() {
-    this.callApi()
-      .then(res => this.setState({ response: res.express }))
-      .catch(err => console.log(err));
+    // this.callApi()
+    //   .then(res => this.setState({ response: res.express }))
+    //   .catch(err => console.log(err));
+  }
+
+  goalSelected(goal, goalID) {
+    var newGoal = new GoalModel({
+      goalName: goal.goalName,
+      goalID: goalID,
+      studentID: goal.studentID,
+      timeStamp: ''
+    });
+    for (var i = 0; i < goal.tasks.length; i++) {
+      newGoal.addTask(goal.tasks[i].taskName, goal.tasks[i].taskType, goal.tasks[i].options);
+    }
+    this.setState({goal: newGoal, page: "collect"});
   }
 
   render() {
@@ -158,7 +174,8 @@ class App extends Component {
           this.state.page === "profile" ? <p>Profile Page Goes Here</p> :
           this.state.page === "manageAccess" ? <ManageAccess choice={this.state.manageAccessOptionChosen}/> :
           this.state.page === "home" ? <Students showStudentGoals={this.showStudentGoals} userID={this.state.userID}/> :
-          this.state.page === "goals" ? <Goals userID={this.state.userID} studentID ={this.state.studentID} goBack={()=>this.onNavItemClicked("home")} /> :
+          this.state.page === "goals" ? <Goals userID={this.state.userID} studentID ={this.state.studentID} goBack={()=>this.onNavItemClicked("home")} selectGoal={(goal, goalID)=>this.goalSelected(goal, goalID)} /> :
+          this.state.page === "collect" ? <GoalSubscriber goal={this.state.goal} goBack={()=>this.onNavItemClicked("home")} /> :
           null}
           </div>
         </Sidebar>
