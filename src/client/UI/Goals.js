@@ -180,7 +180,7 @@ const content = {
         </div>
         <div style={content}>
           <div>
-            <List disablePadding="false" style={{padding: "5px"}}>
+            <List disablePadding={false} style={{padding: "5px"}}>
               {this.state.goals.map((goal) => (
                 <button style={buttonStyle} onClick={()=>this.onGoalClicked(goal)}>
                 {goal.goalName}

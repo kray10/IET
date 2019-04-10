@@ -9,7 +9,7 @@ import api from '../API/api.js';
 import { Sortable } from './Sortable.js';
 import {GoalModel} from './../Models/GoalModel.js'
 
-// var myGoal = new GoalModel();
+var myGoal;
 
 export class FormCreationMenu extends Component {
     constructor(props) {
@@ -26,7 +26,6 @@ export class FormCreationMenu extends Component {
         this.onListItemClicked = this.onListItemClicked.bind(this);
         this.onApplyButtonClicked = this.onApplyButtonClicked.bind(this);
         this.onCloseButtonClicked = this.onCloseButtonClicked.bind(this);
-        this.receivedStudents = this.receivedStudents.bind(this);
         this.handleStudentSelect = this.handleStudentSelect.bind(this);
     }
 
@@ -77,7 +76,8 @@ export class FormCreationMenu extends Component {
             myGoal.addTask("namegoeshere", TaskType, TaskOptions);
             var validCheck = myGoal.isValidCreate();
             if (validCheck.length == 0) {
-                components = myGoal.getTaskList();
+                this.state.components = myGoal.getTaskList();
+                console.log(this.state.components)
             }
             else {
                 alert(validCheck)
@@ -86,7 +86,7 @@ export class FormCreationMenu extends Component {
     };
 
     componentDidMount(){
-        
+        myGoal = new GoalModel({goalName: "name", studentID: this.props.studentID});
     }
 
     handleStudentSelect(event) {

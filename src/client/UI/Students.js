@@ -179,9 +179,9 @@ const content = {
           <button style={addStudentButton} onClick={this.handleAddStudentClicked}>Add Student</button>
         </div>
         <div style={content}>
-          <List disablePadding="false" style={{padding: "5px"}}>
-            {this.state.userStudents.map((student) => (
-              <button style={buttonStyle} onClick={()=>this.onStudentClicked(student)}>{student.name}</button>
+          <List disablePadding={false} style={{padding: "5px"}}>
+            {this.state.userStudents.map((student, index) => (
+              <button key={index} style={buttonStyle} onClick={()=>this.onStudentClicked(student)}>{student.name}</button>
               ))}
           </List>
         </div>
