@@ -43,7 +43,7 @@ export class FormCreationMenu extends Component {
     };
 
     onApplyButtonClicked(){
-        var {TaskType, components, TaskOptions} = this.state;
+        var {TaskType, TaskOptions} = this.state;
         switch (this.state.popupContent) {
             case "yesNoComponent":
                 TaskType = "yesNo";
@@ -78,6 +78,7 @@ export class FormCreationMenu extends Component {
             if (validCheck.length == 0) {
                 this.state.components = myGoal.getTaskList();
                 console.log(this.state.components)
+                console.log(this.state)
             }
             else {
                 alert(validCheck)
