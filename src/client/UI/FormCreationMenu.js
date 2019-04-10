@@ -4,7 +4,7 @@ import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import * as form from "./../GoalModules/GoalComponents.js";
-import {Goal} from './../GoalModules/Goal.js'
+import {GoalCreate} from './../GoalModules/GoalCreate.js'
 import api from '../API/api.js';
 import { Sortable } from './Sortable.js';
 import {GoalModel} from './../Models/GoalModel.js'
@@ -63,7 +63,7 @@ export class FormCreationMenu extends Component {
                 break;
             case "dropdownComponent":
                 TaskType = "dropdown";
-                TaskOptions = "dd";
+                TaskOptions = ['1', '2', '3'];
                 break;
             default:
                 TaskType = '';
@@ -73,6 +73,8 @@ export class FormCreationMenu extends Component {
         //     this.setState({components: nextState, TaskType:'', TaskOptions:[]});
         // }
         if (TaskType) {
+            // alert(TaskType);
+            // alert(TaskOptions);
             myGoal.addTask("namegoeshere", TaskType, TaskOptions);
             var validCheck = myGoal.isValidCreate();
             if (validCheck.length == 0) {
@@ -166,7 +168,7 @@ export class FormCreationMenu extends Component {
                 <div className="createContent">
                     <header>Component content will go here</header>
                     <div>Student: {this.props.studentID}</div>
-                    <Goal dataFields={this.state.components}/>
+                    <GoalCreate dataFields={this.state.components}/>
                 </div>
             </div>
 
