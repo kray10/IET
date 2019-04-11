@@ -1,8 +1,5 @@
 import React from 'react';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Divider from '@material-ui/core/Divider';
 import api from '../API/api.js';
 // Load Chance
 var Chance = require('chance');
@@ -13,9 +10,6 @@ var chance = new Chance();
 var cssHSL = "hsl(" + 60 + ',' +
                  2 + '%,' +
                   39 + '%)';
-const headers = {
-
-};
 
 const buttonStyle={
   borderRadius: "10px",
@@ -48,18 +42,6 @@ var dtop = -2;
 var dtrans = 'translate('+dleft+'%, '+dtop+'%)';
 
 var calc = 'calc(70% - 7px)';
-
-const goalsBackButton = {
-  cursor: "pointer",
-  outline: "none",
-  color: "#fff",
-  backgroundColor: "#4CAF50",
-  border: "none",
-  boxShadow: "0 2px #999",
-  borderRadius: "10px",
-  width: "30%",
-  height: "100%"
-}
 
 const addStudentButton = {
   cursor: "pointer",
@@ -132,6 +114,7 @@ const content = {
     //console.log(this.props.userID);
     var temp = api.posts().addNewStudent(this.props.userID);
     if(temp){
+      this.props.addNotification("Success", "New student added!", "success");
       api.gets().getStudentsByUser(this.props.userID).then(result => this.receivedStudents(result)).catch(function(error){console.log("No Results")});
     }
     // console.log(temp);
@@ -150,9 +133,9 @@ const content = {
       });
     }
 
-    for(var student in results.edit) {
+    for(var i in results.edit) {
       tempList.push({
-      name: results.edit[student]
+      name: results.edit[i]
       });
     }
     //Sort. Apparently there is no good way to sort list of numerals

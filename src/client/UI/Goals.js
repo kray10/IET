@@ -1,8 +1,5 @@
 import React from 'react';
 import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import Divider from '@material-ui/core/Divider';
 import BackArrowIcon from '@material-ui/icons/ArrowBack';
 import '../App.css';
 import api from '../API/api.js';
@@ -15,9 +12,6 @@ var chance = new Chance();
 var cssHSL = "hsl(" + 60 + ',' +
                  2 + '%,' +
                   39 + '%)';
-const headers = {
-
-};
 
 const buttonStyle={
   borderRadius: "10px",
@@ -149,7 +143,7 @@ const content = {
 
     //To check that a student button was pressed uncomment this alert
     //alert("Pressed student " + name);
-    let goals = [];
+    //let goals = [];
     //let goalNum = chance.integer({ min: 15, max: 30 });
 
     //To Check that all goals are showing, compare to this alert number.

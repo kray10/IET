@@ -5,12 +5,9 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import Divider from '@material-ui/core/Divider';
-
-import SettingsIcon from '@material-ui/icons/Settings';
 import FormCreationIcon from '@material-ui/icons/Note';
 import ManageAccessIcon from '@material-ui/icons/People';
 import ProfileIcon from '@material-ui/icons/Portrait';
-import HomeIcon from '@material-ui/icons/Home';
 ///////
 import MagicButtonIcon from '@material-ui/icons/ThumbUp';
 ///////

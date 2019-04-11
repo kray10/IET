@@ -5,14 +5,14 @@ import Settings from "./UI/Settings.js";
 import Login from "./UI/Login.js";
 import MenuIcon from '@material-ui/icons/MenuTwoTone';
 import Students from './UI/Students.js';
-import ManageAccess from './UI/ManageAccess.js';
 import {MenuSideBar} from "./UI/MenuSideBar.js";
 import {UseForm} from "./UI/UseForm.js";
 import Signup from "./UI/Signup.js";
 import Goals from "./UI/Goals.js";
-import { GoalSubscriber } from './UI/CollectData.js'
-import {GoalModel} from './Models/GoalModel.js'
-import api from './API/api';
+import { GoalSubscriber } from './UI/CollectData.js';
+import {GoalModel} from './Models/GoalModel.js';
+import ReactNotification from "react-notifications-component";
+import "react-notifications-component/dist/theme.css";
 
 const showAlerts = false;
 const system_loggedIn_override = false;
@@ -52,6 +52,22 @@ class App extends Component {
     this.onManageAccessListClick = this.onManageAccessListClick.bind(this);
     this.showStudentGoals = this.showStudentGoals.bind(this);
     this.logOut = this.logOut.bind(this);
+    this.addNotification = this.addNotification.bind(this);
+    this.notificationDOMRef = React.createRef();
+  }
+
+  addNotification(title, message, type){
+    this.notificationDOMRef.current.addNotification({
+      title: title,
+      message: message,
+      type: type,
+      insert: "top",
+      container: "top-right",
+      animationIn: ["animated", "fadeIn"],
+      animationOut: ["animated", "fadeOut"],
+      dismiss: { duration: 3500 },
+      dismissable: { click: true }
+    });
   }
 
   resize = () => this.forceUpdate()
@@ -74,8 +90,9 @@ class App extends Component {
   }
 
   logOut(){
-    var signOut = this.props.firebase.doSignOut();
+    this.props.firebase.doSignOut();
     this.setState({loggedIn: system_loggedIn_override, page: "home"});
+    this.addNotification("Success", "You have logged out!", "success");
   }
 
   onLoginAuthentication(user, pass){
@@ -90,7 +107,8 @@ class App extends Component {
       .catch(error => {
         // auth failed
         // parse error to tell user what the problem was
-        console.log(error)
+        //console.log(error)
+        this.addNotification("Error", error.message, "warning");
       });
 
   }
@@ -144,6 +162,7 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+      <ReactNotification ref={this.notificationDOMRef} />
       <div style = {sideMenuStyle}>
         <Sidebar
           shadow={true}
@@ -167,12 +186,12 @@ class App extends Component {
             </button>
           : null}
 
-          {this.state.page === "signup" ? <Signup firebase={this.props.firebase} onNavItemClicked={this.onNavItemClicked} /> :
+          {this.state.page === "signup" ? <Signup addNotification={this.addNotification} firebase={this.props.firebase} onNavItemClicked={this.onNavItemClicked} /> :
           this.state.loggedIn === false ? <Login firebase={this.props.firebase} onLoginAuth={this.onLoginAuthentication} onNavItemClicked={this.onNavItemClicked}/> :
           this.state.page === "settings" ? <Settings /> :
           this.state.page === "createForm" ? <UseForm /> :
           this.state.page === "profile" ? <p>Profile Page Goes Here</p> :
-          this.state.page === "home" ? <Students manageAccess={false} showStudentGoals={this.showStudentGoals} userID={this.state.userID}/> :
+          this.state.page === "home" ? <Students addNotification={this.addNotification} manageAccess={false} showStudentGoals={this.showStudentGoals} userID={this.state.userID}/> :
           this.state.page === "goals" ? <Goals userID={this.state.userID} studentID ={this.state.studentID} goBack={()=>this.onNavItemClicked("home")} selectGoal={(goal, goalID)=>this.goalSelected(goal, goalID)} /> :
           this.state.page === "manageAccess" ? <Students manageAccess={true} showStudentGoals={this.showStudentGoals} userID={this.state.userID}/> :
           this.state.page === "collect" ? <GoalSubscriber goal={this.state.goal} goBack={()=>this.onNavItemClicked("home")} /> :

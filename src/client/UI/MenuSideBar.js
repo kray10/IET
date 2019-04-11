@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import ToolList from "./ToolList.js";
 import NavList from "./NavList.js";
 import ManageAccessList from "./ManageAccessList.js";
-import BackArrowIcon from '@material-ui/icons/ArrowBack';
 import HomeIcon from '@material-ui/icons/Home';
 import api from "../API/api.js";
 import '../App.css';

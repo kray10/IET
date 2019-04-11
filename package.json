@@ -16,6 +16,8 @@
     "react-axiom": "^0.4.0",
     "react-bootstrap": "^1.0.0-beta.5",
     "react-dom": "^16.7.0",
+    "react-notifications": "^1.4.3",
+    "react-notifications-component": "^1.1.1",
     "react-scripts": "^2.1.8",
     "react-sidebar": "^3.0.2"
   },

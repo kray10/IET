@@ -3,8 +3,6 @@ import api from '../API/api.js';
 import './Login.css'
 import logo from './iet_logo.png';
 
-const showAlerts = true;
-
 var cssHSL = "hsl(" + 360 * Math.random() + ',' +
                  (25 + 70 * Math.random()) + '%,' +
                  (85 + 10 * Math.random()) + '%)';
@@ -25,7 +23,7 @@ class Signup extends React.Component {
 
     this.handleChangeUser = this.handleChangeUser.bind(this);
     this.handleChangePass = this.handleChangePass.bind(this);
-    this.handleConfirmPass = this. handleConfirmPass.bind(this);
+    this.handleConfirmPass = this.handleConfirmPass.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -50,17 +48,16 @@ class Signup extends React.Component {
     //alert('A name was submitted: ' + this.state.user);
     event.preventDefault();
     this.props.firebase.doCreateUserWithEmailAndPassword(this.state.user, this.state.pass).then((response) =>{
-        alert("success");
+        this.props.addNotification("Success", "Your account has been created!","success");
         //console.log(response.user.uid);
         console.log(api.posts().addNewUser(response.user.uid));
         this.props.onNavItemClicked("login");})
-      .catch(function(error) {
+      .catch((error)=> {
       // Handle Errors here.
-      var errorCode = error.code;
       var errorMessage = error.message;
-      if(showAlerts){
-        alert(errorMessage);
-      }
+      //alert(errorMessage);
+      this.props.addNotification("Error", errorMessage,"danger");
+
       // ...
     });
   }
