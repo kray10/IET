@@ -37,6 +37,12 @@ var cleft = -50;
 var ctop = -38;
 var ctrans = 'translate('+cleft+'%, '+ctop+'%)';
 
+var etop= -65;
+var etrans = 'translate('+cleft+'%, '+etop+'%)';
+
+var ftop = -10;
+var ftrans = 'translate('+cleft+'%, '+ftop+'%)';
+
 var dleft = -50;
 var dtop = -2;
 var dtrans = 'translate('+dleft+'%, '+dtop+'%)';
@@ -67,7 +73,7 @@ const topButtons = {
   display: "flex"
 }
 
-const content = {
+const content_add = {
   position: "absolute",
   top: "38%", left: "50%",
   transform: ctrans,
@@ -78,6 +84,29 @@ const content = {
   borderRadius: "10px",
   overflow: "scroll"
 };
+
+const content_manage = {
+  position: "absolute",
+  top: "65%", left: "50%",
+  transform: etrans,
+  width: "70vw",
+  height: "70vh",
+
+  backgroundColor: "#FDFDFD",
+  borderRadius: "10px",
+  overflow: "scroll"
+};
+
+const textBox = {
+  position: "absolute",
+  top: "10%",
+  left: "50%",
+  transform: ftrans,
+  width: "70vw",
+  height: "4vh",
+  display: "flex",
+  margin: "10px 0px 10px 0px"
+}
 
  class Students extends React.Component {
   constructor(props) {
@@ -99,12 +128,25 @@ const content = {
       data,
       selectedIndex: 0,
       totalIndex: 0,
-      selectedStudent: ''
+      selectedStudent: '',
+      userToAdd: ''
     };
     this.onStudentClicked = this.onStudentClicked.bind(this);
     this.receivedStudents = this.receivedStudents.bind(this);
     this.handleListItemClick = this.handleListItemClick.bind(this);
     this.handleAddStudentClicked = this.handleAddStudentClicked.bind(this);
+    this.handleAddStudentToUser = this.handleAddStudentToUser.bind(this);
+    this.handleChangeUser = this.handleChangeUser.bind(this);
+  }
+
+  handleChangeUser(event) {
+    this.setState({userToAdd: event.target.value});
+  }
+
+  handleAddStudentToUser(){
+    if(this.state.selectedStudent === ''){
+      this.props.addNotification("Error", "You must select a student.", "danger");
+    }
   }
 
   handleAddStudentClicked(){
@@ -164,18 +206,36 @@ const content = {
     return (
       <div style={listContainer}>
         {!this.props.manageAccess ?
-          <div style={topButtons}>
-            <button style={addStudentButton} onClick={this.handleAddStudentClicked}>Add Student</button>
-          </div> :
-          <div>Selected Student: {this.state.selectedStudent}</div>
+          <div>
+            <div style={topButtons}>
+              <button style={addStudentButton} onClick={this.handleAddStudentClicked}>Add Student</button>
+            </div>
+            <div style={content_add}>
+              <List disablePadding="false" style={{padding: "5px"}}>
+                {this.state.userStudents.map((student) => (
+                  <button style={buttonStyle} onClick={()=>this.onStudentClicked(student)}>{student.name}</button>
+                  ))}
+              </List>
+            </div>
+          </div>
+          :
+          <div>
+            <div style={topButtons}>
+              <button style={addStudentButton} onClick={this.handleAddStudentToUser}>Add Student To User</button>
+              <div>Selected Student: {this.state.selectedStudent}</div>
+            </div>
+            <div style={textBox}>
+              <input type="text" style={{width: "50%"}} placeholder="user_to_add@example.com" value={this.state.userToAdd} onChange={this.handleChangeUser} />
+            </div>
+            <div style={content_manage}>
+              <List disablePadding="false" style={{padding: "5px"}}>
+                {this.state.userStudents.map((student) => (
+                  <button style={buttonStyle} onClick={()=>this.onStudentClicked(student)}>{student.name}</button>
+                  ))}
+              </List>
+            </div>
+          </div>
         }
-        <div style={content}>
-          <List disablePadding="false" style={{padding: "5px"}}>
-            {this.state.userStudents.map((student) => (
-              <button style={buttonStyle} onClick={()=>this.onStudentClicked(student)}>{student.name}</button>
-              ))}
-          </List>
-        </div>
       </div>
     );
   }

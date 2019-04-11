@@ -193,7 +193,7 @@ class App extends Component {
           this.state.page === "profile" ? <p>Profile Page Goes Here</p> :
           this.state.page === "home" ? <Students addNotification={this.addNotification} manageAccess={false} showStudentGoals={this.showStudentGoals} userID={this.state.userID}/> :
           this.state.page === "goals" ? <Goals userID={this.state.userID} studentID ={this.state.studentID} goBack={()=>this.onNavItemClicked("home")} selectGoal={(goal, goalID)=>this.goalSelected(goal, goalID)} /> :
-          this.state.page === "manageAccess" ? <Students manageAccess={true} showStudentGoals={this.showStudentGoals} userID={this.state.userID}/> :
+          this.state.page === "manageAccess" ? <Students addNotification={this.addNotification} manageAccess={true} showStudentGoals={this.showStudentGoals} userID={this.state.userID}/> :
           this.state.page === "collect" ? <GoalSubscriber goal={this.state.goal} goBack={()=>this.onNavItemClicked("home")} /> :
           null}
           </div>
