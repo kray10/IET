@@ -2,31 +2,24 @@ import React, { Component } from 'react';
 import Popup from 'reactjs-popup';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import * as form from "./../GoalModules/GoalComponents.js";
-import {GoalCreate} from './../GoalModules/GoalCreate.js'
-import api from '../API/api.js';
-import { Sortable } from './Sortable.js';
-import {GoalModel} from './../Models/GoalModel.js'
+import {GoalCreate} from './../GoalModules/GoalCreate.js';
+import {GoalModel} from './../Models/GoalModel.js';
 
 var myGoal;
 
 export class FormCreationMenu extends Component {
     constructor(props) {
-        super(props);//only leaving this here in case this.props is needed in the constructor
+        super(props);
         this.state = {
             popupContent: "chooseMenu",
             TaskType: '',
             components: [],
             TaskOptions: [1,2,3],
-            receivedStudents: [],
-            userStudents: [],
-            // student: '',
+            TaskName: '',
           };
         this.onListItemClicked = this.onListItemClicked.bind(this);
         this.onApplyButtonClicked = this.onApplyButtonClicked.bind(this);
-        this.onCloseButtonClicked = this.onCloseButtonClicked.bind(this);
-        this.handleStudentSelect = this.handleStudentSelect.bind(this);
+        this.onTaskNameChange = this.onTaskNameChange.bind(this);
     }
 
     onListItemClicked(popupContent){
@@ -35,15 +28,8 @@ export class FormCreationMenu extends Component {
         })
     };
 
-    onCloseButtonClicked(){
-        // alert("this is an alert that you closed the thing");
-        // if (this.state.popupContent == "yesNoComponent") {
-        //     alert("this is a yesno close alert.  You did a thing")
-        // }
-    };
-
     onApplyButtonClicked(){
-        var {TaskType, TaskOptions} = this.state;
+        var {TaskName ,TaskType, TaskOptions} = this.state;
         switch (this.state.popupContent) {
             case "yesNoComponent":
                 TaskType = "yesNo";
@@ -68,19 +54,14 @@ export class FormCreationMenu extends Component {
             default:
                 TaskType = '';
         }
-        // if (TaskType) {
-        //     const nextState = [...components, {TaskType: TaskType, TaskOptions: TaskOptions}];
-        //     this.setState({components: nextState, TaskType:'', TaskOptions:[]});
-        // }
         if (TaskType) {
-            // alert(TaskType);
-            // alert(TaskOptions);
-            myGoal.addTask("namegoeshere", TaskType, TaskOptions);
+            myGoal.addTask(TaskName, TaskType, TaskOptions);
+            console.log(TaskName)
             var validCheck = myGoal.isValidCreate();
             if (validCheck.length == 0) {
                 this.state.components = myGoal.getTaskList();
-                console.log(this.state.components)
-                console.log(this.state)
+                console.log(myGoal.getTaskList());
+                this.setState({TaskType:'', TaskOptions:[], TaskName:''});
             }
             else {
                 alert(validCheck)
@@ -92,24 +73,17 @@ export class FormCreationMenu extends Component {
         myGoal = new GoalModel({goalName: "name", studentID: this.props.studentID});
     }
 
-    handleStudentSelect(event) {
-        this.setState({student: event.target.value})
-        // alert(this.state.student)
+    onChangeOrder(oldIndex, newIndex) {
+        //TODO: call the myGoal reorder with the indices and pass this function into the goalcreate call later on
+    }
+
+    onTaskNameChange(event) {
+        this.state.TaskName = event.target.value;
     }
 
     render() {
         return(
             <div>
-                {/* <div style={{overflowY: 'auto'}}>
-                    <select value={this.state.selectValue} onChange={this.handleStudentSelect}>
-                        <option>--Please Select a Student--</option>
-                        {this.state.userStudents.map((student) => (
-                            <option value = {student.name}>
-                                {student.name}
-                            </option>
-                            ))}
-                    </select>
-                </div>                 */}
                 <Popup trigger={<button className="button"> Add Goal Component </button>} modal lockScroll = {true}>
                 {close => (
                     <div style={{color: 'black'}} className="modal">
@@ -122,8 +96,9 @@ export class FormCreationMenu extends Component {
                         this.state.popupContent == "dropdownComponent"? <DropdownComponent /> : null}
                         <div className="actions">
                         <div className="optionsList">
-                                A place to put options for dropdown (and labeling?)
-                                <input type="text" />
+                                Enter a task name: <input type="text"  
+                                    value={this.props.value}
+                                    onChange={(event) => this.onTaskNameChange(event)}/>
                         </div>
                             <Popup 
                                 trigger={<button className="button" style={{margin:'3px'}}> Component Types </button>}
@@ -156,7 +131,6 @@ export class FormCreationMenu extends Component {
                                 onClick={() => {
                                 close();
                                 this.onListItemClicked("chooseMenu");
-                                this.onCloseButtonClicked();
                                 }}
                             >
                                 Done
@@ -168,7 +142,7 @@ export class FormCreationMenu extends Component {
                 <div className="createContent">
                     <header>Component content will go here</header>
                     <div>Student: {this.props.studentID}</div>
-                    <GoalCreate dataFields={this.state.components}/>
+                    <GoalCreate dataFields={this.state.components} />
                 </div>
             </div>
 
@@ -178,7 +152,7 @@ export class FormCreationMenu extends Component {
 
 export class ChooseMenu extends Component {
     constructor(props) {
-        super(props);//only leaving this here in case this.props is needed in the constructor
+        super(props);
     }
 
     render(){
@@ -193,7 +167,7 @@ export class ChooseMenu extends Component {
 
 export class YesNoComponent extends Component {
     constructor(props) {
-        super(props);//only leaving this here in case this.props is needed in the constructor
+        super(props);
     }
 
     render(){
@@ -208,7 +182,7 @@ export class YesNoComponent extends Component {
 
 export class TimerComponent extends Component {
     constructor(props) {
-        super(props);//only leaving this here in case this.props is needed in the constructor
+        super(props);
     }
 
     render(){
@@ -223,7 +197,7 @@ export class TimerComponent extends Component {
 
 export class IncrementalComponent extends Component {
     constructor(props) {
-        super(props);//only leaving this here in case this.props is needed in the constructor
+        super(props);
     }
 
     render(){
@@ -239,7 +213,7 @@ export class IncrementalComponent extends Component {
 
 export class DropdownComponent extends Component {
     constructor(props) {
-        super(props);//only leaving this here in case this.props is needed in the constructor
+        super(props);
     }
 
     render(){
@@ -256,7 +230,7 @@ export class DropdownComponent extends Component {
 
 export class TextboxComponent extends Component {
     constructor(props) {
-        super(props);//only leaving this here in case this.props is needed in the constructor
+        super(props);
     }
 
     render(){
