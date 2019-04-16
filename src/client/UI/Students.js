@@ -147,6 +147,19 @@ const textBox = {
     if(this.state.selectedStudent === ''){
       this.props.addNotification("Error", "You must select a student.", "danger");
     }
+    else if(this.state.userToAdd === ''){
+      this.props.addNotification("Error", "You must enter a user email.", "danger");
+    }
+    else{
+      alert(this.state.selectedStudent)
+      alert(this.state.userToAdd)
+      api.posts().addUserAccess(this.state.selectedStudent, this.state.userToAdd).then(()=>{
+        this.props.addNotification("Success","Student now accessible to provided user.", "success")
+        this.setState({userToAdd: "", selectedStudent: ""})
+      }).catch((error)=>{
+        this.props.addNotification("Error", error.message, "danger");
+      })
+    }
   }
 
   handleAddStudentClicked(){
