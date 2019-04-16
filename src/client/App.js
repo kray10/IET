@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Sidebar from "react-sidebar";
-import Settings from "./UI/Settings.js";
+import Profile from "./UI/Profile.js";
 import Login from "./UI/Login.js";
 import MenuIcon from '@material-ui/icons/MenuTwoTone';
 import Students from './UI/Students.js';
@@ -188,9 +188,8 @@ class App extends Component {
 
           {this.state.page === "signup" ? <Signup addNotification={this.addNotification} firebase={this.props.firebase} onNavItemClicked={this.onNavItemClicked} /> :
           this.state.loggedIn === false ? <Login firebase={this.props.firebase} onLoginAuth={this.onLoginAuthentication} onNavItemClicked={this.onNavItemClicked}/> :
-          this.state.page === "settings" ? <Settings /> :
           this.state.page === "createForm" ? <UseForm /> :
-          this.state.page === "profile" ? <p>Profile Page Goes Here</p> :
+          this.state.page === "profile" ? <Profile /> :
           this.state.page === "home" ? <Students addNotification={this.addNotification} manageAccess={false} showStudentGoals={this.showStudentGoals} userID={this.state.userID}/> :
           this.state.page === "goals" ? <Goals userID={this.state.userID} studentID ={this.state.studentID} goBack={()=>this.onNavItemClicked("home")} selectGoal={(goal, goalID)=>this.goalSelected(goal, goalID)} /> :
           this.state.page === "manageAccess" ? <Students addNotification={this.addNotification} manageAccess={true} showStudentGoals={this.showStudentGoals} userID={this.state.userID}/> :
