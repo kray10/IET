@@ -174,7 +174,7 @@ app.post('/api/updateAccess', (req, res) => {
             res.status(500).send({error: "User already as edit access"});
           } else {
             // else add the student to the edit list
-            var ref = db.ref("/users/" + req.body.userID + "/editStudents");
+            var ref = db.ref("/users/" + userRecord.uid + "/editStudents");
             ref.push(req.body.studentID);
             res.send({});
           }
