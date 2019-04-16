@@ -176,7 +176,7 @@ app.post('/api/updateAccess', (req, res) => {
             // else add the student to the edit list
             var ref = db.ref("/users/" + req.body.userID + "/editStudents");
             ref.push(req.body.studentID);
-            res.send();
+            res.send({});
           }
         } else {
           res.status(500).send({error: "Could not find user"});
