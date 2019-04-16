@@ -48,7 +48,7 @@ export default {
         return body;
       },
 
-      addUserAccess: async (studentid, userid) => {
+      addUserAccess: async (studentid, userEmail) => {
         const response = await fetch(`/api/updateAccess`, {
           method: 'POST',
           headers: {
@@ -57,7 +57,7 @@ export default {
           },
           body: JSON.stringify({
             studentID: studentid,
-            userID: userid
+            userEmail: userEmail
           })
         });
         const body = await response.json();
