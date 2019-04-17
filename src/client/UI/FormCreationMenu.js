@@ -20,6 +20,9 @@ export class FormCreationMenu extends Component {
         this.onListItemClicked = this.onListItemClicked.bind(this);
         this.onApplyButtonClicked = this.onApplyButtonClicked.bind(this);
         this.onTaskNameChange = this.onTaskNameChange.bind(this);
+        this.onMoveUpComponent = this.onMoveUpComponent.bind(this);
+        this.onMoveDownComponent = this.onMoveDownComponent.bind(this);
+        this.onDeleteComponent = this.onDeleteComponent.bind(this);
     }
 
     onListItemClicked(popupContent){
@@ -61,7 +64,7 @@ export class FormCreationMenu extends Component {
             if (validCheck.length == 0) {
                 this.state.components = myGoal.getTaskList();
                 console.log(myGoal.getTaskList());
-                this.setState({TaskType:'', TaskOptions:[], TaskName:''});
+                this.setState({TaskType:'', TaskOptions:[]});
             }
             else {
                 alert(validCheck)
@@ -73,12 +76,26 @@ export class FormCreationMenu extends Component {
         myGoal = new GoalModel({goalName: "name", studentID: this.props.studentID});
     }
 
-    onChangeOrder(oldIndex, newIndex) {
-        //TODO: call the myGoal reorder with the indices and pass this function into the goalcreate call later on
-    }
-
     onTaskNameChange(event) {
         this.state.TaskName = event.target.value;
+    }
+
+    onMoveUpComponent(index) {
+        // alert(index);
+        index = parseInt(index, 10);
+        myGoal.reorderTask(index, (index - 1));
+    }
+
+    onMoveDownComponent(index) {
+        // alert(index);
+        index = parseInt(index, 10);
+        myGoal.reorderTask(index, (index + 1));
+    }
+
+    onDeleteComponent(index) {
+        // alert(index);
+        index = parseInt(index, 10);
+        myGoal.deleteTask(index);
     }
 
     render() {
@@ -142,7 +159,7 @@ export class FormCreationMenu extends Component {
                 <div className="createContent">
                     <header>Component content will go here</header>
                     <div>Student: {this.props.studentID}</div>
-                    <GoalCreate dataFields={this.state.components} />
+                    <GoalCreate dataFields={this.state.components} onMoveUp={this.onMoveUpComponent} onMoveDown={this.onMoveDownComponent} onDelete={this.onDeleteComponent}/>
                 </div>
             </div>
 

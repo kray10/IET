@@ -146,6 +146,8 @@ export class GoalModel extends Model {
     reorderTask(oldIndex, newIndex) {
         var newTasks = [];
         var oldTasks = this.state.tasks;
+        console.log("oldIndex: " +oldIndex)
+        console.log("newIndex: " +newIndex)
 
         // error checking
         if (oldIndex < 0 || oldIndex >= oldTasks.length
