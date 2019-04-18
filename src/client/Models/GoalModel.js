@@ -146,8 +146,6 @@ export class GoalModel extends Model {
     reorderTask(oldIndex, newIndex) {
         var newTasks = [];
         var oldTasks = this.state.tasks;
-        console.log("oldIndex: " +oldIndex)
-        console.log("newIndex: " +newIndex)
 
         // error checking
         if (oldIndex < 0 || oldIndex >= oldTasks.length
@@ -160,29 +158,15 @@ export class GoalModel extends Model {
         if (oldIndex === newIndex) {
             return true;
         }
-
-        if (oldIndex > newIndex) {
-            console.log("Old > New: Moving Up")
-            for (var i = 0; i < oldTasks.length; i++) {
-                if (i !== oldIndex) {
-                    if (i === newIndex) {
-                        console.log("i: " + i + " === newIndex" + newIndex);
-                        console.log(oldTasks[oldIndex]);
-                        newTasks.push(oldTasks[oldIndex]);
-                    }
+        for (var i = 0; i < oldTasks.length; i++) {
+            if (i !== oldIndex) {
+                if (newIndex > oldIndex) {
                     newTasks.push(oldTasks[i]);
                 }
-            }
-        }
-        else if (oldIndex < newIndex) {
-            console.log("Old < New: Moving Down")
-            for (var i = 0; i < oldTasks.length; i++) {
-                if (i !== oldIndex) {
-                    if (i === newIndex) {
-                        console.log("i: " + i + " === newIndex" + newIndex);
-                        console.log(oldTasks[oldIndex]);
-                        newTasks.push(oldTasks[oldIndex]);
-                    }
+                if (i === newIndex) {
+                    newTasks.push(oldTasks[oldIndex]);
+                }
+                if (newIndex < oldIndex) {
                     newTasks.push(oldTasks[i]);
                 }
             }
