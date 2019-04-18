@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import Popup from 'reactjs-popup';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import {GoalCreate} from './../GoalModules/GoalCreate.js';
+import {GoalCreate, GoalCreateSubscriber} from './../GoalModules/GoalCreate.js';
 import {GoalModel} from './../Models/GoalModel.js';
+import { subscribe } from 'react-axiom';
 
 var myGoal;
 
@@ -159,13 +160,15 @@ export class FormCreationMenu extends Component {
                 <div className="createContent">
                     <header>Component content will go here</header>
                     <div>Student: {this.props.studentID}</div>
-                    <GoalCreate dataFields={this.state.components} onMoveUp={this.onMoveUpComponent} onMoveDown={this.onMoveDownComponent} onDelete={this.onDeleteComponent}/>
+                    <GoalCreateSubscriber dataFields={this.state.components} onMoveUp={this.onMoveUpComponent} onMoveDown={this.onMoveDownComponent} onDelete={this.onDeleteComponent}/>
                 </div>
             </div>
 
         );
     }
 }
+
+export const FormCreateSubscriber = subscribe(FormCreationMenu);
 
 export class ChooseMenu extends Component {
     constructor(props) {

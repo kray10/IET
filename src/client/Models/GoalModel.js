@@ -146,8 +146,11 @@ export class GoalModel extends Model {
     reorderTask(oldIndex, newIndex) {
         var newTasks = [];
         var oldTasks = this.state.tasks;
-        console.log("oldIndex: " +oldIndex)
-        console.log("newIndex: " +newIndex)
+        // console.log("oldIndex: " +oldIndex)
+        console.log(typeof(oldIndex))
+        // console.log("newIndex: " +newIndex)
+        console.log(typeof(newIndex))
+        // console.log(0 === oldIndex)
 
         // error checking
         if (oldIndex < 0 || oldIndex >= oldTasks.length
@@ -164,6 +167,8 @@ export class GoalModel extends Model {
         for (var i = 0; i < oldTasks.length; i++) {
             if (i !== oldIndex) {
                 if (i === newIndex) {
+                    console.log("i: " + i + " === newIndex" + newIndex);
+                    console.log(oldTasks[oldIndex]);
                     newTasks.push(oldTasks[oldIndex]);
                 }
                 newTasks.push(oldTasks[i]);

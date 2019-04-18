@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import * as task from "./GoalComponents.js"
+import { subscribe } from 'react-axiom';
 
 const formMap = {
     yesNo: task.YesNo,
@@ -55,3 +56,5 @@ export class GoalCreate extends Component {
         );
     }
 }
+
+export const GoalCreateSubscriber = subscribe(GoalCreate);

@@ -9,7 +9,7 @@ import ManageAccess from './UI/ManageAccess.js';
 import {MenuSideBar} from "./UI/MenuSideBar.js";
 import {UseForm} from "./UI/UseForm.js";
 import Signup from "./UI/Signup.js";
-import {FormCreationMenu} from "./UI/FormCreationMenu.js"
+import {FormCreationMenu, FormCreateSubscriber} from "./UI/FormCreationMenu.js"
 import Goals from "./UI/Goals.js";
 import { GoalSubscriber } from './UI/CollectData.js'
 import {GoalModel} from './Models/GoalModel.js'
@@ -168,7 +168,7 @@ class App extends Component {
           {this.state.page === "signup" ? <Signup firebase={this.props.firebase} onNavItemClicked={this.onNavItemClicked} /> :
           this.state.loggedIn === false ? <Login firebase={this.props.firebase} onLoginAuth={this.onLoginAuthentication} onNavItemClicked={this.onNavItemClicked}/> :
           this.state.page === "settings" ? <Settings /> :
-          this.state.page === "createForm" ? <FormCreationMenu userID={this.state.userID} studentID={this.state.studentID}/> :
+          this.state.page === "createForm" ? <FormCreateSubscriber userID={this.state.userID} studentID={this.state.studentID}/> :
           this.state.page === "profile" ? <p>Profile Page Goes Here</p> :
           this.state.page === "manageAccess" ? <ManageAccess choice={this.state.manageAccessOptionChosen}/> :
           this.state.page === "home" ? <Students showStudentGoals={this.showStudentGoals} userID={this.state.userID}/> :
