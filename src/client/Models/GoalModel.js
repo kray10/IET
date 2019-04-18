@@ -146,11 +146,8 @@ export class GoalModel extends Model {
     reorderTask(oldIndex, newIndex) {
         var newTasks = [];
         var oldTasks = this.state.tasks;
-        // console.log("oldIndex: " +oldIndex)
-        console.log(typeof(oldIndex))
-        // console.log("newIndex: " +newIndex)
-        console.log(typeof(newIndex))
-        // console.log(0 === oldIndex)
+        console.log("oldIndex: " +oldIndex)
+        console.log("newIndex: " +newIndex)
 
         // error checking
         if (oldIndex < 0 || oldIndex >= oldTasks.length
@@ -164,14 +161,30 @@ export class GoalModel extends Model {
             return true;
         }
 
-        for (var i = 0; i < oldTasks.length; i++) {
-            if (i !== oldIndex) {
-                if (i === newIndex) {
-                    console.log("i: " + i + " === newIndex" + newIndex);
-                    console.log(oldTasks[oldIndex]);
-                    newTasks.push(oldTasks[oldIndex]);
+        if (oldIndex > newIndex) {
+            console.log("Old > New: Moving Up")
+            for (var i = 0; i < oldTasks.length; i++) {
+                if (i !== oldIndex) {
+                    if (i === newIndex) {
+                        console.log("i: " + i + " === newIndex" + newIndex);
+                        console.log(oldTasks[oldIndex]);
+                        newTasks.push(oldTasks[oldIndex]);
+                    }
+                    newTasks.push(oldTasks[i]);
                 }
-                newTasks.push(oldTasks[i]);
+            }
+        }
+        else if (oldIndex < newIndex) {
+            console.log("Old < New: Moving Down")
+            for (var i = 0; i < oldTasks.length; i++) {
+                if (i !== oldIndex) {
+                    if (i === newIndex) {
+                        console.log("i: " + i + " === newIndex" + newIndex);
+                        console.log(oldTasks[oldIndex]);
+                        newTasks.push(oldTasks[oldIndex]);
+                    }
+                    newTasks.push(oldTasks[i]);
+                }
             }
         }
 

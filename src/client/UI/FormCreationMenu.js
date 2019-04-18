@@ -66,6 +66,7 @@ export class FormCreationMenu extends Component {
                 this.state.components = myGoal.getTaskList();
                 console.log(myGoal.getTaskList());
                 this.setState({TaskType:'', TaskOptions:[]});
+                this.inputTitle.value = '';
             }
             else {
                 alert(validCheck)
@@ -85,18 +86,24 @@ export class FormCreationMenu extends Component {
         // alert(index);
         index = parseInt(index, 10);
         myGoal.reorderTask(index, (index - 1));
+        // this.state.components = myGoal.getTaskList();
+        this.setState({components: myGoal.getTaskList()});
     }
 
     onMoveDownComponent(index) {
         // alert(index);
         index = parseInt(index, 10);
         myGoal.reorderTask(index, (index + 1));
+        // this.state.components = myGoal.getTaskList();
+        this.setState({components: myGoal.getTaskList()});
     }
 
     onDeleteComponent(index) {
         // alert(index);
         index = parseInt(index, 10);
         myGoal.deleteTask(index);
+        // this.state.components = myGoal.getTaskList();
+        this.setState({components: myGoal.getTaskList()});
     }
 
     render() {
@@ -114,8 +121,8 @@ export class FormCreationMenu extends Component {
                         this.state.popupContent == "dropdownComponent"? <DropdownComponent /> : null}
                         <div className="actions">
                         <div className="optionsList">
-                                Enter a task name: <input type="text"  
-                                    value={this.props.value}
+                                Enter a task name: <input type="text"  ref={el => this.inputTitle = el}
+                                    value={this.state.value}
                                     onChange={(event) => this.onTaskNameChange(event)}/>
                         </div>
                             <Popup 
