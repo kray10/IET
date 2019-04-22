@@ -3,11 +3,8 @@ import List from '@material-ui/core/List';
 import BackArrowIcon from '@material-ui/icons/ArrowBack';
 import '../App.css';
 import api from '../API/api.js';
-// Load Chance
-var Chance = require('chance');
-
-// Instantiate Chance so it can be used
-var chance = new Chance();
+import Popup from 'reactjs-popup';
+import XLSX from 'xlsx';
 
 var cssHSL = "hsl(" + 60 + ',' +
                  2 + '%,' +
@@ -100,11 +97,6 @@ const content = {
     const userStudents = [];
     const data = [];
 
-    for(let i = 0; i < 21; i++) {
-      students.push({
-      name: chance.name(),
-      });
-    }
     this.state = {
       students,
       goals,
@@ -116,13 +108,27 @@ const content = {
     };
     this.receivedGoals = this.receivedGoals.bind(this);
     this.handleAddGoalClicked = this.handleAddGoalClicked.bind(this);
-    this.onGoalClicked = this.onGoalClicked.bind(this);
+    this.onCollectData = this.onCollectData.bind(this);
+    this.onDownloadData = this.onDownloadData.bind(this);
   }
 
-  onGoalClicked(goal){
+  onCollectData(goal){
     api.gets().getGoalById(goal.goalKey)
       .then(res => this.props.selectGoal(res, goal.goalKey))
       .catch(err => console.log(err));
+  }
+
+  onDownloadData(goal) {
+    api.gets().getDataByGoal(goal.goalKey)
+      .then(res => {
+        console.log(res)
+        var worksheet = XLSX.utils.aoa_to_sheet(res);
+        var new_workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(new_workbook, worksheet, goal.name);
+        XLSX.writeFile(new_workbook, goal.goalName + ".xlsx")
+        this.props.goBack()
+      })
+      .catch(err => console.log(err))
   }
 
   handleAddGoalClicked(){
@@ -133,35 +139,10 @@ const content = {
   }
 
   componentDidMount(){
-    //console.log(this.props.studentID);
-    //api.gets().getStudentsByUser(this.props.userID).then(result => this.receivedStudents(result)).catch(function(error){console.log("No Results")});
     api.gets().getGoalsByStudent(this.props.studentID).then(result => this.receivedGoals(result)).catch(function(error){console.log("No Results")});
   }
 
   receivedGoals(results){
-    //console.log(results);
-    //random goals used below but method of adding can still be used like this
-
-    //To check that a student button was pressed uncomment this alert
-    //alert("Pressed student " + name);
-    //let goals = [];
-    //let goalNum = chance.integer({ min: 15, max: 30 });
-
-    //To Check that all goals are showing, compare to this alert number.
-    //alert(goalNum);
-
-    /*for(let i = 0; i < goalNum; i++) {
-      goals.push({
-      name: ("Goal " + (i+1))
-      });
-    }*/
-
-    /*
-       Right now we only have one goal, but after we have many, we will need
-       to change this logic to iterate through all goals and push all goals
-    */
-
-    //goals.push(results.goals);
     this.setState({goals: results.goals, selectedStudent: this.props.studentID});
   }
 
@@ -176,9 +157,19 @@ const content = {
           <div>
             <List disablePadding={false} style={{padding: "5px"}}>
               {this.state.goals.map((goal) => (
-                <button style={buttonStyle} onClick={()=>this.onGoalClicked(goal)}>
-                {goal.goalName}
-                </button>
+                <Popup trigger={<button style={buttonStyle}> {goal.goalName}</button>}
+                      modal
+                      closeOnDocumentClick
+                      modal lockScroll = {true}
+                >
+                  {close => (
+                    <div className="modal">
+                      <button onClick={()=>this.onCollectData(goal)}>Collect Data</button><br/>
+                      <button onClick={()=>this.onDownloadData(goal)}>Download Data</button><br/>
+                      <button onClick={close}>Back</button>
+                    </div>
+                  )}
+                </Popup>                
                 ))}
             </List>
           </div>

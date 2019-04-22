@@ -88,12 +88,39 @@ app.get('/api/goal/data/:goalid', (req, res) => {
     // check if goal was found
     if (snap.exists()){
       // create an array from the values (drops the auto ids)
-      var datapoints = {}
+      data = [];
       if (snap.val() !== null) {
-        datapoints = snap.val();
+        rawData = snap.val();
+        cols = [];
+        cols.push("Date");
+        var date1 = Object.keys(rawData)[0];
+        for (var task_i in rawData[date1]) {
+          task = rawData[date1][task_i]
+          if (task.taskType !== "timer") {
+            cols.push(task.taskName);
+          }
+        }
+        data.push(cols)
+        for (var date in rawData) {
+          point = [];
+          point.push(date)
+          for (var tasks in rawData[date]) {
+            task = rawData[date][tasks];
+            if (task.taskType !== "timer") {
+              value = task.value;
+              if (value === true) {
+                value = "yes";
+              } else if (value === false) {
+                value = "no";
+              }
+              point.push(value);
+            }
+          }
+          data.push(point)
+        }
       }
       // send the data
-      res.send(datapoints);
+      res.send(data);
     } else {
       res.status(500).send({error: "Could not find data for goal"});
     }
