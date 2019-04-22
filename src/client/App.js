@@ -8,6 +8,7 @@ import Students from './UI/Students.js';
 import {MenuSideBar} from "./UI/MenuSideBar.js";
 import {UseForm} from "./UI/UseForm.js";
 import Signup from "./UI/Signup.js";
+import {FormCreationMenu, FormCreateSubscriber} from "./UI/FormCreationMenu.js"
 import Goals from "./UI/Goals.js";
 import { GoalSubscriber } from './UI/CollectData.js';
 import {GoalModel} from './Models/GoalModel.js';
@@ -159,6 +160,10 @@ class App extends Component {
     this.setState({goal: newGoal, page: "collect"});
   }
 
+  createGoal(studentToCreateGoal) {
+    this.setState({studentID: studentToCreateGoal, page: "createForm"})
+  }
+
   render() {
     return (
       <div className="App">
@@ -176,7 +181,7 @@ class App extends Component {
           onSetOpen={this.onSetSidebarOpen}
           styles={{ sidebar: { background: "white", width: '20%' } }}
         >
-          <div style={{backgroundColor: 'grey'}}>
+          <div >
           {this.state.sidebarDocked === false && this.state.loggedIn === true ?
             <button
               onClick={() => this.onSetSidebarOpen(true)}
@@ -188,10 +193,10 @@ class App extends Component {
 
           {this.state.page === "signup" ? <Signup addNotification={this.addNotification} firebase={this.props.firebase} onNavItemClicked={this.onNavItemClicked} /> :
           this.state.loggedIn === false ? <Login firebase={this.props.firebase} onLoginAuth={this.onLoginAuthentication} onNavItemClicked={this.onNavItemClicked}/> :
-          this.state.page === "createForm" ? <UseForm /> :
+          this.state.page === "createForm" ? <FormCreateSubscriber userID={this.state.userID} studentID={this.state.studentID}/> :
           this.state.page === "profile" ? <Profile firebase={this.props.firebase} addNotification={this.addNotification} /> :
-          this.state.page === "home" ? <Students addNotification={this.addNotification} manageAccess={false} showStudentGoals={this.showStudentGoals} userID={this.state.userID}/> :
-          this.state.page === "goals" ? <Goals userID={this.state.userID} studentID ={this.state.studentID} goBack={()=>this.onNavItemClicked("home")} selectGoal={(goal, goalID)=>this.goalSelected(goal, goalID)} /> :
+          this.state.page === "home" ? <Students addNotification={this.addNotification} manageAccess={false} showStudentGoals={this.showStudentGoals} userID={this.state.userID} /> :
+          this.state.page === "goals" ? <Goals userID={this.state.userID} studentID ={this.state.studentID} goBack={()=>this.onNavItemClicked("home")} selectGoal={(goal, goalID)=>this.goalSelected(goal, goalID)} createGoal={(studentToCreateGoal)=>this.createGoal(studentToCreateGoal)}/> :
           this.state.page === "manageAccess" ? <Students addNotification={this.addNotification} manageAccess={true} showStudentGoals={this.showStudentGoals} userID={this.state.userID}/> :
           this.state.page === "collect" ? <GoalSubscriber goal={this.state.goal} goBack={()=>this.onNavItemClicked("home")} /> :
           null}

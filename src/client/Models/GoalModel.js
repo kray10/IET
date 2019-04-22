@@ -34,7 +34,7 @@ export class GoalModel extends Model {
     }
 
     /*
-    *   Returns true if object meets all requirements for creating a new goal.
+    *   Returns any errors with the tasks, if there are any
     */
     isValidCreate() {
         var err = [];
@@ -158,13 +158,17 @@ export class GoalModel extends Model {
         if (oldIndex === newIndex) {
             return true;
         }
-
         for (var i = 0; i < oldTasks.length; i++) {
             if (i !== oldIndex) {
+                if (newIndex > oldIndex) {
+                    newTasks.push(oldTasks[i]);
+                }
                 if (i === newIndex) {
                     newTasks.push(oldTasks[oldIndex]);
                 }
-                newTasks.push(oldTasks[i]);
+                if (newIndex < oldIndex) {
+                    newTasks.push(oldTasks[i]);
+                }
             }
         }
 

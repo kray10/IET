@@ -17,6 +17,7 @@ export class TaskModel extends Model {
     */
     isValidCreate(err, i) {
         var name = this.state.taskName;
+        console.log("Name", name)
         if (name === undefined || name === null || name === '') 
             err.push(i + ": Task name is not valid");
         var type = this.state.taskType;
