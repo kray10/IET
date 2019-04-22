@@ -1,6 +1,8 @@
 import React from 'react';
 import List from '@material-ui/core/List';
 import api from '../API/api.js';
+import Popup from 'reactjs-popup';
+
 // Load Chance
 var Chance = require('chance');
 
@@ -129,7 +131,8 @@ const textBox = {
       selectedIndex: 0,
       totalIndex: 0,
       selectedStudent: '',
-      userToAdd: ''
+      userToAdd: '',
+      addStudentName: ''
     };
     this.onStudentClicked = this.onStudentClicked.bind(this);
     this.receivedStudents = this.receivedStudents.bind(this);
@@ -137,6 +140,11 @@ const textBox = {
     this.handleAddStudentClicked = this.handleAddStudentClicked.bind(this);
     this.handleAddStudentToUser = this.handleAddStudentToUser.bind(this);
     this.handleChangeUser = this.handleChangeUser.bind(this);
+    this.onAddStudentNameChange = this.onAddStudentNameChange.bind(this);
+  }
+
+  onAddStudentNameChange(event) {
+    this.setState({addStudentName: event.target.value});
   }
 
   handleChangeUser(event) {
@@ -144,35 +152,43 @@ const textBox = {
   }
 
   handleAddStudentToUser(){
-    if(this.state.selectedStudent === ''){
+    if(this.state.selectedStudent === undefined || this.state.selectedStudent === null){
       this.props.addNotification("Error", "You must select a student.", "danger");
     }
     else if(this.state.userToAdd === ''){
       this.props.addNotification("Error", "You must enter a user email.", "danger");
     }
     else{
-      alert(this.state.selectedStudent)
-      alert(this.state.userToAdd)
-      api.posts().addUserAccess(this.state.selectedStudent, this.state.userToAdd).then(()=>{
-        this.props.addNotification("Success","Student now accessible to provided user.", "success")
-        this.setState({userToAdd: "", selectedStudent: ""})
-      }).catch((error)=>{
+      api.posts().addUserAccess(this.state.selectedStudent.key, this.state.selectedStudent.init, this.state.userToAdd)
+        .then(()=>{
+          this.props.addNotification("Success","Student now accessible to provided user.", "success")
+          this.setState({userToAdd: "", selectedStudent: {key: "", init: ""}});
+      })
+      .catch((error)=>{
+        console.log(error.message)
         this.props.addNotification("Error", error.message, "danger");
       })
     }
   }
 
   handleAddStudentClicked(){
-    //alert("Implement handleAddStudentClicked in Students.js");
-    /* Post api currently not working. Uncomment when working */
-
-    //console.log(this.props.userID);
-    var temp = api.posts().addNewStudent(this.props.userID);
-    if(temp){
-      this.props.addNotification("Success", "New student added!", "success");
-      api.gets().getStudentsByUser(this.props.userID).then(result => this.receivedStudents(result)).catch(function(error){console.log("No Results")});
+    if (this.state.addStudentName === '') {
+      this.props.addNotification("Error","You must enter a student name or id.", "danger");
+      return;
     }
-    // console.log(temp);
+    else if (this.state.addStudentName.length !== 2) {
+      this.props.addNotification("Error","Initials/ID must be exactly 2 characters", "danger");
+      return;
+    }
+    api.posts().addNewStudent(this.props.userID, this.state.addStudentName.toUpperCase())
+      .then(res => {
+        this.props.addNotification("Success", "New student added!", "success");
+        localStorage.setItem(res, this.state.addStudentName);
+        api.gets().getStudentsByUser(this.props.userID)
+          .then(result => this.receivedStudents(result))
+          .catch(error => {console.log("No Results")});
+      }
+    );
   }
 
   handleListItemClick = (event, index) => {
@@ -180,21 +196,15 @@ const textBox = {
   };
 
   receivedStudents(results){
-    //console.log(results.adminStudents);
+    
     var tempList = [];
     for(var student in results.admin) {
-      tempList.push({
-      name: results.admin[student]
-      });
+      tempList.push(results.admin[student]);
     }
 
     for(var i in results.edit) {
-      tempList.push({
-      name: results.edit[i]
-      });
+      tempList.push(results.edit[i]);
     }
-    //Sort. Apparently there is no good way to sort list of numerals
-    //tempList = tempList.sort((a, b) => a.name - b.name);
     this.setState({
       userStudents: tempList
     });
@@ -207,10 +217,10 @@ const textBox = {
 
   onStudentClicked(student){
     if(!this.props.manageAccess){
-      this.props.showStudentGoals(student.name);
+      this.props.showStudentGoals(student.key);
     }
     else{
-      this.setState({selectedStudent:student.name});
+      this.setState({selectedStudent: student});
     }
   }
 
@@ -220,13 +230,28 @@ const textBox = {
       <div style={listContainer}>
         {!this.props.manageAccess ?
           <div>
-            <div style={topButtons}>
-              <button style={addStudentButton} onClick={this.handleAddStudentClicked}>Add Student</button>
-            </div>
+            <Popup style={topButtons} trigger={<button style={addStudentButton} >Add Student</button>}
+                modal
+                closeOnDocumentClick>
+                {close =>
+                  (<div className="studentInitials">
+                    Enter Student's Initials/ID:<br/>
+                    <input type="text" value={this.state.addStudentName} onChange={event => this.onAddStudentNameChange(event)}></input><br/><br/>
+                    <button style={addStudentButton} 
+                            onClick={() => {
+                              this.handleAddStudentClicked();
+                              close();
+                            }}
+                            maxLength="2">
+                            Add Student
+                    </button>
+                  </div>
+                )}
+              </Popup>
             <div style={content_add}>
               <List disablePadding="false" style={{padding: "5px"}}>
                 {this.state.userStudents.map((student) => (
-                  <button style={buttonStyle} onClick={()=>this.onStudentClicked(student)}>{student.name}</button>
+                  <button style={buttonStyle} onClick={()=>this.onStudentClicked(student)}>{student.init}</button>
                   ))}
               </List>
             </div>
@@ -235,7 +260,7 @@ const textBox = {
           <div>
             <div style={topButtons}>
               <button style={addStudentButton} onClick={this.handleAddStudentToUser}>Add Student To User</button>
-              <div>Selected Student: {this.state.selectedStudent}</div>
+              <div>Selected Student: {this.state.selectedStudent.init}</div>
             </div>
             <div style={textBox}>
               <input type="text" style={{width: "50%"}} placeholder="user_to_add@example.com" value={this.state.userToAdd} onChange={this.handleChangeUser} />
@@ -243,7 +268,7 @@ const textBox = {
             <div style={content_manage}>
               <List disablePadding="false" style={{padding: "5px"}}>
                 {this.state.userStudents.map((student) => (
-                  <button style={buttonStyle} onClick={()=>this.onStudentClicked(student)}>{student.name}</button>
+                  <button style={buttonStyle} onClick={()=>this.onStudentClicked(student)}>{student.init}</button>
                   ))}
               </List>
             </div>

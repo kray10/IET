@@ -157,7 +157,7 @@ const content = {
           <div>
             <List disablePadding={false} style={{padding: "5px"}}>
               {this.state.goals.map((goal) => (
-                <Popup trigger={<button style={buttonStyle}> {goal.goalName}</button>}
+                <Popup trigger={<button style={buttonStyle}>{goal.goalName}</button>}
                       modal
                       closeOnDocumentClick
                       modal lockScroll = {true}

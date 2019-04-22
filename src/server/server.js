@@ -65,11 +65,17 @@ app.get('/api/user/students/:userid', (req, res) => {
       // turn admin and edit into arrays
       var admin = [];
       if (snap.child("adminStudents").val() !== null) {
-        admin = Object.values(snap.child("adminStudents").val());
+        var snapAdmin = snap.child("adminStudents").val();
+        for (i in snapAdmin) {
+          admin.push({init: snapAdmin[i], key:i});
+        }
       }
       var edit = [];
       if (snap.child("editStudents").val() !== null) {
-        edit = Object.values(snap.child("editStudents").val());
+        var snapEdit = snap.child("editStudents").val();
+        for (i in snapEdit) {
+          edit.push({init: snapEdit[i], key:i});
+        }
       }
       // send result
       res.send({admin: admin, edit: edit});
@@ -139,10 +145,10 @@ app.post('/api/student/new', (req, res) => {
   // otherwise push is only local action
   ref.child(newKey).set(0)
   // get refernce to user admin section
-  var adminRef = db.ref("/users").child(req.body.uid).child("adminStudents");
+  var adminRef = db.ref("/users").child(req.body.uid).child("adminStudents").child(newKey);
   // add student id to users admin
-  adminRef.push(newKey);
-  res.send(newKey);
+  adminRef.set(req.body.sInit);
+  res.send({key: newKey});
 });
 
 /*
@@ -191,18 +197,18 @@ app.post('/api/updateAccess', (req, res) => {
           // get list of students with admin
           var adminStudents = snap.child("adminStudents").val();
           // check if the student to be added already exists in the array
-          if (adminStudents !== null && Object.values(adminStudents).indexOf(req.body.studentID) > -1) {
+          if (adminStudents !== null && adminStudents[req.body.studentID] !== null) {
             // if it does, send back a 500
             console.log("User already as admin access");
             res.status(500).send({error: "User already as admin access"});
-          } else if (editStudents !== null && Object.values(editStudents).indexOf(req.body.studentID) > -1) {
+          } else if (editStudents !== null && editStudents[req.body.studentID] !== null) {
             // if it does, send back a 500
             console.log("User already as edit access");
             res.status(500).send({error: "User already as edit access"});
           } else {
             // else add the student to the edit list
-            var ref = db.ref("/users/" + userRecord.uid + "/editStudents");
-            ref.push(req.body.studentID);
+            var ref = db.ref("/users/" + userRecord.uid + "/editStudents/" + req.body.studentID);
+            ref.set(req.body.studentInit);
             res.send({});
           }
         } else {
