@@ -24,6 +24,7 @@ export class FormCreationMenu extends Component {
         this.onMoveUpComponent = this.onMoveUpComponent.bind(this);
         this.onMoveDownComponent = this.onMoveDownComponent.bind(this);
         this.onDeleteComponent = this.onDeleteComponent.bind(this);
+        this.onOptionsListChange = this.onOptionsListChange.bind(this);
     }
 
     onListItemClicked(popupContent){
@@ -37,29 +38,30 @@ export class FormCreationMenu extends Component {
         switch (this.state.popupContent) {
             case "yesNoComponent":
                 TaskType = "yesNo";
-                TaskOptions = "yn";
+                TaskOptions = '';
                 break;
             case "timerComponent":
                 TaskType = "timer";
-                TaskOptions = "time";
+                TaskOptions = '';
                 break;
             case "incrementalComponent":
                 TaskType = "increment";
-                TaskOptions = "inc";
+                TaskOptions = '';
                 break;
             case "textBoxComponent":
                 TaskType = "textBox";
-                TaskOptions = "tb";
+                TaskOptions = '';
                 break;
             case "dropdownComponent":
                 TaskType = "dropdown";
-                TaskOptions = ['1', '2', '3'];
+                TaskOptions = TaskOptions;
                 break;
             default:
                 TaskType = '';
         }
         if (TaskType) {
-            myGoal.addTask(TaskName, TaskType, TaskOptions);
+            var taskOptionsArray = TaskOptions.split(',')
+            myGoal.addTask(TaskName, TaskType, taskOptionsArray);
             console.log(TaskName)
             var validCheck = myGoal.isValidCreate();
             if (validCheck.length == 0) {
@@ -67,6 +69,7 @@ export class FormCreationMenu extends Component {
                 console.log(myGoal.getTaskList());
                 this.setState({TaskType:'', TaskOptions:[]});
                 this.inputTitle.value = '';
+                this.inputOptions.value = '';
             }
             else {
                 alert(validCheck)
@@ -80,6 +83,10 @@ export class FormCreationMenu extends Component {
 
     onTaskNameChange(event) {
         this.state.TaskName = event.target.value;
+    }
+
+    onOptionsListChange(event) {
+        this.state.TaskOptions = event.target.value;
     }
 
     onMoveUpComponent(index) {
@@ -119,11 +126,18 @@ export class FormCreationMenu extends Component {
                         this.state.popupContent == "incrementalComponent"? <IncrementalComponent /> :
                         this.state.popupContent == "textBoxComponent"? <TextboxComponent /> :
                         this.state.popupContent == "dropdownComponent"? <DropdownComponent /> : null}
-                        <div className="actions">
-                        <div className="optionsList">
+                        <div className="actions"> 
+                        <br />
+                        <div className="taskname">
                                 Enter a task name: <input type="text"  ref={el => this.inputTitle = el}
                                     value={this.state.value}
                                     onChange={(event) => this.onTaskNameChange(event)}/>
+                        </div>
+                        <br />
+                        <div className="optionsList">
+                        Enter task options: <input type="text" ref={el => this.inputOptions = el}
+                            value = {this.state.value}
+                            onChange={(event) => this.onOptionsListChange(event)} />
                         </div>
                             <Popup 
                                 trigger={<button className="button" style={{margin:'3px'}}> Component Types </button>}

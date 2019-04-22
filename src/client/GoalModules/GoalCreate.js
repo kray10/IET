@@ -18,6 +18,7 @@ export class GoalCreate extends Component {
         this.onUp = this.onUp.bind(this);
         this.onDown = this.onDown.bind(this);
         this.onDel = this.onDel.bind(this);
+        this.onValueChange = this.onValueChange.bind(this);
     }
 
     onUp(index) {
@@ -32,6 +33,10 @@ export class GoalCreate extends Component {
         this.props.onDelete(parseInt(index, 10));
     }
 
+    onValueChange() {
+        //Nothing
+    }
+
     render() {
         var fieldList = this.props.dataFields.map((entry, index) => {
             const FormComponent = formMap[entry.taskType] || formMap.default;
@@ -42,6 +47,7 @@ export class GoalCreate extends Component {
                 onMoveUp={this.props.onMoveUp}
                 onMoveDown={this.props.onMoveDown}
                 onDelete={this.props.onDelete}
+                onValueChange={this.onValueChange}
                 /><br/>
                 <button type="button" onClick={()=>this.onUp(index)}>Move Up</button>
                 <button type="button" onClick={()=>this.onDown(index)}>Move Down</button>
