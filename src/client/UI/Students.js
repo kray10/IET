@@ -144,7 +144,14 @@ const textBox = {
   }
 
   onAddStudentNameChange(event) {
-    this.setState({addStudentName: event.target.value});
+    var name = event.target.value;
+    if (name !== undefined && name.length > 2) {
+      this.props.addNotification("Warning", "Student initials/ID must be 2 characters long.", "warning");
+      this.setState({addStudentName: event.target.value});
+    } else {
+      this.setState({addStudentName: event.target.value});
+    }
+    
   }
 
   handleChangeUser(event) {
@@ -171,7 +178,7 @@ const textBox = {
     }
   }
 
-  handleAddStudentClicked(){
+  handleAddStudentClicked(callBack){
     if (this.state.addStudentName === '') {
       this.props.addNotification("Error","You must enter a student name or id.", "danger");
       return;
@@ -183,9 +190,12 @@ const textBox = {
     api.posts().addNewStudent(this.props.userID, this.state.addStudentName.toUpperCase())
       .then(res => {
         this.props.addNotification("Success", "New student added!", "success");
-        localStorage.setItem(res, this.state.addStudentName);
+        this.setState({addStudentName: ""});
         api.gets().getStudentsByUser(this.props.userID)
-          .then(result => this.receivedStudents(result))
+          .then(result => {
+            this.receivedStudents(result);
+            callBack();
+          })
           .catch(error => {console.log("No Results")});
       }
     );
@@ -238,10 +248,7 @@ const textBox = {
                     Enter Student's Initials/ID:<br/>
                     <input type="text" value={this.state.addStudentName} onChange={event => this.onAddStudentNameChange(event)}></input><br/><br/>
                     <button style={addStudentButton} 
-                            onClick={() => {
-                              this.handleAddStudentClicked();
-                              close();
-                            }}
+                            onClick={() => this.handleAddStudentClicked(close)}
                             maxLength="2">
                             Add Student
                     </button>
