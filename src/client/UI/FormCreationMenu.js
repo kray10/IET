@@ -5,6 +5,7 @@ import ListItem from '@material-ui/core/ListItem';
 import {GoalCreate, GoalCreateSubscriber} from './../GoalModules/GoalCreate.js';
 import {GoalModel} from './../Models/GoalModel.js';
 import { subscribe } from 'react-axiom';
+import api from '../API/api.js';
 
 var myGoal;
 
@@ -78,7 +79,7 @@ export class FormCreationMenu extends Component {
     };
 
     componentDidMount(){
-        myGoal = new GoalModel({goalName: "name", studentID: this.props.studentID});
+        myGoal = new GoalModel({goalName: this.props.goalName, studentID: this.props.studentID});
     }
 
     onTaskNameChange(event) {
@@ -113,9 +114,18 @@ export class FormCreationMenu extends Component {
         this.setState({components: myGoal.getTaskList()});
     }
 
+    onSubmit() {
+        var validCheck = myGoal.isValidCreate();
+        if (validCheck.length == 0) {
+            var goalToCreate = myGoal.getTaskList();
+            //TODO: actually post the goal
+        }
+    }
+
     render() {
         return(
             <div>
+                <div>Goal: {this.props.goalName}</div>
                 <Popup trigger={<button className="button"> Add Goal Component </button>} modal lockScroll = {true}>
                 {close => (
                     <div style={{color: 'black'}} className="modal">
@@ -182,6 +192,16 @@ export class FormCreationMenu extends Component {
                     <header>Component content will go here</header>
                     <div>Student: {this.props.studentID}</div>
                     <GoalCreateSubscriber dataFields={this.state.components} onMoveUp={this.onMoveUpComponent} onMoveDown={this.onMoveDownComponent} onDelete={this.onDeleteComponent}/>
+                </div>
+                <div>
+                    <button style={{margin:'3px'}}
+                        title="submit_button"
+                        className="button"
+                        onClick={() => {
+                        this.onSubmit();
+                        }}>
+                        Submit Goal
+                    </button>
                 </div>
             </div>
 

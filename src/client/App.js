@@ -42,7 +42,8 @@ class App extends Component {
       manageAccessOptionChosen: "",
       loggedIn: system_loggedIn_override,
       userID: "",
-      studentID: ""
+      studentID: "",
+      goalName: ""
     };
     this.onSetSidebarOpen = this.onSetSidebarOpen.bind(this);
     this.mediaQueryChanged = this.mediaQueryChanged.bind(this);
@@ -160,8 +161,8 @@ class App extends Component {
     this.setState({goal: newGoal, page: "collect"});
   }
 
-  createGoal(studentToCreateGoal) {
-    this.setState({studentID: studentToCreateGoal, page: "createForm"})
+  createGoal(studentToCreateGoal, goalname) {
+    this.setState({studentID: studentToCreateGoal, page: "createForm", goalName: goalname})
   }
 
   render() {
@@ -193,10 +194,10 @@ class App extends Component {
 
           {this.state.page === "signup" ? <Signup addNotification={this.addNotification} firebase={this.props.firebase} onNavItemClicked={this.onNavItemClicked} /> :
           this.state.loggedIn === false ? <Login firebase={this.props.firebase} onLoginAuth={this.onLoginAuthentication} onNavItemClicked={this.onNavItemClicked}/> :
-          this.state.page === "createForm" ? <FormCreateSubscriber userID={this.state.userID} studentID={this.state.studentID}/> :
+          this.state.page === "createForm" ? <FormCreateSubscriber userID={this.state.userID} studentID={this.state.studentID} goalName={this.state.goalName}/> :
           this.state.page === "profile" ? <Profile firebase={this.props.firebase} addNotification={this.addNotification} /> :
           this.state.page === "home" ? <Students addNotification={this.addNotification} manageAccess={false} showStudentGoals={this.showStudentGoals} userID={this.state.userID} /> :
-          this.state.page === "goals" ? <Goals userID={this.state.userID} studentID ={this.state.studentID} goBack={()=>this.onNavItemClicked("home")} selectGoal={(goal, goalID)=>this.goalSelected(goal, goalID)} createGoal={(studentToCreateGoal)=>this.createGoal(studentToCreateGoal)}/> :
+          this.state.page === "goals" ? <Goals userID={this.state.userID} studentID ={this.state.studentID} goBack={()=>this.onNavItemClicked("home")} selectGoal={(goal, goalID)=>this.goalSelected(goal, goalID)} createGoal={(studentToCreateGoal, goalname)=>this.createGoal(studentToCreateGoal, goalname)}/> :
           this.state.page === "manageAccess" ? <Students addNotification={this.addNotification} manageAccess={true} showStudentGoals={this.showStudentGoals} userID={this.state.userID}/> :
           this.state.page === "collect" ? <GoalSubscriber goal={this.state.goal} goBack={()=>this.onNavItemClicked("home")} /> :
           null}
