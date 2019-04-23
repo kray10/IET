@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Popup from 'reactjs-popup';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import {GoalCreate, GoalCreateSubscriber} from './../GoalModules/GoalCreate.js';
+import {GoalCreateSubscriber} from './../GoalModules/GoalCreate.js';
 import {GoalModel} from './../Models/GoalModel.js';
 import { subscribe } from 'react-axiom';
 
@@ -54,7 +54,6 @@ export class FormCreationMenu extends Component {
                 break;
             case "dropdownComponent":
                 TaskType = "dropdown";
-                TaskOptions = TaskOptions;
                 break;
             default:
                 TaskType = '';
@@ -64,8 +63,8 @@ export class FormCreationMenu extends Component {
             myGoal.addTask(TaskName, TaskType, taskOptionsArray);
             console.log(TaskName)
             var validCheck = myGoal.isValidCreate();
-            if (validCheck.length == 0) {
-                this.state.components = myGoal.getTaskList();
+            if (validCheck.length === 0) {
+                this.setState({components: myGoal.getTaskList()});
                 console.log(myGoal.getTaskList());
                 this.setState({TaskType:'', TaskOptions:[]});
                 this.inputTitle.value = '';
@@ -82,11 +81,11 @@ export class FormCreationMenu extends Component {
     }
 
     onTaskNameChange(event) {
-        this.state.TaskName = event.target.value;
+        this.setState({TaskName: event.target.value});
     }
 
     onOptionsListChange(event) {
-        this.state.TaskOptions = event.target.value;
+        this.setState({TaskOptions: event.target.value});
     }
 
     onMoveUpComponent(index) {
@@ -120,12 +119,12 @@ export class FormCreationMenu extends Component {
                 {close => (
                     <div style={{color: 'black'}} className="modal">
                         <div className="header">Add Goal Component </div>
-                        {this.state.popupContent == "chooseMenu" ? <ChooseMenu /> : 
-                        this.state.popupContent == "yesNoComponent"? <YesNoComponent /> : 
-                        this.state.popupContent == "timerComponent"? <TimerComponent /> :
-                        this.state.popupContent == "incrementalComponent"? <IncrementalComponent /> :
-                        this.state.popupContent == "textBoxComponent"? <TextboxComponent /> :
-                        this.state.popupContent == "dropdownComponent"? <DropdownComponent /> : null}
+                        {this.state.popupContent === "chooseMenu" ? <ChooseMenu /> : 
+                        this.state.popupContent === "yesNoComponent"? <YesNoComponent /> : 
+                        this.state.popupContent === "timerComponent"? <TimerComponent /> :
+                        this.state.popupContent === "incrementalComponent"? <IncrementalComponent /> :
+                        this.state.popupContent === "textBoxComponent"? <TextboxComponent /> :
+                        this.state.popupContent === "dropdownComponent"? <DropdownComponent /> : null}
                         <div className="actions"> 
                         <br />
                         <div className="taskname">
@@ -192,9 +191,6 @@ export class FormCreationMenu extends Component {
 export const FormCreateSubscriber = subscribe(FormCreationMenu);
 
 export class ChooseMenu extends Component {
-    constructor(props) {
-        super(props);
-    }
 
     render(){
         return(
@@ -207,9 +203,6 @@ export class ChooseMenu extends Component {
 }
 
 export class YesNoComponent extends Component {
-    constructor(props) {
-        super(props);
-    }
 
     render(){
          return(
@@ -222,9 +215,6 @@ export class YesNoComponent extends Component {
 }
 
 export class TimerComponent extends Component {
-    constructor(props) {
-        super(props);
-    }
 
     render(){
         return(
@@ -237,9 +227,6 @@ export class TimerComponent extends Component {
 }
 
 export class IncrementalComponent extends Component {
-    constructor(props) {
-        super(props);
-    }
 
     render(){
         return(
@@ -253,9 +240,6 @@ export class IncrementalComponent extends Component {
 
 
 export class DropdownComponent extends Component {
-    constructor(props) {
-        super(props);
-    }
 
     render(){
         return(
@@ -270,9 +254,6 @@ export class DropdownComponent extends Component {
 
 
 export class TextboxComponent extends Component {
-    constructor(props) {
-        super(props);
-    }
 
     render(){
         return(

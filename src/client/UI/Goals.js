@@ -5,6 +5,7 @@ import '../App.css';
 import api from '../API/api.js';
 import Popup from 'reactjs-popup';
 import XLSX from 'xlsx';
+import {BrowserView, MobileView,} from 'react-device-detect';
 
 var cssHSL = "hsl(" + 60 + ',' +
                  2 + '%,' +
@@ -156,21 +157,27 @@ const content = {
         <div style={content}>
           <div>
             <List disablePadding={false} style={{padding: "5px"}}>
-              {this.state.goals.map((goal) => (
-                <Popup trigger={<button style={buttonStyle}>{goal.goalName}</button>}
-                      modal
-                      closeOnDocumentClick
-                      modal lockScroll = {true}
-                >
-                  {close => (
-                    <div className="modal">
-                      <button onClick={()=>this.onCollectData(goal)}>Collect Data</button><br/>
-                      <button onClick={()=>this.onDownloadData(goal)}>Download Data</button><br/>
-                      <button onClick={close}>Back</button>
-                    </div>
-                  )}
-                </Popup>                
-                ))}
+              {this.state.goals.map((goal, i) => (
+                <div key={i}>
+                  <BrowserView>
+                    <Popup trigger={<button style={buttonStyle}>{goal.goalName}</button>}
+                    modal
+                    closeOnDocumentClick
+                    >
+                      {close => (
+                        <div className="modal">
+                          <button onClick={()=>this.onCollectData(goal)}>Collect Data</button><br/>
+                          <button onClick={()=>this.onDownloadData(goal)}>Download Data</button><br/>
+                          <button onClick={close}>Back</button>
+                        </div>
+                      )}
+                    </Popup>
+                  </BrowserView>
+                  <MobileView>
+                    <button style={buttonStyle} onClick={()=>this.onCollectData(goal)}>{goal.goalName}</button>
+                  </MobileView>   
+                </div>    
+              ))}
             </List>
           </div>
         </div>

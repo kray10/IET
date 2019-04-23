@@ -256,9 +256,9 @@ const textBox = {
                 )}
               </Popup>
             <div style={content_add}>
-              <List disablePadding="false" style={{padding: "5px"}}>
-                {this.state.userStudents.map((student) => (
-                  <button style={buttonStyle} onClick={()=>this.onStudentClicked(student)}>{student.init}</button>
+              <List disablePadding={false} style={{padding: "5px"}}>
+                {this.state.userStudents.map((student, i) => (
+                  <button key ={i} style={buttonStyle} onClick={()=>this.onStudentClicked(student)}>{student.init}</button>
                   ))}
               </List>
             </div>
