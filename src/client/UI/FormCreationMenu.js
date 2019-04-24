@@ -2,9 +2,10 @@ import React, { Component } from 'react';
 import Popup from 'reactjs-popup';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import {GoalCreateSubscriber} from './../GoalModules/GoalCreate.js';
+import {GoalCreate, GoalCreateSubscriber} from './../GoalModules/GoalCreate.js';
 import {GoalModel} from './../Models/GoalModel.js';
 import { subscribe } from 'react-axiom';
+import api from '../API/api.js';
 
 var myGoal;
 
@@ -54,6 +55,7 @@ export class FormCreationMenu extends Component {
                 break;
             case "dropdownComponent":
                 TaskType = "dropdown";
+                TaskOptions = TaskOptions;
                 break;
             default:
                 TaskType = '';
@@ -64,7 +66,7 @@ export class FormCreationMenu extends Component {
             console.log(TaskName)
             var validCheck = myGoal.isValidCreate();
             if (validCheck.length === 0) {
-                this.setState({components: myGoal.getTaskList()});
+                this.state.components = myGoal.getTaskList();
                 console.log(myGoal.getTaskList());
                 this.setState({TaskType:'', TaskOptions:[]});
                 this.inputTitle.value = '';
@@ -77,15 +79,15 @@ export class FormCreationMenu extends Component {
     };
 
     componentDidMount(){
-        myGoal = new GoalModel({goalName: "name", studentID: this.props.studentID});
+        myGoal = new GoalModel({goalName: this.props.goalName, studentID: this.props.studentID});
     }
 
     onTaskNameChange(event) {
-        this.setState({TaskName: event.target.value});
+        this.state.TaskName = event.target.value;
     }
 
     onOptionsListChange(event) {
-        this.setState({TaskOptions: event.target.value});
+        this.state.TaskOptions = event.target.value;
     }
 
     onMoveUpComponent(index) {
@@ -112,20 +114,29 @@ export class FormCreationMenu extends Component {
         this.setState({components: myGoal.getTaskList()});
     }
 
+    onSubmit() {
+        var validCheck = myGoal.isValidCreate();
+        if (validCheck.length === 0) {
+            var goalToCreate = myGoal.getTaskList();
+            //TODO: actually post the goal
+        }
+    }
+
     render() {
         return(
             <div>
+                <div>Goal: {this.props.goalName}</div>
                 <Popup trigger={<button className="button"> Add Goal Component </button>} modal lockScroll = {true}>
                 {close => (
                     <div style={{color: 'black'}} className="modal">
                         <div className="header">Add Goal Component </div>
-                        {this.state.popupContent === "chooseMenu" ? <ChooseMenu /> : 
-                        this.state.popupContent === "yesNoComponent"? <YesNoComponent /> : 
+                        {this.state.popupContent === "chooseMenu" ? <ChooseMenu /> :
+                        this.state.popupContent === "yesNoComponent"? <YesNoComponent /> :
                         this.state.popupContent === "timerComponent"? <TimerComponent /> :
                         this.state.popupContent === "incrementalComponent"? <IncrementalComponent /> :
                         this.state.popupContent === "textBoxComponent"? <TextboxComponent /> :
                         this.state.popupContent === "dropdownComponent"? <DropdownComponent /> : null}
-                        <div className="actions"> 
+                        <div className="actions">
                         <br />
                         <div className="taskname">
                                 Enter a task name: <input type="text"  ref={el => this.inputTitle = el}
@@ -138,7 +149,7 @@ export class FormCreationMenu extends Component {
                             value = {this.state.value}
                             onChange={(event) => this.onOptionsListChange(event)} />
                         </div>
-                            <Popup 
+                            <Popup
                                 trigger={<button className="button" style={{margin:'3px'}}> Component Types </button>}
                                 position="top center"
                                 closeOnDocumentClick
@@ -182,6 +193,16 @@ export class FormCreationMenu extends Component {
                     <div>Student: {this.props.studentID}</div>
                     <GoalCreateSubscriber dataFields={this.state.components} onMoveUp={this.onMoveUpComponent} onMoveDown={this.onMoveDownComponent} onDelete={this.onDeleteComponent}/>
                 </div>
+                <div>
+                    <button style={{margin:'3px'}}
+                        title="submit_button"
+                        className="button"
+                        onClick={() => {
+                        this.onSubmit();
+                        }}>
+                        Submit Goal
+                    </button>
+                </div>
             </div>
 
         );
@@ -191,6 +212,9 @@ export class FormCreationMenu extends Component {
 export const FormCreateSubscriber = subscribe(FormCreationMenu);
 
 export class ChooseMenu extends Component {
+    constructor(props) {
+        super(props);
+    }
 
     render(){
         return(
@@ -203,6 +227,9 @@ export class ChooseMenu extends Component {
 }
 
 export class YesNoComponent extends Component {
+    constructor(props) {
+        super(props);
+    }
 
     render(){
          return(
@@ -215,6 +242,9 @@ export class YesNoComponent extends Component {
 }
 
 export class TimerComponent extends Component {
+    constructor(props) {
+        super(props);
+    }
 
     render(){
         return(
@@ -227,6 +257,9 @@ export class TimerComponent extends Component {
 }
 
 export class IncrementalComponent extends Component {
+    constructor(props) {
+        super(props);
+    }
 
     render(){
         return(
@@ -240,6 +273,9 @@ export class IncrementalComponent extends Component {
 
 
 export class DropdownComponent extends Component {
+    constructor(props) {
+        super(props);
+    }
 
     render(){
         return(
@@ -254,6 +290,9 @@ export class DropdownComponent extends Component {
 
 
 export class TextboxComponent extends Component {
+    constructor(props) {
+        super(props);
+    }
 
     render(){
         return(

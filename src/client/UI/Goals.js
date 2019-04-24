@@ -17,7 +17,7 @@ const buttonStyle={
   padding: "5px 5px 5px 5px",
   margin: "0px 0px 7px 0px",
 
-  fontSize: "50px",
+  fontSize: "xx-large",
   width: "100%",
 
   color: "#fff",
@@ -66,7 +66,7 @@ const goalsAddGoalButton = {
   width: calc,
   margin: "0px 0px 0px 7px",
   height: "100%",
-  fontSize: "50px"
+  fontSize: "xx-large"
 }
 
 const topButtons = {
@@ -105,12 +105,14 @@ const content = {
       data,
       selectedIndex: 0,
       totalIndex: 0,
-      selectedStudent: ''
+      selectedStudent: '',
+      goalName: ""
     };
     this.receivedGoals = this.receivedGoals.bind(this);
     this.handleAddGoalClicked = this.handleAddGoalClicked.bind(this);
     this.onCollectData = this.onCollectData.bind(this);
     this.onDownloadData = this.onDownloadData.bind(this);
+    this.onGoalNameChange = this.onGoalNameChange.bind(this);
   }
 
   onCollectData(goal){
@@ -147,12 +149,40 @@ const content = {
     this.setState({goals: results.goals, selectedStudent: this.props.studentID});
   }
 
+  onGoalNameChange(event) {
+    this.setState({goalName: event.target.value});
+  }
+
+  onAddGoal() {
+    if (this.state.goalName==="") {
+      //alert("Must enter a goal name")
+      this.props.addNotification("Error","Must enter a goal name.","danger");
+    }
+    else {
+      this.props.createGoal(this.state.selectedStudent, this.state.goalName)
+    }
+  }
+
   render() {
     return (
       <div style={listContainer}>
         <div style={topButtons}>
           <button style={goalsBackButton} onClick={this.props.goBack}><BackArrowIcon style={{width: "100%", height: "100%"}} /></button>
-          <button style={goalsAddGoalButton} onClick={()=>this.props.createGoal(this.state.selectedStudent)}>Add Goal</button>
+          <Popup trigger={<button style={goalsAddGoalButton}>Add Goal</button>}
+            modal
+            closeOnDocumentClick
+            modal lockScroll = {true}>
+            {close => (
+              <div className="modal">
+                <div>Enter a goal name: <input type="text"  ref={el => this.inputGoal = el}
+                  value={this.state.value}
+                  onChange={(event) => this.onGoalNameChange(event)}/></div>
+                <button onClick={()=>
+                  this.onAddGoal()
+                  }>Add Goal</button><br/>
+                <button onClick={close}>Cancel</button><br/>
+              </div>)}
+          </Popup>
         </div>
         <div style={content}>
           <div>
@@ -175,8 +205,8 @@ const content = {
                   </BrowserView>
                   <MobileView>
                     <button style={buttonStyle} onClick={()=>this.onCollectData(goal)}>{goal.goalName}</button>
-                  </MobileView>   
-                </div>    
+                  </MobileView>
+                </div>
               ))}
             </List>
           </div>
