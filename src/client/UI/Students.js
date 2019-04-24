@@ -19,7 +19,7 @@ const buttonStyle={
   padding: "5px 5px 5px 5px",
   margin: "0px 0px 7px 0px",
 
-  fontSize: "50px",
+  fontSize: "xx-large",
   width: "100%",
 
   color: "#fff",
@@ -42,14 +42,17 @@ var ctrans = 'translate('+cleft+'%, '+ctop+'%)';
 var etop= -65;
 var etrans = 'translate('+cleft+'%, '+etop+'%)';
 
-var ftop = -10;
-var ftrans = 'translate('+cleft+'%, '+ftop+'%)';
+var gtop = -12;
+var gtrans = 'translate('+cleft+'%, '+gtop+'%)';
+
+var sectrans = gtrans;
 
 var dleft = -50;
 var dtop = -2;
 var dtrans = 'translate('+dleft+'%, '+dtop+'%)';
 
 var calc = 'calc(70% - 7px)';
+var calc2 = 'calc(70% - 7px)';
 
 const addStudentButton = {
   cursor: "pointer",
@@ -62,7 +65,7 @@ const addStudentButton = {
   width: calc,
   margin: "0px 0px 0px 0px",
   height: "100%",
-  fontSize: "50px"
+  fontSize: "xx-large"
 }
 
 const topButtons = {
@@ -99,15 +102,31 @@ const content_manage = {
   overflow: "scroll"
 };
 
-const textBox = {
+const secondaryRow = {
   position: "absolute",
-  top: "10%",
+  top: "12%",
   left: "50%",
-  transform: ftrans,
+  transform: sectrans,
   width: "70vw",
-  height: "4vh",
+  height: "5vh",
+  display: "flex"
+}
+
+const selected = {
+  width: "30%",
+  height: "100%",
   display: "flex",
-  margin: "10px 0px 10px 0px"
+  margin: "0px 0px 0px 0px",
+  backgroundColor: "white",
+  borderRadius: "4px"
+};
+
+const textBox = {
+  width: calc2,
+  height: "100%",
+  display: "flex",
+  margin: "0px 0px 0px 7px",
+  borderRadius: "4px"
 }
 
  class Students extends React.Component {
@@ -151,7 +170,7 @@ const textBox = {
     } else {
       this.setState({addStudentName: event.target.value});
     }
-    
+
   }
 
   handleChangeUser(event) {
@@ -206,7 +225,7 @@ const textBox = {
   };
 
   receivedStudents(results){
-    
+
     var tempList = [];
     for(var student in results.admin) {
       tempList.push(results.admin[student]);
@@ -240,14 +259,14 @@ const textBox = {
       <div style={listContainer}>
         {!this.props.manageAccess ?
           <div>
-            <Popup style={topButtons} trigger={<button style={addStudentButton} >Add Student</button>}
+            <Popup trigger={<div style={topButtons}><button style={addStudentButton} >Add Student</button></div>}
                 modal
                 closeOnDocumentClick>
                 {close =>
                   (<div className="studentInitials">
                     Enter Student's Initials/ID:<br/>
                     <input type="text" value={this.state.addStudentName} onChange={event => this.onAddStudentNameChange(event)}></input><br/><br/>
-                    <button style={addStudentButton} 
+                    <button style={addStudentButton}
                             onClick={() => this.handleAddStudentClicked(close)}
                             maxLength="2">
                             Add Student
@@ -267,10 +286,12 @@ const textBox = {
           <div>
             <div style={topButtons}>
               <button style={addStudentButton} onClick={this.handleAddStudentToUser}>Add Student To User</button>
-              <div>Selected Student: {this.state.selectedStudent.init}</div>
             </div>
-            <div style={textBox}>
-              <input type="text" style={{width: "50%"}} placeholder="user_to_add@example.com" value={this.state.userToAdd} onChange={this.handleChangeUser} />
+            <div style={secondaryRow}>
+              <div style={selected}>Selected Student: {this.state.selectedStudent.init}</div>
+              <div style={textBox}>
+                <input style={{width: "100%", height: "auto",borderRadius: "4px", fontSize: "large"}} type="text" placeholder="user_to_add@example.com" value={this.state.userToAdd} onChange={this.handleChangeUser} />
+              </div>
             </div>
             <div style={content_manage}>
               <List disablePadding="false" style={{padding: "5px"}}>

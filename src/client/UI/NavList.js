@@ -21,14 +21,14 @@ class NavList extends Component {
   render() {
     return (
       <div className="NavList">
-        <List component="nav">
+        {false ? <List component="nav">
           <ListItem button onClick={()=>this.props.onNavItemClicked("createForm")}>
             <ListItemIcon>
               <FormCreationIcon />
             </ListItemIcon>
             <ListItemText primary="Create Form(Soon to be removed)" />
           </ListItem>
-        </List>
+        </List> : null}
         <Divider />
         <List component="nav">
           <ListItem button onClick={()=>this.props.onNavItemClicked("profile")}>
@@ -46,12 +46,12 @@ class NavList extends Component {
         </List>
         <Divider />
         <List>
-          <ListItem button component="a" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
+          {false ? <ListItem button component="a" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
             <ListItemIcon>
               <MagicButtonIcon />
               </ListItemIcon>
             <ListItemText primary="Magic Button" />
-          </ListItem>
+          </ListItem> : null}
           <ListItem button onClick={()=>this.props.logOut()}>
             <ListItemText primary="Logout" />
           </ListItem>

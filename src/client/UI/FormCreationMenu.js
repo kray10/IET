@@ -65,7 +65,7 @@ export class FormCreationMenu extends Component {
             myGoal.addTask(TaskName, TaskType, taskOptionsArray);
             console.log(TaskName)
             var validCheck = myGoal.isValidCreate();
-            if (validCheck.length == 0) {
+            if (validCheck.length === 0) {
                 this.state.components = myGoal.getTaskList();
                 console.log(myGoal.getTaskList());
                 this.setState({TaskType:'', TaskOptions:[]});
@@ -116,7 +116,7 @@ export class FormCreationMenu extends Component {
 
     onSubmit() {
         var validCheck = myGoal.isValidCreate();
-        if (validCheck.length == 0) {
+        if (validCheck.length === 0) {
             var goalToCreate = myGoal.getTaskList();
             //TODO: actually post the goal
         }
@@ -130,13 +130,13 @@ export class FormCreationMenu extends Component {
                 {close => (
                     <div style={{color: 'black'}} className="modal">
                         <div className="header">Add Goal Component </div>
-                        {this.state.popupContent == "chooseMenu" ? <ChooseMenu /> : 
-                        this.state.popupContent == "yesNoComponent"? <YesNoComponent /> : 
-                        this.state.popupContent == "timerComponent"? <TimerComponent /> :
-                        this.state.popupContent == "incrementalComponent"? <IncrementalComponent /> :
-                        this.state.popupContent == "textBoxComponent"? <TextboxComponent /> :
-                        this.state.popupContent == "dropdownComponent"? <DropdownComponent /> : null}
-                        <div className="actions"> 
+                        {this.state.popupContent === "chooseMenu" ? <ChooseMenu /> :
+                        this.state.popupContent === "yesNoComponent"? <YesNoComponent /> :
+                        this.state.popupContent === "timerComponent"? <TimerComponent /> :
+                        this.state.popupContent === "incrementalComponent"? <IncrementalComponent /> :
+                        this.state.popupContent === "textBoxComponent"? <TextboxComponent /> :
+                        this.state.popupContent === "dropdownComponent"? <DropdownComponent /> : null}
+                        <div className="actions">
                         <br />
                         <div className="taskname">
                                 Enter a task name: <input type="text"  ref={el => this.inputTitle = el}
@@ -149,7 +149,7 @@ export class FormCreationMenu extends Component {
                             value = {this.state.value}
                             onChange={(event) => this.onOptionsListChange(event)} />
                         </div>
-                            <Popup 
+                            <Popup
                                 trigger={<button className="button" style={{margin:'3px'}}> Component Types </button>}
                                 position="top center"
                                 closeOnDocumentClick

@@ -16,7 +16,7 @@ const buttonStyle={
   padding: "5px 5px 5px 5px",
   margin: "0px 0px 7px 0px",
 
-  fontSize: "50px",
+  fontSize: "xx-large",
   width: "100%",
 
   color: "#fff",
@@ -65,7 +65,7 @@ const goalsAddGoalButton = {
   width: calc,
   margin: "0px 0px 0px 7px",
   height: "100%",
-  fontSize: "50px"
+  fontSize: "xx-large"
 }
 
 const topButtons = {
@@ -149,12 +149,13 @@ const content = {
   }
 
   onGoalNameChange(event) {
-    this.state.goalName = event.target.value;
+    this.setState({goalName: event.target.value});
   }
 
   onAddGoal() {
     if (this.state.goalName==="") {
-      alert("Must enter a goal name")
+      //alert("Must enter a goal name")
+      this.props.addNotification("Error","Must enter a goal name.","danger");
     }
     else {
       this.props.createGoal(this.state.selectedStudent, this.state.goalName)
@@ -166,7 +167,7 @@ const content = {
       <div style={listContainer}>
         <div style={topButtons}>
           <button style={goalsBackButton} onClick={this.props.goBack}><BackArrowIcon style={{width: "100%", height: "100%"}} /></button>
-          <Popup trigger={<button style={buttonStyle}>Add Goal</button>}
+          <Popup trigger={<button style={goalsAddGoalButton}>Add Goal</button>}
             modal
             closeOnDocumentClick
             modal lockScroll = {true}>
@@ -180,7 +181,7 @@ const content = {
                   }>Add Goal</button><br/>
                 <button onClick={close}>Cancel</button><br/>
               </div>)}
-          </Popup> 
+          </Popup>
         </div>
         <div style={content}>
           <div>
@@ -198,7 +199,7 @@ const content = {
                       <button onClick={close}>Back</button>
                     </div>
                   )}
-                </Popup>                
+                </Popup>
                 ))}
             </List>
           </div>
