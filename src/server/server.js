@@ -197,11 +197,11 @@ app.post('/api/updateAccess', (req, res) => {
           // get list of students with admin
           var adminStudents = snap.child("adminStudents").val();
           // check if the student to be added already exists in the array
-          if (adminStudents !== null && adminStudents[req.body.studentID] !== null) {
+          if (adminStudents !== null && adminStudents[req.body.studentID]) {
             // if it does, send back a 500
             console.log("User already as admin access");
             res.status(500).send({error: "User already as admin access"});
-          } else if (editStudents !== null && editStudents[req.body.studentID] !== null) {
+          } else if (editStudents !== null && editStudents[req.body.studentID]) {
             // if it does, send back a 500
             console.log("User already as edit access");
             res.status(500).send({error: "User already as edit access"});
@@ -215,11 +215,11 @@ app.post('/api/updateAccess', (req, res) => {
           res.status(500).send({error: "Could not find user"});
         }
       });
-    })  
+    })
     .catch(function(error) {
       res.status(500).send({error: "Could not find user by that email"})
     });
-  
+
 });
 
 /*
