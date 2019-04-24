@@ -2,9 +2,9 @@ import React from 'react';
 import './Login.css'
 import logo from './iet_logo.png';
 
-var cssHSL = "hsl(" + 360 * Math.random() + ',' +
-                 (25 + 70 * Math.random()) + '%,' +
-                 (85 + 10 * Math.random()) + '%)';
+var cssHSL = "hsl(" + 200  + ',' +
+                 (75 ) + '%,' +
+                 (75 ) + '%)';
 
 const loginCSS = {
   backgroundColor: cssHSL,
