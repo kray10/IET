@@ -115,10 +115,16 @@ export class FormCreationMenu extends Component {
     }
 
     onSubmit() {
-        var validCheck = myGoal.isValidCreate();
-        if (validCheck.length === 0) {
-            var goalToCreate = myGoal.getTaskList();
+        var err = myGoal.isValidCreate();
+        if (err.length === 0) {
+            // var goalToCreate = myGoal.getTaskList();
             //TODO: actually post the goal
+            api.posts().createGoal(myGoal.toCreateJSON())
+                .then(this.props.goBack())
+                .catch(err => console.log(err));
+        }
+        else {
+            alert(err);
         }
     }
 

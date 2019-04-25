@@ -193,7 +193,7 @@ class App extends Component {
 
           {this.state.page === "signup" ? <Signup addNotification={this.addNotification} firebase={this.props.firebase} onNavItemClicked={this.onNavItemClicked} /> :
           this.state.loggedIn === false ? <Login firebase={this.props.firebase} onLoginAuth={this.onLoginAuthentication} onNavItemClicked={this.onNavItemClicked}/> :
-          this.state.page === "createForm" ? <FormCreateSubscriber userID={this.state.userID} studentID={this.state.studentID} goalName={this.state.goalName}/> :
+          this.state.page === "createForm" ? <FormCreateSubscriber userID={this.state.userID} studentID={this.state.studentID} goalName={this.state.goalName} goBack={()=>this.onNavItemClicked("home")}/> :
           this.state.page === "profile" ? <Profile firebase={this.props.firebase} addNotification={this.addNotification} /> :
           this.state.page === "home" ? <Students addNotification={this.addNotification} manageAccess={false} showStudentGoals={this.showStudentGoals} userID={this.state.userID} /> :
           this.state.page === "goals" ? <Goals userID={this.state.userID} studentID ={this.state.studentID} goBack={()=>this.onNavItemClicked("home")} selectGoal={(goal, goalID)=>this.goalSelected(goal, goalID)} createGoal={(studentToCreateGoal, goalname)=>this.createGoal(studentToCreateGoal, goalname)}/> :
