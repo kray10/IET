@@ -2,11 +2,42 @@ import React, { Component } from 'react';
 import Divider from '@material-ui/core/Divider';
 import Firebase from 'firebase/app';
 
-const settingsStyle = {
-  backgroundColor: 'purple',
+var cssHSL = "hsl(" + 60 + ',' +
+                 2 + '%,' +
+                  39 + '%)';
+
+const listContainer = {
+  backgroundColor: cssHSL,
+  position: "absolute",
   width: "100%",
-  height: '100vh'
+  height: "100vh"
 };
+
+var cleft = -50;
+var ctop = -38;
+var ctrans = 'translate('+cleft+'%, '+ctop+'%)';
+
+var dleft = -50;
+var dtop = -2;
+var dtrans = 'translate('+dleft+'%, '+dtop+'%)';
+
+var calc = 'calc(70% - 7px)';
+
+
+const content = {
+  position: "absolute",
+  top: "38%", left: "50%",
+  transform: ctrans,
+  width: "70vw",
+  height: "auto",
+  margin: "10px 10px 10px 10px",
+  textAlign: "left",
+  padding: "10px 10px 10px 10px",
+
+  backgroundColor: "#FDFDFD",
+  borderRadius: "10px",
+};
+
 class Profile extends Component {
   constructor(props) {
     super(props);
@@ -81,10 +112,9 @@ class Profile extends Component {
 
   render() {
     return (
-      <div style={settingsStyle} className="Settings">
-        <div style={{width: "auto", height: "auto", margin: "10px 10px 10px 10px"}}>
+      <div style={listContainer}>
+        <div style={content}>
             <h2>Reset Password</h2>
-            <Divider />
             <form style={{color: 'black', textAlign: 'left'}}>
             <table>
               <tbody>
@@ -122,7 +152,7 @@ class Profile extends Component {
               </tbody>
             </table>
             </form>
-            <button onClick={this.handleResetPassword}>Here</button>
+            <button style={{backgroundColor: "black", color: "white"}} onClick={this.handleResetPassword}>Update</button>
         </div>
       </div>
     );
