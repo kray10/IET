@@ -14,7 +14,7 @@ const listContainer = {
 };
 
 var cleft = -50;
-var ctop = -38;
+var ctop = -8;
 var ctrans = 'translate('+cleft+'%, '+ctop+'%)';
 
 var dleft = -50;
@@ -26,7 +26,7 @@ var calc = 'calc(70% - 7px)';
 
 const content = {
   position: "absolute",
-  top: "38%", left: "50%",
+  top: "8%", left: "50%",
   transform: ctrans,
   width: "70vw",
   height: "auto",

@@ -76,6 +76,17 @@ const topButtons = {
   transform: dtrans,
   width: "70vw",
   height: "8vh",
+  display: "flex",
+  align: "left"
+}
+
+const topButtons2 = {
+  position: "absolute",
+  top: "2%",
+  left: "20%",
+  transform: dtrans,
+  width: "70vw",
+  height: "8vh",
   display: "flex"
 }
 
@@ -166,9 +177,9 @@ const content = {
   render() {
     return (
       <div style={listContainer}>
-        <div style={topButtons}>
-          <button style={goalsBackButton} onClick={this.props.goBack}><BackArrowIcon style={{width: "100%", height: "100%"}} /></button>
-          <Popup trigger={<div style={topButtons}><button style={goalsAddGoalButton}>Add Goal</button></div>}
+          <Popup trigger={<div style={topButtons}>
+            <button style={goalsBackButton} onClick={this.props.goBack}><BackArrowIcon style={{width: "100%", height: "100%"}} /></button>
+            <button style={goalsAddGoalButton}>Add Goal</button></div>}
             modal
             closeOnDocumentClick
             modal lockScroll = {true}>
@@ -183,7 +194,6 @@ const content = {
                 <button onClick={close}>Cancel</button><br/>
               </div>)}
           </Popup>
-        </div>
         <div style={content}>
           <div>
             <List disablePadding={false} style={{padding: "5px"}}>
