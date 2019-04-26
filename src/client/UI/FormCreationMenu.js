@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
 import Popup from 'reactjs-popup';
-import Divider from '@material-ui/core/Divider';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
 import {GoalCreateSubscriber} from './../GoalModules/GoalCreate.js';
 import {GoalModel} from './../Models/GoalModel.js';
 import { subscribe } from 'react-axiom';
@@ -26,7 +23,7 @@ var ctop = -38;
 var ctrans = 'translate('+cleft+'%, '+ctop+'%)';
 
 var dleft = -50;
-var dtop = -2;
+var dtop = -1;
 var dtrans = 'translate('+dleft+'%, '+dtop+'%)';
 
 var popuptop = -7;
@@ -37,7 +34,7 @@ var footertrans = 'translate('+dleft+'%, '+footertop+'%)';
 
 const header = {
   position: "absolute",
-  top: "2%",
+  top: "1%",
   left: "50%",
   transform: dtrans,
   width: "70vw",
@@ -47,7 +44,8 @@ const header = {
 
 const headerinfo = {
   width: "100%",
-  fontSize: "xx-large"
+  fontSize: "large",
+  color: "white"
 };
 
 const footer = {
@@ -127,7 +125,6 @@ export class FormCreationMenu extends Component {
                 break;
             case "dropdownComponent":
                 TaskType = "dropdown";
-                TaskOptions = TaskOptions;
                 break;
             default:
                 TaskType = '';
@@ -138,7 +135,7 @@ export class FormCreationMenu extends Component {
             console.log(TaskName)
             var validCheck = myGoal.isValidCreate();
             if (validCheck.length === 0) {
-                this.state.components = myGoal.getTaskList();
+                this.setState({components: myGoal.getTaskList()});
                 console.log(myGoal.getTaskList());
                 this.setState({TaskType:'', TaskOptions:[]});
                 this.inputTitle.value = '';
@@ -155,11 +152,11 @@ export class FormCreationMenu extends Component {
     }
 
     onTaskNameChange(event) {
-        this.state.TaskName = event.target.value;
+        this.setState({TaskName: event.target.value});
     }
 
     onOptionsListChange(event) {
-        this.state.TaskOptions = event.target.value;
+        this.setState({TaskOptions: event.target.value});
     }
 
     onMoveUpComponent(index) {
@@ -184,7 +181,7 @@ export class FormCreationMenu extends Component {
         var err = myGoal.isValidCreate();
         if (err.length === 0) {
             api.posts().createGoal(myGoal.toCreateJSON())
-                .then(this.props.goHome())
+                .then(this.props.goBack(this.props.studentID, this.props.studentINIT))
                 .catch((error)=>{this.props.addNotification("Error", err, "danger")})
         }
         else {
@@ -198,19 +195,12 @@ export class FormCreationMenu extends Component {
               <div style={header}>
                 <div style={headerinfo}>Goal: {this.props.goalName}</div>
                 <div style={headerinfo}>Student: {this.props.studentINIT}</div>
-                <Divider />
               </div>
 
                 <Popup trigger={<div style={popup}><button> Add Goal Component </button></div>} modal lockScroll = {true}>
                 {close => (
                     <div style={{color: 'black'}} className="modal">
                         <div className="header">Add Goal Component </div>
-                        {this.state.popupContent === "chooseMenu" ? <ChooseMenu /> :
-                        this.state.popupContent === "yesNoComponent"? <YesNoComponent /> :
-                        this.state.popupContent === "timerComponent"? <TimerComponent /> :
-                        this.state.popupContent === "incrementalComponent"? <IncrementalComponent /> :
-                        this.state.popupContent === "textBoxComponent"? <TextboxComponent /> :
-                        this.state.popupContent === "dropdownComponent"? <DropdownComponent /> : null}
                         <div className="actions">
                         <br />
                         <div className="taskname">
@@ -219,26 +209,30 @@ export class FormCreationMenu extends Component {
                                     onChange={(event) => this.onTaskNameChange(event)}/>
                         </div>
                         <br />
-                        <div className="optionsList">
-                        Enter task options: <input type="text" ref={el => this.inputOptions = el}
-                            value = {this.state.value}
-                            onChange={(event) => this.onOptionsListChange(event)} />
-                        </div>
-                            <Popup
-                                trigger={<button className="button" style={{margin:'3px'}}> Component Types </button>}
-                                position="top center"
-                                closeOnDocumentClick
-                            >
-                            {close1 => (
-                            <List>
-                                <ListItem button className="menu-item" title="menu_yesno" onClick={()=>{this.onListItemClicked("yesNoComponent"); close1()}}> Yes/No</ListItem>
-                                <ListItem button className="menu-item" title="menu_timer" onClick={()=>{this.onListItemClicked("timerComponent"); close1()}}> Timer</ListItem>
-                                <ListItem button className="menu-item" title="menu_increment" onClick={()=>{this.onListItemClicked("incrementalComponent"); close1()}}> Increment</ListItem>
-                                <ListItem button className="menu-item" title="menu_textbox" onClick={()=>{this.onListItemClicked("textBoxComponent"); close1()}}> TextBox</ListItem>
-                                <ListItem button className="menu-item" title="menu_dropdown" onClick={()=>{this.onListItemClicked("dropdownComponent"); close1()}}> DropDown</ListItem>
-                            </List>
-                            )}
-                            </Popup>
+                        <select defaultValue="choose" onChange={e => this.onListItemClicked(e.target.value)}>
+                            <option disabled value="choose">Choose Task Type</option>
+                            <option value="yesNoComponent">Yes/No</option>
+                            <option value="timerComponent">Timer</option>
+                            <option value="incrementalComponent">Counter</option>
+                            <option value="textBoxComponent">TextBox</option>
+                            <option value="dropdownComponent">DropDown</option>
+                        </select> <br/><br/>
+                        {this.state.popupContent === "dropdownComponent" ?
+                            <div className="optionsList">
+                            Enter task options: <input type="text" ref={el => this.inputOptions = el}
+                                value = {this.state.value}
+                                onChange={(event) => this.onOptionsListChange(event)} /><br/>
+                            </div> 
+                            :
+                            <div className="optionsList">
+                            Enter task options: <input type="text" ref={el => this.inputOptions = el}
+                                value = {this.state.value}
+                                onChange={(event) => this.onOptionsListChange(event)} 
+                                disabled/><br/>
+                            </div> 
+                        }
+                            
+                        
                             <button style={{margin:'3px'}}
                                 title="apply_button"
                                 className="button"
@@ -284,93 +278,3 @@ export class FormCreationMenu extends Component {
 }
 
 export const FormCreateSubscriber = subscribe(FormCreationMenu);
-
-export class ChooseMenu extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render(){
-        return(
-            <div className="content">
-                {' '}
-                Choose New Goal Component Type From List
-            </div>
-        );
-    }
-}
-
-export class YesNoComponent extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render(){
-         return(
-             <div className="content">
-                {' '}
-                This is a placeholder for yes/no goal creation
-             </div>
-       );
-    }
-}
-
-export class TimerComponent extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render(){
-        return(
-            <div className="content">
-               {' '}
-               This is a placeholder for timer goal creation
-            </div>
-        );
-    }
-}
-
-export class IncrementalComponent extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render(){
-        return(
-            <div className="content">
-               {' '}
-               This is a placeholder for icrement goal creation
-            </div>
-        );
-    }
-}
-
-export class DropdownComponent extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render(){
-        return(
-            <div className="content">
-               {' '}
-               This is a placeholder for dropdown goal creation
-            </div>
-        );
-    }
-}
-
-export class TextboxComponent extends Component {
-    constructor(props) {
-        super(props);
-    }
-
-    render(){
-        return(
-            <div className="content">
-               {' '}
-               This is a placeholder for textbox goal creation
-            </div>
-        );
-    }
-}

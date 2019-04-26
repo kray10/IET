@@ -31,7 +31,8 @@ export class Goal extends Component {
                 {fieldList}
                 <div><task.SubmitReset
                 onSubmit={()=>this.props.onSubmit()}
-                onReset={()=>this.props.onReset()}/><br/></div>
+                onReset={()=>this.props.onReset()}
+                onCancel={()=>this.props.onCancel()}/><br/></div>
             </ul>
         );
     }

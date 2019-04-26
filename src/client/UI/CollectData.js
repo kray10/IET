@@ -31,7 +31,7 @@ export class CollectData extends Component {
         if (err.length === 0) {
             // probably put popup to confirm submit
             api.posts().addGoalDatapoint(this.props.goal.toSubmitJSON())
-                .then(this.props.goBack())
+                .then(this.props.goBack(this.props.studentID, this.props.studentINIT))
                 .catch(err => console.log(err));
         } else {
             alert(err);
@@ -45,11 +45,14 @@ export class CollectData extends Component {
     render() {
         const goal = this.props.goal;
         return(
-            <Goal dataFields={goal.getTaskList()}
-            onValueChange={(index, value)=> this.updateValue(index, value)}
-            onSubmit={()=>this.handleSubmit()}
-            values={this.state.values}
-            onReset={()=> this.handleReset()}/>
+            <div>
+                <Goal dataFields={goal.getTaskList()}
+                onValueChange={(index, value)=> this.updateValue(index, value)}
+                onSubmit={()=>this.handleSubmit()}
+                values={this.state.values}
+                onReset={()=> this.handleReset()}
+                onCancel={() => this.props.goBack(this.props.studentID, this.props.studentINIT)}/>
+            </div>
         );
     }
 }

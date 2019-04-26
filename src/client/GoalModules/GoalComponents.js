@@ -20,6 +20,7 @@ export class SubmitReset extends FormComponent {
         super(props);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleReset = this.handleReset.bind(this);
+        this.handleCancel = this.handleCancel.bind(this);
     }
 
     handleSubmit() {
@@ -29,13 +30,17 @@ export class SubmitReset extends FormComponent {
     handleReset() {
         this.props.onReset();
     }
+    handleCancel() {
+        this.props.onCancel();
+    }
 
     render() {
         return(
             <div>
                 <br/>
-                <button onClick={this.handleSubmit}>Submit</button>
-                <button onClick={this.handleReset}>Reset</button>
+                <button style={{fontSize: "15px"}} onClick={this.handleSubmit}>Submit</button>
+                <button style={{fontSize: "15px"}} onClick={this.handleReset}>Reset</button>
+                <button style={{fontSize: "15px"}} onClick={this.handleCancel}>Cancel</button>
             </div>
 
         );

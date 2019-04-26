@@ -143,7 +143,12 @@ const content = {
   }
 
   componentDidMount(){
-    api.gets().getGoalsByStudent(this.props.studentID).then(result => this.receivedGoals(result)).catch(function(error){console.log("No Results")});
+    setTimeout(
+      () => {
+        api.gets().getGoalsByStudent(this.props.studentID).then(result => this.receivedGoals(result)).catch(function(error){console.log("No Results")});
+      },
+      100
+    );
   }
 
   receivedGoals(results){
