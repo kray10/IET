@@ -80,16 +80,6 @@ const topButtons = {
   align: "left"
 }
 
-const topButtons2 = {
-  position: "absolute",
-  top: "2%",
-  left: "20%",
-  transform: dtrans,
-  width: "70vw",
-  height: "8vh",
-  display: "flex"
-}
-
 const content = {
   position: "absolute",
   top: "38%", left: "50%",
@@ -170,7 +160,7 @@ const content = {
       this.props.addNotification("Error","Must enter a goal name.","danger");
     }
     else {
-      this.props.createGoal(this.state.selectedStudent, this.state.goalName)
+      this.props.createGoal(this.state.selectedStudent, this.state.goalName, this.props.studentINIT)
     }
   }
 
@@ -182,7 +172,7 @@ const content = {
             <button style={goalsAddGoalButton}>Add Goal</button></div>}
             modal
             closeOnDocumentClick
-            modal lockScroll = {true}>
+            lockScroll = {true}>
             {close => (
               <div className="modal">
                 <div>Enter a goal name: <input type="text"  ref={el => this.inputGoal = el}

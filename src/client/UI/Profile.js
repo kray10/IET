@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Divider from '@material-ui/core/Divider';
 import Firebase from 'firebase/app';
 
 var cssHSL = "hsl(" + 60 + ',' +
@@ -16,13 +15,6 @@ const listContainer = {
 var cleft = -50;
 var ctop = -8;
 var ctrans = 'translate('+cleft+'%, '+ctop+'%)';
-
-var dleft = -50;
-var dtop = -2;
-var dtrans = 'translate('+dleft+'%, '+dtop+'%)';
-
-var calc = 'calc(70% - 7px)';
-
 
 const content = {
   position: "absolute",

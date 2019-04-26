@@ -1,13 +1,85 @@
 import React, { Component } from 'react';
 import Popup from 'reactjs-popup';
+import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
-import {GoalCreate, GoalCreateSubscriber} from './../GoalModules/GoalCreate.js';
+import {GoalCreateSubscriber} from './../GoalModules/GoalCreate.js';
 import {GoalModel} from './../Models/GoalModel.js';
 import { subscribe } from 'react-axiom';
 import api from '../API/api.js';
 
 var myGoal;
+
+var cssHSL = "hsl(" + 60 + ',' +
+                 2 + '%,' +
+                  39 + '%)';
+
+const listContainer = {
+  backgroundColor: cssHSL,
+  position: "relative",
+  width: "100%",
+  height: "100vh"
+};
+
+var cleft = -50;
+var ctop = -38;
+var ctrans = 'translate('+cleft+'%, '+ctop+'%)';
+
+var dleft = -50;
+var dtop = -2;
+var dtrans = 'translate('+dleft+'%, '+dtop+'%)';
+
+var popuptop = -7;
+var popuptrans = 'translate('+dleft+'%, '+popuptop+'%)';
+
+var footertop = -90;
+var footertrans = 'translate('+dleft+'%, '+footertop+'%)';
+
+const header = {
+  position: "absolute",
+  top: "2%",
+  left: "50%",
+  transform: dtrans,
+  width: "70vw",
+  height: "auto",
+  display: "block"
+}
+
+const headerinfo = {
+  width: "100%",
+  fontSize: "xx-large"
+};
+
+const footer = {
+  position: "absolute",
+  top: "90%",
+  left: "50%",
+  transform: footertrans,
+  width: "70vw",
+  height: "auto",
+  display: "flex"
+}
+
+const popup = {
+  position: "absolute",
+  top: "7%",
+  left: "50%",
+  transform: popuptrans,
+  width: "70vw",
+  height: "auto",
+  display: "flex"
+}
+
+const content = {
+  position: "absolute",
+  top: "38%", left: "50%",
+  transform: ctrans,
+  width: "70vw",
+  height: "70vh",
+  overflow: "scroll",
+  backgroundColor: "#FDFDFD",
+  borderRadius: "10px",
+};
 
 export class FormCreationMenu extends Component {
     constructor(props) {
@@ -112,19 +184,24 @@ export class FormCreationMenu extends Component {
         var err = myGoal.isValidCreate();
         if (err.length === 0) {
             api.posts().createGoal(myGoal.toCreateJSON())
-                .then(this.props.goBack())
-                .catch(err => console.log(err));
+                .then(this.props.goHome())
+                .catch((error)=>{this.props.addNotification("Error", err, "danger")})
         }
         else {
-            alert(err);
+            this.props.addNotification("Error", err, "warning");
         }
     }
 
     render() {
         return(
-            <div>
-                <div>Goal: {this.props.goalName}</div>
-                <Popup trigger={<button className="button"> Add Goal Component </button>} modal lockScroll = {true}>
+            <div style={listContainer}>
+              <div style={header}>
+                <div style={headerinfo}>Goal: {this.props.goalName}</div>
+                <div style={headerinfo}>Student: {this.props.studentINIT}</div>
+                <Divider />
+              </div>
+
+                <Popup trigger={<div style={popup}><button> Add Goal Component </button></div>} modal lockScroll = {true}>
                 {close => (
                     <div style={{color: 'black'}} className="modal">
                         <div className="header">Add Goal Component </div>
@@ -186,21 +263,20 @@ export class FormCreationMenu extends Component {
                     </div>
                     )}
                 </Popup>
-                <div className="createContent">
-                    <header>Component content will go here</header>
-                    <div>Student: {this.props.studentID}</div>
-                    <GoalCreateSubscriber dataFields={this.state.components} onMoveUp={this.onMoveUpComponent} onMoveDown={this.onMoveDownComponent} onDelete={this.onDeleteComponent}/>
-                </div>
-                <div>
-                    <button style={{margin:'3px'}}
-                        title="submit_button"
-                        className="button"
-                        onClick={() => {
-                        this.onSubmit();
-                        }}>
-                        Submit Goal
-                    </button>
-                </div>
+
+              <div style={content}>
+                  <GoalCreateSubscriber dataFields={this.state.components} onMoveUp={this.onMoveUpComponent} onMoveDown={this.onMoveDownComponent} onDelete={this.onDeleteComponent}/>
+              </div>
+              <div style={footer}>
+                  <button style={{margin:'3px'}}
+                      title="submit_button"
+                      className="button"
+                      onClick={() => {
+                      this.onSubmit();
+                      }}>
+                      Submit Goal
+                  </button>
+              </div>
             </div>
 
         );
@@ -269,7 +345,6 @@ export class IncrementalComponent extends Component {
     }
 }
 
-
 export class DropdownComponent extends Component {
     constructor(props) {
         super(props);
@@ -284,8 +359,6 @@ export class DropdownComponent extends Component {
         );
     }
 }
-
-
 
 export class TextboxComponent extends Component {
     constructor(props) {

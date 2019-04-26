@@ -246,7 +246,7 @@ const textBox = {
 
   onStudentClicked(student){
     if(!this.props.manageAccess){
-      this.props.showStudentGoals(student.key);
+      this.props.showStudentGoals(student.key, student.init);
     }
     else{
       this.setState({selectedStudent: student});
