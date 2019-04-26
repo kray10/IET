@@ -91,34 +91,26 @@ export class FormCreationMenu extends Component {
     }
 
     onMoveUpComponent(index) {
-        // alert(index);
         index = parseInt(index, 10);
         myGoal.reorderTask(index, (index - 1));
-        // this.state.components = myGoal.getTaskList();
         this.setState({components: myGoal.getTaskList()});
     }
 
     onMoveDownComponent(index) {
-        // alert(index);
         index = parseInt(index, 10);
         myGoal.reorderTask(index, (index + 1));
-        // this.state.components = myGoal.getTaskList();
         this.setState({components: myGoal.getTaskList()});
     }
 
     onDeleteComponent(index) {
-        // alert(index);
         index = parseInt(index, 10);
         myGoal.deleteTask(index);
-        // this.state.components = myGoal.getTaskList();
         this.setState({components: myGoal.getTaskList()});
     }
 
     onSubmit() {
         var err = myGoal.isValidCreate();
         if (err.length === 0) {
-            // var goalToCreate = myGoal.getTaskList();
-            //TODO: actually post the goal
             api.posts().createGoal(myGoal.toCreateJSON())
                 .then(this.props.goBack())
                 .catch(err => console.log(err));

@@ -168,7 +168,7 @@ const content = {
       <div style={listContainer}>
         <div style={topButtons}>
           <button style={goalsBackButton} onClick={this.props.goBack}><BackArrowIcon style={{width: "100%", height: "100%"}} /></button>
-          <Popup trigger={<button style={goalsAddGoalButton}>Add Goal</button>}
+          <Popup trigger={<div style={topButtons}><button style={goalsAddGoalButton}>Add Goal</button></div>}
             modal
             closeOnDocumentClick
             modal lockScroll = {true}>
